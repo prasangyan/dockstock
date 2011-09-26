@@ -69,6 +69,7 @@
 			  <input type="submit" value="Search">
 			</form>
 		</div>
+		<!-- Search results, has to be shown when people start typing into the search box
 		<div class="searchArrow">
 		</div>
 		<div class="searchResults">
@@ -90,7 +91,7 @@
 					<li><a href="#">Another document</a></li>
 				</ul>
 			</div>
-			
+			-->
 		</div>
     <div id="main" role="main">
 			<div class="topNavigation">
@@ -104,8 +105,17 @@
 			<div class="contentContainer">
 				<div id="content">
 					<h1>Document List</h1>
+					
+					<!-- button 1:"plain" -->
+					<!-- Github style buttons
+					<a href="javascript:;" class="minibutton"><span>Basic Button</span></a>
+					-->
+					<!-- button 2:"icon" -->
+					<!--
+					<a href="javascript:;" class="minibutton btn-download"><span><span class="icon"></span>Button With Icon</span></a>
+					-->
 					<ul class="fileList">
-						<li><img src="img/documentIcon.png" alt=""><a href="#">This is a document</a></li>
+						<li><img src="img/documentIcon.png" alt=""><a href="#">This is a document</a><span class="docMenu"><a href="#"><img src="img/download.png">Previous Versions</a></span></li>
 						<li><img src="img/folderIcon.png" alt=""><a href="#">This is a folder</a></li>
 							<ul class="documentList">
 								<li><img src="img/documentIcon.png" alt=""><a href="#">This is a document</a></li>

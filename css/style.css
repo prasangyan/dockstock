@@ -8,7 +8,7 @@
 * Detailed information about this CSS: h5bp.com/css
 *
 * ==|== normalize ==========================================================
- 
+
 =============================================================================
 HTML5 display definitions
 ==========================================================================*/
@@ -213,10 +213,18 @@ IMG
 	border: 0;
 	-ms-interpolation-mode: bicubic;
 	vertical-align: middle;
+	/*[ph]0*/
+}
+@media print
+{
+	IMG
+	{
+		/*[id]0*/max-width: 100% !important;
+	}
 }
 /*
 * Correct overflow not hidden in IE9
- 
+
 svg:not(:root)*/
 #INVALID-RULE
 {
@@ -376,11 +384,162 @@ A:hover
 	color: #FFF;
 	background: #00A6CB;
 }
-#container
+/*Button styling*/
+.button, .button:visited
 {
-/*Need to figure out what is pusihing this element down so that it need a negative margin to appear on the top*/
-	margin: -13px;
+	margin-top: 10px;
+	background: #222 url(../img/overlay.png) repeat-x;
+	display: inline-block;
+	padding: 5px 10px 6px;
+	color: #FFF;
+	text-decoration: none;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+	position: relative;
+	cursor: pointer;
 }
+.button:active
+{
+	top: 1px;
+}
+.small.button, .small.button:visited
+{
+	font-size: 11px;
+}
+.button, .button:visited, .medium.button, .medium.button:visited
+{
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 1;
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+}
+.large.button, .large.button:visited
+{
+	font-size: 14px;
+	padding: 8px 14px 9px;
+}
+.super.button, .super.button:visited
+{
+	font-size: 34px;
+	padding: 8px 14px 9px;
+}
+.pink.button, .magenta.button:visited
+{
+	background-color: #E22092;
+}
+.pink.button:hover
+{
+	background-color: #C81E82;
+}
+.green.button, .green.button:visited
+{
+	background-color: #91BD09;
+}
+.green.button:hover
+{
+	background-color: #749A02;
+}
+.red.button, .red.button:visited
+{
+	background-color: #E62727;
+}
+.red.button:hover
+{
+	background-color: #CF2525;
+}
+.orange.button, .orange.button:visited
+{
+	background-color: #FF5C00;
+}
+.orange.button:hover
+{
+	background-color: #D45500;
+}
+.blue.button, .blue.button:visited
+{
+	background-color: #00A6CB;
+}
+.blue.button:hover
+{
+	background-color: #007C98;
+}
+.yellow.button, .yellow.button:visited
+{
+	background-color: #FFB515;
+}
+.yellow.button:hover
+{
+	background-color: #FC9200;
+}
+/************************************************************************************************************************
+Github style buttons
+***********************************************************************************************************************
+button basics*/
+A.minibutton
+{
+	display: inline-block;
+	height: 23px;
+	padding: 0 0 0 3px;
+	font-size: 11px;
+	font-weight: bold;
+	color: #333;
+	text-shadow: 1px 1px 0 #FFF;
+	background: url(http://github.com/images/modules/buttons/minibutton_matrix.png) no-repeat 0 0;
+	white-space: nowrap;
+	border: none;
+	overflow: visible;
+	cursor: pointer;
+	text-decoration: none;
+}
+A.minibutton>SPAN
+{
+	display: block;
+	height: 23px;
+	padding: 0 10px 0 8px;
+	line-height: 23px;
+	background: url(http://github.com/images/modules/buttons/minibutton_matrix.png) no-repeat 100% 0;
+}
+A.minibutton:hover, A.minibutton:focus
+{
+	color: #FFF;
+	text-decoration: none;
+	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+	background-position: 0 -30px;
+}
+A.minibutton:hover>SPAN, A.minibutton:focus>SPAN
+{
+	background-position: 100% -30px;
+}
+A.minibutton.mousedown
+{
+	background-position: 0 -60px;
+}
+A.minibutton.mousedown>SPAN
+{
+	background-position: 100% -60px;
+}
+/*with icon*/
+A.btn-download .icon
+{
+	float: left;
+	margin-left: -4px;
+	width: 18px;
+	height: 22px;
+	background: url(http://github.com/images/modules/buttons/minibutton_icons.png?v20100306) no-repeat 0 0;
+}
+A.btn-download .icon
+{
+	background-position: -40px 0;
+}
+A.btn-download:hover .icon, A.btn-download:focus .icon
+{
+	background-position: -40px -25px;
+}
+/*************************************************************************************************************************/
 HEADER
 {
 	position: relative;
@@ -404,6 +563,77 @@ HEADER .topBar .userInfo
 {
 	float: right;
 	margin-top: 10px;
+}
+.loginHeader
+{
+	padding: 10px;
+	margin: 100px auto 0;
+	width: 400px;
+}
+/************************************************************************************************************************
+Login box styling
+************************************************************************************************************************/
+.loginBox
+{
+	background: #FFF;
+	margin: 0 auto;
+	width: 400px;
+	padding: 10px;
+	position: relative;
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+}
+.loginBox:before, .loginBox:after
+{
+	position: absolute;
+	width: 60%;
+	height: 10px;
+	content: ' ';
+	left: 12px;
+	bottom: 12px;
+	background: transparent;
+	-webkit-transform: skew(-5deg) rotate(-5deg);
+	-moz-transform: skew(-5deg) rotate(-5deg);
+	-ms-transform: skew(-5deg) rotate(-5deg);
+	-o-transform: skew(-5deg) rotate(-5deg);
+	transform: skew(-5deg) rotate(-5deg);
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+	z-index: -1;
+}
+.loginBox:after
+{
+	left: auto;
+	right: 12px;
+	-webkit-transform: skew(5deg) rotate(5deg);
+	-moz-transform: skew(5deg) rotate(5deg);
+	-ms-transform: skew(5deg) rotate(5deg);
+	-o-transform: skew(5deg) rotate(5deg);
+	transform: skew(5deg) rotate(5deg);
+}
+.loginBox H1
+{
+	margin-top: 10px;
+	font-size: 2.4em;
+	color: #CCC;
+	text-shadow: 1px 1px 1px #9B9B9B;
+	filter: dropshadow(color=#9b9b9b, offx=1, offy=1);
+}
+.loginBox LABEL
+{
+	display: block;
+	font-size: 1.3em;
+	margin-bottom: 5px;
+	color: #CCC;
+}
+.loginBox INPUT[type="text"]
+{
+	display: block;
+	margin-bottom: 10px;
+	padding: 10px;
+	width: 370px;
 }
 /************************************************************************************************************************
 Search
@@ -470,7 +700,7 @@ Search
 {
 	position: absolute;
 	z-index: 5;
-	margin: 0px auto 0px 352px;
+	margin: 0px auto 0px 515px;
 	width: 320px;
 	background: #FFF;
 	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
@@ -523,15 +753,15 @@ UL.navigation
 /*fallback*/
 	background-image: url(../img/hatch.png), -webkit-gradient(linear, left top, left bottom, from(#414141), to(#383838));
 /*Saf4+, Chrome*/
-	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838));
+	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url());
 /*Chrome 10+, Saf5.1+*/
 	background-image: url(../img/hatch.png), -moz-linear-gradient(top, #414141, #383838);
 /*FF3.6+*/
-	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838));
+	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url());
 /*IE10*/
-	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838));
+	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url());
 /*Opera 11.10+*/
-	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838));
+	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url());
 /*W3C*/
 }
 UL.navigation LI
@@ -585,7 +815,6 @@ UL.navigation LI A:hover
 {
 	margin: 0 auto;
 	width: 960px;
-	text-shadow: 1px 1px 2px #CCC;
 }
 #content
 {
@@ -650,6 +879,34 @@ UL.navigation LI A:hover
 {
 	margin-left: 40px;
 }
+.docMenu
+{
+	float: right;
+}
+.docMenu A
+{
+	background: #DCDCDC;
+	padding: 5px;
+	border-radius: 5px;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EAEAEA), to(#ccc));
+	color: #444;
+	text-decoration: none;
+	font-size: 0.9em;
+	border: 1px solid #C5C5C5;
+}
+.docMenu A:hover
+{
+	color: #FFFFFF;
+	background: #00A6CB;
+	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%,  from(#00c2ed), to(#00A6CB));
+	border: 1px solid #007C98;
+}
+.docMenu A:active
+{
+	position: relative;
+	top: 1px;
+}
 .rightContent
 {
 	float: left;
@@ -705,7 +962,7 @@ For image replacement*/
 /*Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p*/
 .visuallyhidden.focusable:active, .visuallyhidden.focusable:focus
 {
-	clip: rect(auto auto auto auto);
+	clip: rect(auto, auto, auto, auto);
 	height: auto;
 	margin: 0;
 	overflow: visible;
@@ -804,13 +1061,6 @@ Inlined to avoid required HTTP connection: h5bp.com/r
 	TR, IMG
 	{
 		page-break-inside: avoid;
-	}
-}
-@media print
-{
-	IMG
-	{
-		max-width: 100% !important;
 	}
 }
 @media print
