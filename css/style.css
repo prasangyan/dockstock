@@ -462,6 +462,7 @@ A:hover
 .blue.button, .blue.button:visited
 {
 	background-color: #00A6CB;
+	color: #FFF;
 }
 .blue.button:hover
 {
@@ -630,10 +631,9 @@ Login box styling
 }
 .loginBox INPUT[type="text"]
 {
-	display: block;
-	margin-bottom: 10px;
+	width: 375px;
 	padding: 10px;
-	width: 370px;
+	margin-bottom: 10px;
 }
 /************************************************************************************************************************
 Search
@@ -753,15 +753,15 @@ UL.navigation
 /*fallback*/
 	background-image: url(../img/hatch.png), -webkit-gradient(linear, left top, left bottom, from(#414141), to(#383838));
 /*Saf4+, Chrome*/
-	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url());
+	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url());
 /*Chrome 10+, Saf5.1+*/
 	background-image: url(../img/hatch.png), -moz-linear-gradient(top, #414141, #383838);
 /*FF3.6+*/
-	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url());
+	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url());
 /*IE10*/
-	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url());
+	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url());
 /*Opera 11.10+*/
-	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url());
+	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url());
 /*W3C*/
 }
 UL.navigation LI
@@ -909,7 +909,7 @@ UL.navigation LI A:hover
 	color: #FFFFFF;
 	background: #00A6CB;
 	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%,  from(#00c2ed), to(#00A6CB));
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#00c2ed), to(#00A6CB));
 	border: 1px solid #007C98;
 }
 .docMenu A:active
