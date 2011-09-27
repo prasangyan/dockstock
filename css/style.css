@@ -635,6 +635,23 @@ Login box styling
 	padding: 10px;
 	margin-bottom: 10px;
 }
+.loginBox INPUT[type="password"]
+{
+	width: 375px;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+.error
+{
+	font-weight: normal;
+	font-size: 0.9em;
+	color: #FF1E00;
+	background: #FFE1DD;
+	border-top: 1px solid #FF1E00;
+	border-bottom: 1px solid #FF1E00;
+	margin: -5px 1px 10px 0;
+	padding: 10px;
+}
 /************************************************************************************************************************
 Search
 ************************************************************************************************************************/

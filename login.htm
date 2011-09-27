@@ -51,14 +51,22 @@
     <div id="main" role="main">
 			<div class="loginBox">
 				<h1>Login</h1>
-				<form action="">
+        <!--
+        <div class="error">
+          Looks like your email id or password is invalid.
+        </div>
+        -->
+				<form action="" id="loginForm">
 					<label>Email</label>
-            <input tabindex="1" type="text" placeholder="Enter the email id you signed up with" id="emailId">
+           <input tabindex="1" type="text" placeholder="Enter the email id you signed up with" id="emailId"
+                   class="required email">
+
 					<label>Password</label>
-            <input tabindex="2" type="text" placeholder="Enter your password you signed up with" id="password">
+           <input tabindex="2" type="password" placeholder="Enter your password you signed up with" id="password"
+                   class="required">
 				</form>
 				<a href="#">Forgot your password</a> | <a href="#">Sign up</a><br/>
-				<a href="#" class="large button blue">Login</a>
+				<a href="#" class="large button blue" id="loginButton">Login</a>
 			</div>
 		</div>
     
@@ -70,6 +78,7 @@
 
   <!-- JavaScript at the bottom for fast page loading -->
   <script src="js/libs/jquery-1.6.2.js"></script>
+  <script src="js/mylibs/jquery.validate.min.js"></script>
 
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="js/plugins.js"></script>
