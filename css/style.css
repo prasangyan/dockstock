@@ -977,10 +977,11 @@ UL.navigation LI A:hover
 	clear: left;
 	line-height: 1.5em;
 }
-#fileNav LI A:gover
+#fileNav LI A:hover
 {
 	color: #222222;
 	text-decoration: none;
+	background: none;
 }
 #fileNav LI IMG
 {
@@ -998,6 +999,42 @@ UL.navigation LI A:hover
 #fileNav LI UL LI
 {
 	margin-left: 30px;
+}
+.documentList
+{
+}
+.optionsTopStyling
+{
+	background: rgb(255, 255, 255);
+	width: 45px;
+	height: 30px;
+	float: left;
+	margin: -31px 0 0 241px;
+	position: relative;
+	z-index: -100;
+}
+#optionsSubMenuContainer
+{
+	background: #FFFFFF;
+	position: absolute;
+	z-index: 100;
+	float: left;
+	margin: -1px 0 0;
+	padding: 10px;
+	width: 266px;
+}
+#optionsSubMenuContainer UL
+{
+	padding: 0;
+/*todo: Need to figure out why this needs a negative margin*/
+	margin: 20px 0 -20px -31px;
+}
+#optionsSubMenuContainer UL LI
+{
+}
+#optionsSubMenuContainer UL LI A
+{
+	display: block;
 }
 /*==|== non-semantic helper classes ========================================
 Please define your styles before this section.

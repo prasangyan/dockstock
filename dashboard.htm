@@ -104,7 +104,18 @@
 			</div>
 			<div class="contentContainer">
 				<div id="fileNav">
-					<h4>File list <span><img src="img/options.png" alt=""></span></h4>
+					<h4>File list <span><img src="img/options.png" alt="" id="fileNavOptions"></span></h4>
+          <!--Styling for the options drop down-->
+          <!--Todo: Figure out why the list cannot be styled and find out why it is being displayed as a horizontal
+          list instead of a vertical list. For now just finishing off the Jquery part -->
+          <div class="optionsTopStyling"></div>
+          <div id="optionsSubMenuContainer">
+            <ul>
+              <li><a href="#">This is a test</a></li>
+              <li><a href="#">This is a test</a></li>
+              <li><a href="#">This is a test</a></li>
+            </ul>
+          </div>
 
 					<!-- button 1:"plain" -->
 					<!-- Github style buttons
@@ -190,7 +201,36 @@ Phasellus faucibus, dui vel consectetur consectetur, diam ipsum auctor diam, at 
 
 
   <!-- JavaScript at the bottom for fast page loading -->
+  <script type="text/javascript" src="js/libs/jquery-1.6.2.min.js"></script>
 
+  <script type="text/javascript">
+	/*Chaning the options button colour to blue on hover*/
+    $(document).ready(function(e) {
+			$('#fileNavOptions').hover(over,out);
+			/*Changing the image to the blue image*/
+			function over(event){
+				$(this).attr("src","img/options-blue.png");
+			}
+			/*Changing the image back to the original image*/
+			function out(event){
+				$(this).attr("src","img/options.png");
+			}
+			
+			/*Click events*/
+			$('#fileNavOptions').click(function(){
+				alert("Hello");
+			});
+		});
+  </script>
+
+	<script type="text/javascript">
+    $(document).ready(function(e) {
+			$('#fileNavOptions').hover(function(e) {
+				$(this).hover("attr","img/options-blue.png");
+			});
+    });
+  </script>
+	
 
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="js/plugins.js"></script>
