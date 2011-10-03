@@ -641,7 +641,7 @@ Login box styling
 	padding: 10px;
 	margin-bottom: 10px;
 }
-.error
+.errorContainer
 {
 	font-weight: normal;
 	font-size: 0.9em;
@@ -651,6 +651,23 @@ Login box styling
 	border-bottom: 1px solid #FF1E00;
 	margin: -5px 1px 10px 0;
 	padding: 10px;
+}
+LI
+{
+	list-style: none;
+	margin: 10px;
+}
+LI .error
+{
+	margin: 0;
+	color: #FF1E00;
+	border: none;
+}
+LI .error
+{
+	margin: 0;
+	color: #FF1E00;
+	border: none;
 }
 /************************************************************************************************************************
 Search
@@ -770,15 +787,15 @@ UL.navigation
 /*fallback*/
 	background-image: url(../img/hatch.png), -webkit-gradient(linear, left top, left bottom, from(#414141), to(#383838));
 /*Saf4+, Chrome*/
-	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url());
 /*Chrome 10+, Saf5.1+*/
 	background-image: url(../img/hatch.png), -moz-linear-gradient(top, #414141, #383838);
 /*FF3.6+*/
-	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url());
 /*IE10*/
-	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url());
 /*Opera 11.10+*/
-	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url());
 /*W3C*/
 }
 UL.navigation LI
@@ -876,27 +893,19 @@ UL.navigation LI A:hover
 	-o-transform: skew(5deg) rotate(5deg);
 	transform: skew(5deg) rotate(5deg);
 }
-#content UL.fileList
+#content H3
 {
-	list-style: none;
-	margin: 0px;
-	padding: 0;
+	margin: 0 0 10px;
+	font-size: 1.6em;
+	color: #918E8E;
 }
-#content UL.fileList LI
+#content .text
 {
-	margin: 10px 10px 0px 0;
-	padding-bottom: 10px;
-}
-#content UL.fileList LI A.docName
-{
-}
-#content UL.fileList IMG
-{
-	margin-right: 10px;
-}
-#content UL.documentList LI
-{
-	margin-left: 40px;
+	background: #2B2B2B;
+	color: #FFFFFF;
+	padding: 10px;
+	font-weight: normal;
+	line-height: 1.2em;
 }
 .docDescription
 {
@@ -934,20 +943,61 @@ UL.navigation LI A:hover
 	position: relative;
 	top: 1px;
 }
-.rightContent
+#fileNav
 {
 	float: left;
 	width: 280px;
 	padding: 10px;
 }
-.rightContent .button
+#fileNav H4
 {
-	background: #FFE2A4;
-	color: #FFFFFF;
+	color: #7F7F7F;
+	margin: 0;
+	font-size: 1.2em;
+	border-bottom: 1px dashed #918E8E;
+	padding-bottom: 5px;
+}
+#fileNav H4 SPAN
+{
+	float: right;
+	margin-top: -2px;
+}
+#fileNav LI
+{
+	display: inline-block;
+	margin: 0 0 10px;
+}
+#fileNav LI A
+{
+	color: #222222;
+	text-decoration: none;
+	margin-top: -24px;
+	margin-left: 25px;
+	float: left;
+	clear: left;
+	line-height: 1.5em;
+}
+#fileNav LI A:gover
+{
+	color: #222222;
 	text-decoration: none;
 }
-.rightContent .button
+#fileNav LI IMG
 {
+	float: left;
+}
+#fileNav LI P
+{
+	margin: 4px 0 0 5px;
+	float: left;
+}
+#fileNav LI UL
+{
+	margin-top: 30px;
+}
+#fileNav LI UL LI
+{
+	margin-left: 30px;
 }
 /*==|== non-semantic helper classes ========================================
 Please define your styles before this section.

@@ -51,11 +51,11 @@
     <div id="main" role="main">
 			<div class="loginBox">
 				<h1>Login</h1>
-        <!--
-        <div class="error">
-          Looks like your email id or password is invalid.
+
+        <div class="errorContainer">
+          <!--Looks like your email id or password is invalid.-->
         </div>
-        -->
+				
 				<form action="" id="loginForm">
 					<label>Email</label>
            <input tabindex="1" type="text" placeholder="Enter the email id you signed up with" id="emailId"
@@ -78,7 +78,21 @@
 
   <!-- JavaScript at the bottom for fast page loading -->
   <script src="js/libs/jquery-1.6.2.js"></script>
-  <script src="js/mylibs/jquery.validate.min.js"></script>
+  <script src="js/mylibs/jquery.validate.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(e) {
+			$('.errorContainer').hide();
+		});
+	</script>
+	<script type="text/javascript">
+    $(document).ready(function(){
+      $("#loginForm").validate({
+        errorLabelContainer: ".errorContainer",
+        wrapper: "li",
+        submitHandler: function() {alert("Submitted!")}
+      });
+    });
+  </script>
 
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="js/plugins.js"></script>
