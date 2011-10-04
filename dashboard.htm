@@ -153,7 +153,11 @@
 									<a href="#" class="docName">This is a document.pdf</a>
 								</li>
 								<li>
-									<img src="img/documentIcon.png" alt="">
+									<img src="img/imageIcon.png" alt="">
+									<a href="#">This is a document.tiff</a>
+								</li>
+								<li>
+									<img src="img/pdfIcon.png" alt="">
 									<a href="#" class="docName">This is a document.xls</a>
 								</li>
 								<li>
@@ -164,7 +168,14 @@
 									<img src="img/documentIcon.png" alt="">
 									<a href="#">This is a document.tiff</a>
 								</li>
-
+								<li>
+									<img src="img/documentIcon.png" alt="">
+									<a href="#">This is a document.tiff</a>
+								</li>
+								<li>
+									<img src="img/imageIcon.png" alt="">
+									<a href="img/52.png">52.PNG</a>
+								</li>
 							</ul>
             </li>
 
@@ -173,8 +184,9 @@
 				</div>
 				<div id="content">
           <h3>Sample doc.docx</h3>
-          <div class="text">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec turpis elit,
+          <div class="previewContainer">
+					
+            <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec turpis elit,
             sit amet ullamcorper purus. Maecenas nibh augue, accumsan a laoreet nec, suscipit eu libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi vehicula tempor pharetra. Proin elementum, libero vel tincidunt pretium, velit eros consequat velit, nec egestas odio ipsum eget enim. In id urna placerat erat pulvinar egestas vitae sit amet ante. Suspendisse laoreet est eu arcu varius sit amet rutrum lorem luctus. Mauris sit amet elit lacus, semper pharetra felis.
             </p>
             <p>
@@ -188,7 +200,8 @@ Vestibulum ut sem non mauris facilisis laoreet. Integer eu dapibus est. Nullam i
             </p>
             <p>
 Phasellus faucibus, dui vel consectetur consectetur, diam ipsum auctor diam, at luctus arcu eros et sem. Aliquam a tincidunt augue. Phasellus varius urna eget nibh varius fringilla. Ut venenatis vehicula molestie. Ut libero odio, varius eget rhoncus id, pharetra vel lorem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut sit amet tortor augue. Quisque fermentum, odio ut rutrum tincidunt, dolor turpis posuere velit, non laoreet massa est id dui. Vestibulum mauris tortor, dignissim et mollis sit amet, tincidunt id metus. Sed dapibus purus at leo varius facilisis. Maecenas consectetur, turpis ac vestibulum varius, urna sapien ultrices dui, vel pretium nunc lacus pretium dui. Ut in risus eget eros mollis lacinia. Sed pulvinar ipsum sit amet arcu tempus vestibulum.
-            </p>
+            </p>-->
+
           </div>
 				</div>
 			</div>
@@ -231,7 +244,25 @@ Phasellus faucibus, dui vel consectetur consectetur, diam ipsum auctor diam, at 
     });
   </script>
 	
-
+	<script type="text/javascript">
+		$(document).ready(function(e) {
+			$("#optionsSubMenuContainer").hide();
+			$('.optionsTopStyling').hide();
+		});
+	</script>
+	
+	<!--Script to show the image in the preview container-->
+	<script type="text/javascript">
+	/*The preventDefault() functions prevents the default behaviour of the browser. In this case it prevents the link from opening in a new page*/
+		var linkLocation;
+		$(document).ready(function(e) {
+			$(".fileList a").click(function(a){
+				a.preventDefault();
+				linkLocation = $(this).attr("href");
+				$(".previewContainer").prepend('<img src='+linkLocation+' alt="Image">');
+			});
+		});
+	</script>
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="js/plugins.js"></script>
   <script defer src="js/script.js"></script>

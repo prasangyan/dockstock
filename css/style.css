@@ -787,15 +787,15 @@ UL.navigation
 /*fallback*/
 	background-image: url(../img/hatch.png), -webkit-gradient(linear, left top, left bottom, from(#414141), to(#383838));
 /*Saf4+, Chrome*/
-	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url());
 /*Chrome 10+, Saf5.1+*/
 	background-image: url(../img/hatch.png), -moz-linear-gradient(top, #414141, #383838);
 /*FF3.6+*/
-	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url());
 /*IE10*/
-	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url());
 /*Opera 11.10+*/
-	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url());
 /*W3C*/
 }
 UL.navigation LI
@@ -857,6 +857,7 @@ UL.navigation LI A:hover
 	background: #FFF;
 	padding: 10px;
 	margin-bottom: 10px;
+	min-height: 300px;
 /*Page curl effect*/
 	position: relative;
 	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
@@ -899,10 +900,8 @@ UL.navigation LI A:hover
 	font-size: 1.6em;
 	color: #918E8E;
 }
-#content .text
+#content .previewContainer
 {
-	background: #2B2B2B;
-	color: #FFFFFF;
 	padding: 10px;
 	font-weight: normal;
 	line-height: 1.2em;
