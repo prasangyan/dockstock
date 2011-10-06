@@ -371,7 +371,7 @@ UL
 	padding: 0;
 	list-style: none;
 }
-.main
+#main
 {
 }
 A:link
@@ -790,15 +790,15 @@ UL.navigation
 /*fallback*/
 	background-image: url(../img/hatch.png), -webkit-gradient(linear, left top, left bottom, from(#414141), to(#383838));
 /*Saf4+, Chrome*/
-	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*Chrome 10+, Saf5.1+*/
 	background-image: url(../img/hatch.png), -moz-linear-gradient(top, #414141, #383838);
 /*FF3.6+*/
-	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*IE10*/
-	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*Opera 11.10+*/
-	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*W3C*/
 }
 UL.navigation LI
@@ -847,31 +847,41 @@ UL.navigation LI A:hover
 	background: none;
 	text-decoration: none;
 }
-/*************************************************************************************************************************/
+/************************************************************************************************************************
+***********************************************************************************************************************
+Content layout
+***********************************************************************************************************************
+Three column floating layout*/
 .contentContainer
 {
+	min-width: 960px;
+	margin: 10px 0 10px 20px;
+}
+#fileNav
+{
+	float: left;
+	width: 20%;
+	position: relative;
+/*todo: Figure out where the top margin is coming from*/
+	margin: 0;
+	padding: 10px;
 }
 #content
 {
 	float: left;
-	min-width: 558px;
-	max-width: 56%;
-	background: #FFF;
-	padding: 10px;
-	margin-bottom: 10px;
-	margin: 0;
-	min-height: 300px;
-/*Page curl effect*/
 	position: relative;
+	width: 53%;
+	padding: 10px;
+/*Curl Effect*/
+	background-color: #FFF;
 	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
 }
-/*Page curl effect taken from http://www.sitepoint.com/pure-css3-paper-curl/*/
 #content:before, #content:after
 {
 	position: absolute;
-	width: 31%;
+	width: 40%;
 	height: 10px;
 	content: ' ';
 	left: 12px;
@@ -897,156 +907,180 @@ UL.navigation LI A:hover
 	-o-transform: skew(5deg) rotate(5deg);
 	transform: skew(5deg) rotate(5deg);
 }
-#content H3
-{
-	margin: 0 0 10px;
-	font-size: 1.6em;
-	color: #918E8E;
-}
-#content .previewContainer
-{
-	padding: 10px;
-	font-weight: normal;
-	line-height: 1.2em;
-}
-.docDescription
-{
-	display: block;
-	color: #9D9D9D;
-	margin-left: 37px;
-	margin-top: -5px;
-	margin-right: 150px;
-}
-.docMenu
-{
-	float: right;
-}
-.docMenu A
-{
-	background: #DCDCDC;
-	padding: 5px;
-	border-radius: 5px;
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EAEAEA), to(#ccc));
-	color: #444;
-	text-decoration: none;
-	font-size: 0.9em;
-	border: 1px solid #C5C5C5;
-}
-.docMenu A:hover
-{
-	color: #FFFFFF;
-	background: #00A6CB;
-	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#00c2ed), to(#00A6CB));
-	border: 1px solid #007C98;
-}
-.docMenu A:active
-{
-	position: relative;
-	top: 1px;
-}
-#fileNav
+#subOptions
 {
 	float: left;
-	min-width: 180px;
-	max-width: 20%;
+	width: 20.8%;
+	position: relative;
 	padding: 10px;
 }
+/************************************************************************************************************************
+File Navigation styling
+************************************************************************************************************************/
 #fileNav H4
 {
-	color: #7F7F7F;
-	margin: 0;
-	font-size: 1.2em;
-	border-bottom: 1px dashed #918E8E;
-	padding-bottom: 5px;
+	border-bottom: 1px dashed #9F9C9C;
+	padding-bottom: 10px;
+	font-size: 1.3em;
 }
 #fileNav H4 SPAN
 {
 	float: right;
-	margin-top: -2px;
+	margin-top: -3px;
 }
-#fileNav LI
+#fileNav UL.fileList
 {
-	display: inline-block;
-	margin: 0 0 10px;
+	position: relative;
+	margin: 0;
+	padding: 0;
 }
-#fileNav LI A
+#fileNav UL.fileList LI
 {
-	color: #222222;
-	text-decoration: none;
-	margin-top: -24px;
-	margin-left: 25px;
+	position: relative;
+/*todo: Need to figure out where the top margin is coming from*/
+	margin: -10px 0 20px;
+	padding: 0;
+}
+#fileNav UL.fileList LI IMG
+{
+	position: static;
 	float: left;
-	clear: left;
-	line-height: 1.5em;
 }
-#fileNav LI A:hover
+#fileNav UL.fileList LI A
 {
 	color: #222222;
 	text-decoration: none;
+	-webkit-transition: color .3s ease-in;
+	-moz-transition: color .3s ease-in;
+	-o-transition: color .3s ease-in;
+	transition: color .3s ease-in;
+}
+#fileNav UL.fileList LI A:hover
+{
+	color: #837F7F;
 	background: none;
 }
-#fileNav LI IMG
+#fileNav UL.fileList LI DIV
+{
+	margin-left: 25px;
+}
+#fileNav UL.fileList LI UL
+{
+	margin-left: 20px;
+	margin-top: 20px;
+}
+/************************************************************************************************************************
+***********************************************************************************************************************
+File Navigation styling
+************************************************************************************************************************/
+#content H3
+{
+	font-size: 1.5em;
+	color: #AEAEAE;
+}
+#content .previewContainer P
+{
+}
+#content .previewContainer P SPAN.metaDataTitle
+{
+	color: #AEAEAE;
+}
+#subOptions .deleteFile
+{
+	padding: 5px;
+}
+#subOptions .deleteFile IMG
 {
 	float: left;
 }
-#fileNav LI P
+#subOptions .deleteFile H4
 {
-	margin: 4px 0 0 5px;
-	float: left;
+	font-size: 1.2em;
+	margin: 0 0 0 55px;
 }
-#fileNav LI UL
+#subOptions .deleteFile P
 {
-	margin-top: 30px;
+	margin: 0 0 0 55px;
 }
-#fileNav LI UL LI
+/*Todo: Need to add a transition effect to the on hover like the one used for the fileNav*/
+#subOptions .deleteFile A.deleteFileButton, A.deleteFileButton:visited
 {
-	margin-left: 30px;
-}
-.documentList
-{
-}
-.optionsTopStyling
-{
-	background: rgb(255, 255, 255);
-	width: 45px;
-	height: 30px;
-	float: left;
-	margin: -31px 0 0 241px;
+	margin-top: 10px;
+	background: #727070 url(../img/overlay.png) repeat-x;
+	display: inline-block;
+	padding: 5px 10px 6px;
+	color: #FFF;
+	text-decoration: none;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 	position: relative;
-	z-index: -100;
+	cursor: pointer;
 }
-#optionsSubMenuContainer
+#subOptions .deleteFile .deleteFileButton:active
 {
-	background: #FFFFFF;
-	position: absolute;
-	z-index: 100;
-	float: left;
-	margin: -1px 0 0;
-	padding: 10px;
-	width: 266px;
+	top: 1px;
 }
-#optionsSubMenuContainer UL
+#subOptions .deleteFile .grey.deleteFileButton, .grey.deleteFileButton:visited
 {
-	padding: 0;
-/*todo: Need to figure out why this needs a negative margin*/
-	margin: 20px 0 -20px -31px;
+	background-color: #727070;
+	color: #FFF;
 }
-#optionsSubMenuContainer UL LI
+#subOptions .deleteFile A.grey:hover
 {
+	background-color: #A55050;
+	-webkit-transition: color .3s ease-in-out;
+	-moz-transition: color .3s ease-in;
+	-o-transition: color .3s ease-in;
+	transition: color .3s ease-in;
 }
-#optionsSubMenuContainer UL LI A
+#subOptions .inviteFriend
 {
-	display: block;
+	margin-bottom: 20px;
+	padding: 5px;
 }
-.rightColumn
+#subOptions .inviteFriend H3
 {
-	float: left;
-	background: #BD5555;
-	min-width: 193px;
-	max-width: 18%;
-	padding: 10px;
-	margin: 0;
+	margin: 15px 0 0;
+	font-size: 1.5em;
+	text-shadow: 0px 2px 3px #FFF;
+}
+#subOptions .inviteFriend A.inviteFriendButton, A.inviteFriendButton:visited
+{
+	margin-top: 10px;
+	background: #366D36 url(../img/overlay.png) repeat-x;
+	display: inline-block;
+	padding: 5px 10px 6px;
+	color: #FFF;
+	text-decoration: none;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+	position: relative;
+	cursor: pointer;
+}
+#subOptions .inviteFriend .inviteFriendButton:active
+{
+	top: 1px;
+}
+#subOptions .inviteFriend .lightGreen.inviteFriendButton, .lightGreen.inviteFriendButton:visited
+{
+	background-color: #366D36;
+	color: #FFF;
+}
+#subOptions .inviteFriend A.lightGreen:hover
+{
+	background-color: #727070;
+	-webkit-transition: color .3s ease-in-out;
+	-moz-transition: color .3s ease-in;
+	-o-transition: color .3s ease-in;
+	transition: color .3s ease-in;
 }
 /*==|== non-semantic helper classes ========================================
 Please define your styles before this section.
