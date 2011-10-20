@@ -737,7 +737,7 @@ Search
 {
 	position: absolute;
 	z-index: 5;
-	margin: 0px auto 0px 515px;
+	margin: 0px auto 0px 34%;
 	width: 320px;
 	background: #FFF;
 	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
@@ -790,15 +790,15 @@ UL.navigation
 /*fallback*/
 	background-image: url(../img/hatch.png), -webkit-gradient(linear, left top, left bottom, from(#414141), to(#383838));
 /*Saf4+, Chrome*/
-	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*Chrome 10+, Saf5.1+*/
 	background-image: url(../img/hatch.png), -moz-linear-gradient(top, #414141, #383838);
 /*FF3.6+*/
-	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*IE10*/
-	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*Opera 11.10+*/
-	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*W3C*/
 }
 UL.navigation LI
@@ -922,6 +922,7 @@ File Navigation styling
 	border-bottom: 1px dashed #9F9C9C;
 	padding-bottom: 10px;
 	font-size: 1.3em;
+	text-shadow: 0px 2px 3px #FFF;
 }
 #fileNav H4 SPAN
 {
@@ -977,6 +978,44 @@ File Navigation styling
 {
 	font-size: 1.5em;
 	color: #AEAEAE;
+}
+#content .contentFileList
+{
+}
+#content .contentFileList LI
+{
+	margin-bottom: 30px;
+}
+#content .contentFileList LI .imageFile
+{
+	margin-bottom: 20px;
+}
+#content .contentFileList IMG.wordFile
+{
+	float: left;
+	margin-right: 28px;
+}
+#content .contentFileList IMG.imageFile
+{
+	float: left;
+	margin-right: 10px;
+}
+#content .contentFileList IMG.folderFile
+{
+	float: left;
+	margin-right: 10px;
+}
+#content .contentFileList A
+{
+}
+#content .contentFileList P.documentSummary
+{
+	margin: 10px 0 0;
+	font-size: 0.9em;
+}
+#content .contentFileList P SPAN
+{
+	color: #B8B8B8;
 }
 #content .previewContainer P
 {
@@ -1081,6 +1120,116 @@ File Navigation styling
 	-moz-transition: color .3s ease-in;
 	-o-transition: color .3s ease-in;
 	transition: color .3s ease-in;
+}
+/************************************************************************************************************************
+Modal window styling
+************************************************************************************************************************/
+#mask
+{
+	position: absolute;
+/*important*/
+	top: 0px;
+/*start from top*/
+	left: 0px;
+/*start from left*/
+	height: 100%;
+/*cover the whole page*/
+	width: 100%;
+/*cover the whole page*/
+	display: none;
+/*don't show it '
+styling bellow*/
+	background-color: #FFF;
+	z-index: 10;
+}
+/*style a specific modal window*/
+.modalWindow
+{
+	position: absolute;
+/*important so we can position it on center later
+display: none;
+don't show it
+styling bellow*/
+	padding: 10px;
+	background: #FFF;
+	width: 400px;
+	height: 400px;
+	color: #000000;
+	z-index: 100;
+	box-shadow: 1px 1px 3px #BDBDBD;
+}
+.modalWindow .close
+{
+	margin: -30px 0 0 400px;
+}
+.modalWindow LABEL
+{
+	display: block;
+	color: #B9B8B8;
+}
+.modalWindow #addedEmailIds UL
+{
+	margin: 0;
+}
+.modalWindow #addedEmailIds LI
+{
+	display: inline;
+	padding: 5px;
+	border-radius: 5px;
+	background: #E7E7E7;
+	margin: 0 0 20px;
+}
+.modalWindow A.addPersonalMessage
+{
+	display: block;
+	margin-bottom: 10px;
+}
+.modalWindow INPUT
+{
+	width: 375px;
+	height: 20px;
+	padding: 10px;
+	margin: 5px 0;
+}
+.modalWindow TEXTAREA
+{
+	width: 375px;
+	height: 40px;
+	padding: 10px;
+	margin: 5px 0;
+}
+/************************************************************************************************************************
+Notification messages styling
+************************************************************************************************************************/
+.error
+{
+	background: #F3D0CF;
+	color: #FF0700;
+	border-top: 1px solid #9D2A27;
+	border-bottom: 1px solid #591816;
+	padding: 10px;
+	margin: 10px auto 0;
+	width: 500px;
+}
+/************************************************************************************************************************
+Version history styling
+************************************************************************************************************************/
+.versionDetails
+{
+}
+.versionDetails H4
+{
+	font-size: 1.3em;
+	margin: 15px 0 5px;
+}
+.versionDetails P
+{
+	margin: 0;
+}
+.versionDetails P.changesMadeSummary
+{
+	color: #A09B9B;
+	margin: 5px 0 0;
 }
 /*==|== non-semantic helper classes ========================================
 Please define your styles before this section.
