@@ -790,15 +790,15 @@ UL.navigation
 /*fallback*/
 	background-image: url(../img/hatch.png), -webkit-gradient(linear, left top, left bottom, from(#414141), to(#383838));
 /*Saf4+, Chrome*/
-	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*Chrome 10+, Saf5.1+*/
 	background-image: url(../img/hatch.png), -moz-linear-gradient(top, #414141, #383838);
 /*FF3.6+*/
-	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*IE10*/
-	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*Opera 11.10+*/
-	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*W3C*/
 }
 UL.navigation LI
@@ -1173,15 +1173,38 @@ styling bellow*/
 }
 .modalWindow #addedEmailIds LI
 {
-	display: inline;
+/*Todo: Need to figure out why a bottom margin is not being applied when using display:inline*/
+	display: inline-block;
 	padding: 5px;
 	border-radius: 5px;
 	background: #E7E7E7;
-	margin: 0 0 20px;
+	margin: 0 0 10px 10px;
+}
+.modalWindow #addedEmailIds LI IMG
+{
+/*Todo: In Chrome the first emailCloseIcon is not aligned properly, need to figure out why this is happening*/
+	float: right;
+	margin: 2px 0px 0 0;
+	padding-left: 5px;
+}
+.modalWindow .howToUse
+{
+	color: #B9B8B8;
+	margin-top: -10px;
+	line-height: 1.6em;
+}
+.modalWindow .code
+{
+	background: #ECEBEB;
+	color: #A09E9E;
+	padding: 3px 4px 4px;
+	border-radius: 5px;
 }
 .modalWindow A.addPersonalMessage
 {
+/*Todo: Need to fix the hover state. Currently the whole line has a background added. Need to change this so that ony the link is highlighted*/
 	display: block;
+	clear: right;
 	margin-bottom: 10px;
 }
 .modalWindow INPUT
@@ -1190,6 +1213,10 @@ styling bellow*/
 	height: 20px;
 	padding: 10px;
 	margin: 5px 0;
+}
+.modalWindow .formError
+{
+	color: #FF0700;
 }
 .modalWindow TEXTAREA
 {
