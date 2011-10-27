@@ -371,9 +371,6 @@ UL
 	padding: 0;
 	list-style: none;
 }
-#main
-{
-}
 A:link
 {
 	color: #00A6CB;
@@ -556,12 +553,12 @@ HEADER
 HEADER .topBar
 {
 	margin: 0 auto;
-	width: 960px;
 	padding: 10px 10px 20px;
 }
 HEADER .topBar IMG
 {
 	margin-top: 10px;
+	/*[empty]float:;*/
 }
 HEADER .topBar .userInfo
 {
@@ -790,15 +787,15 @@ UL.navigation
 /*fallback*/
 	background-image: url(../img/hatch.png), -webkit-gradient(linear, left top, left bottom, from(#414141), to(#383838));
 /*Saf4+, Chrome*/
-	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-webkit-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*Chrome 10+, Saf5.1+*/
 	background-image: url(../img/hatch.png), -moz-linear-gradient(top, #414141, #383838);
 /*FF3.6+*/
-	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-ms-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*IE10*/
-	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(-o-linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*Opera 11.10+*/
-	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
+	background-image: url(../img/hatch.png), url(linear-gradient(top,), url(#414141,), url(#383838), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url(), url());
 /*W3C*/
 }
 UL.navigation LI
