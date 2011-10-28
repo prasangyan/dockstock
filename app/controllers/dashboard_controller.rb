@@ -2,11 +2,13 @@ class DashboardController < ApplicationController
               before_filter :isuserloggedin
   def index
     #@buckets = AWS::S3::Service.buckets(:reload)
+    puts params[:key]
     values = {}
     @sobjects = Array.new
-    @bucket = AWS::S3::Bucket.find(S3SwfUpload::S3Config.bucket)
+    @bucket = AWS::S3::Bucket.find(S3SwfUpload::S3Config.bucket, :prefix => params[:key])
     @bucket.objects.each do |object|
       s3obj = SObject.new
+      s3obj.key = object.key.to_s.sub("/","?")
       uri = URI.parse(object.url)
       uri.query = nil
       s3obj.url = uri.to_s
@@ -58,13 +60,14 @@ class DashboardController < ApplicationController
 end
 
 class SObject
-  attr_accessor :name, :content_length,:child,:last_modified,:size , :url
+  attr_accessor :name, :content_length,:child,:last_modified,:size , :url, :key
   @name = ""
   @child = ""
   @content_length = 0
   @last_modified = Time.now
   @size = 0
   @url = ""
+  @key = ""
   def name=(name)
     @name = name
   end
@@ -82,5 +85,8 @@ class SObject
   end
   def url=(url)
     @url = url
+  end
+  def key=(key)
+    @key = key
   end
 end

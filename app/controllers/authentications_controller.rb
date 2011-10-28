@@ -58,8 +58,8 @@ class AuthenticationsController < ApplicationController
   end
 
   def redirecttohome
-    #redirect_to dashboard_url
-    redirect_to :controller => "dashboard", :action => "index"
+    redirect_to dashboard_url
+    #redirect_to :controller => "dashboard", :action => "index"
   end
 
   def forgotpassword

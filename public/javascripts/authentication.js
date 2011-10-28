@@ -9,7 +9,7 @@
     $('#BtnLogIn').click(function() {
         var options = {
         };
-        if($('input[type="password"]').validateText() && $('#emailid').validateText())
+        if($('#emailid').validateText() && $('input[type="password"]').validateText())
         {
             if($('#emailid').validateEmail())
             {
