@@ -12,9 +12,10 @@
 	    <label>Password</label>
         <input tabindex="2"  name="password" type="password" placeholder="Enter your password you signed up with" id="password" class="required" />
         <label>Confirm Password</label>
-        <input tabindex="3"  name="confirm_password" type="password" placeholder="Enter your password you signed up with" id="confirm_password" class="required" />
+        <input tabindex="3"  name="confirm_password" type="password" placeholder="Enter your password you signed up with" id="confirm_password" class="required lastbox" />
     </form>
     <%= link_to "Forget your password?", "/forgotpassword" %> | <%=link_to "Login", :action=>"new" %><br/>
-    <a href="#" onclick="document.forms[0].submit();" class="large button blue">Sign Up</a>
+    <a href="#" id="BtnSignUp" class="large button blue">Sign Up</a>
 </div>
-<%= javascript_include_tag "authentication" %>
+<%= javascript_include_tag  "JQValidation" %>
+<%= javascript_include_tag "register" %>

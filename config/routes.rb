@@ -56,7 +56,7 @@ S3FileManager::Application.routes.draw do
   # root :to => "testupload#index"
   #root :controller => "authentications", :action => "new"
   match '/SendInvitation', :controller => "invitation", :action => "send"
-  root :controller => "clients" , :action => "index"
+  root :controller => "dashboard" , :action => "index"
   match '/register' , :controller => "authentications", :action => 'register'
   match '/createuser' , :controller => "authentications", :action => 'createuser'
   match 'login', :controller => "authentications", :action => "new"

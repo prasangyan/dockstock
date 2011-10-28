@@ -1348,3 +1348,8 @@ Inlined to avoid required HTTP connection: h5bp.com/r
 {
     display:none;
 }
+
+.errorContainer
+{
+    display:none;
+}

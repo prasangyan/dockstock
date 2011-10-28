@@ -4,17 +4,27 @@
     $('input.lastbox').keypress(function(e)
     {
         if (e.which == 13)
-            $('#BtnLogIn').trigger('click');        
+        {
+            $('#BtnSignUp').trigger('click');
+            return false;
+        }
     });
-    $('#BtnLogIn').click(function() {
+    $('#BtnSignUp').click(function() {
         var options = {
         };
-        if($('input[type="password"]').validateText() && $('#emailid').validateText())
+        if($('#emailid').validateText() && $('input[type="password"]').validateText())
         {
             if($('#emailid').validateEmail())
             {
                 $('input[type="password"]')[0].value = $.trim($('input[type="password"]')[0].value);
-                $('form').submit();
+                $('input[type="password"]')[1].value = $.trim($('input[type="password"]')[1].value);
+                if($('input[type="password"]')[0].value == $('input[type="password"]')[1].value)
+                    $('form').submit();
+                else
+                {
+                    $('.errorContainer').html("Confirm password not matched!.").show();
+                    setTimeout(hideflash,5000);
+                }
             }
             else
             {
@@ -25,7 +35,7 @@
         else
         {
             $('.errorContainer').html("Please input the fields properly.").show();
-            setTimeout(hideflash,5000);     
+            setTimeout(hideflash,5000);
         }
     });
     function hideflash()
