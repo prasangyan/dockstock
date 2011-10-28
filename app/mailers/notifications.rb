@@ -3,7 +3,9 @@ class Notifications < ActionMailer::Base
     setup_email(user, "reset your password")
     @resetcode = resetcode
   end
-
+  def invitation(email)
+    setup_invitation_email(email, "Invitation from DockStock")
+  end
   protected
   def setup_email(user,subject)
     @recipients = "#{user.username}"
@@ -12,6 +14,14 @@ class Notifications < ActionMailer::Base
     @body[:user] = user
     @subject = subject
     @name = user.username
+    @content_type = "text/html"
+  end
+  def setup_invitation_email(email,subject)
+    @recipients = email
+    @name = email
+    @from = ENV["mail_username"]
+    @sent_on = Time.now
+    @subject = subject
     @content_type = "text/html"
   end
 end

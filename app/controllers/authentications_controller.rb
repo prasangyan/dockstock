@@ -13,7 +13,7 @@ class AuthenticationsController < ApplicationController
 
   def logout
     session[:currentuser] = nil
-    redirect_to "login"
+    redirect_to login_url
   end
 
   # POST /authentications
@@ -59,7 +59,7 @@ class AuthenticationsController < ApplicationController
 
   def redirecttohome
     #redirect_to dashboard_url
-    redirect_to clients_url
+    redirect_to :controller => "dashboard", :action => "index"
   end
 
   def forgotpassword
@@ -67,7 +67,7 @@ class AuthenticationsController < ApplicationController
       user = Authentication.find(:first, :conditions => "username = '#{params[:username]}'")
       unless user.nil?
         user.send_reset_password
-        @status = "An email has been send to you for resetting your Get Claimed password."
+        @status = "An email has been send to you for resetting your dockstock password."
         render :success
       else
           @error = 'Invalid email address entered!'
@@ -81,17 +81,40 @@ class AuthenticationsController < ApplicationController
   def resetpassword
     @user = nil
     unless params[:id].nil?
+      puts "the reset key is " + params[:id].to_s
       user = Authentication.find(:first, :conditions => "reset_code = '#{params[:id]}'")
       unless user.nil?
         @user = user
+      else
+          @status = "Invalid reset password key found."
+          render :success
       end
+    else
+      @status = "Invalid reset password key found."
+      render :success
     end
   end
 
   def setpassword
-    unless params[:password].nil? and params[:confirm_password].nil?
-
+    unless params[:password].nil? and params[:confirm_password].nil? and params[:reset_code].nil?
+      if params[:password] == params[:confirm_password]
+        user = Authentication.find(:first, :conditions => "reset_code = '#{params[:id]}'")
+        unless user.nil?
+          user.password = params[:password]
+          user.save
+          @status = "Password changed successfully."
+          render :success
+        else
+          @status = "Invalid parameters passed."
+          render :success
+        end
+      else
+          @status = "Invalid parameters passed."
+          render :success
+      end
+    else
+        @status = "Invalid parameters passed."
+        render :success
     end
   end
-
 end

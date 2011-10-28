@@ -7,21 +7,30 @@
 <!--[if (gt IE 9)|!(IE)]><!--><html lang="en" class="no-js"> <!--<![endif]-->
 <head>
   <%= render :file => "layouts/header" %>
-  <title>Contract Right</title>
+  <title>Authentication</title>
   <!-- CSS : implied media="all" -->
   <%= stylesheet_link_tag "style" %>
-  <%= stylesheet_link_tag "shadows" %>
+  <%= stylesheet_link_tag "screen" %>
   <!-- Uncomment if you are specifically targeting less enabled mobile browsers
   <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
   <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
   <%= javascript_include_tag "libs/modernizr-1.6.min"  %>
+  <%= javascript_include_tag "jquery-1.6.2.min" %>
+  <%= javascript_include_tag "jquery.validate" %>
 </head>
 <body>
-   <%= yield %>
-
-   <%= javascript_include_tag "jquery-1.4.4.min" %>
-   <%= javascript_include_tag "authentication" %>
-
+    <div id="container">
+        <div class="loginHeader">
+            <%= image_tag "logoColour.png" %>
+        </div>
+	    <div id="main" role="main">
+            <%= yield %>
+	    </div>
+        <footer>
+        </footer>
+    </div>
+   <%= javascript_include_tag "plugins" %>
+   <%= javascript_include_tag "script" %>
    <%= render :file => "layouts/googleanalytics" %>
 </body>
 </html>

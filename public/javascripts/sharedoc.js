@@ -23,15 +23,24 @@ $(function() {
     $('form').bind('submit', function() {
         return false;
     });
-	$('#BtnSendInvitation').bind('click',function () {
-		var mailList = "";
+    resetBinding();
+    function resetBinding()
+    {
+        $('#BtnSendInvitation').bind('click',function () {
+            SendInvitation($(this));
+	    });   
+    }
+    function SendInvitation(This)
+    {
+        var mailList = "";
 		$('#addedEmailIds li span').each(function() {
 			mailList = $(this).html() + ";";
 		});
-		var This = $(this);
+        mailList += $('#emailInvite').val();
 		if(mailList != "")
 		{
 			$('#emailInvite').val(mailList);
+            This.unbind('click');
 			 // Sending here
             $.ajax({
                 url: "/SendInvitation",
@@ -42,30 +51,42 @@ $(function() {
                 type: "POST",
                 //contentType: "application/xml; charset=utf-8",
                 beforeSend: function() {
-                    This.val("Please wait......................")        
+                    This.html("Please wait......................")
                 },
                 success: function(data) {
                     if (typeof (data) == typeof (int)) {
 						$('.formError').html("Unable to reach the server. Check your internet connection. Refresh the page to continue.").show();
+                        $('#fancybox-content div').eq(0).height($('.modalWindow').height() + 40);
+                        $('#fancybox-content').eq(0).height($('.modalWindow').height() );
                     }
-                    else if(data.indexOf("success") > -1) {
-                         This.val("Invitation sent successfully");
-						 setTimeout($.fancybox.close(),2000);
+                    else if(data.indexOf("true") > -1) {
+                         This.html("Invitation sent successfully");
+                         setTimeout(closeFancyBox,1000);
+                         return;
                     }
                     else
                     {
-                        showError(errorBox,data);                        
+                        $('.formError').html("Unable to reach the server. Check your internet connection. Refresh the page to continue.").show();
                     }
-                    This.val("Add link");
+                    This.html("Send invitations");
                 },
                 error: function(request, error) {
                     $('.formError').html("Unable to reach the server. Check your internet connection. Refresh the page to continue.").show();
-                    This.val("Add link");
+                    $('#fancybox-content div').eq(0).height($('.modalWindow').height() + 40);
+                    $('#fancybox-content').eq(0).height($('.modalWindow').height() );
+                    resetBinding();
+                    This.html("Send invitations");
                 }});
 		}
 		else
 		{
 			$('.formError').html("Opps looks like you not entered emails").show();
 		}
-	});
+    }
+    function closeFancyBox()
+    {
+        $('#fancybox-overlay').trigger('click');
+        $('#fancybox-outer').trigger('click');
+        $('.fancybox-bg').trigger('click');
+    }
 });

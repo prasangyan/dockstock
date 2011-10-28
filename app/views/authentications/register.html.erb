@@ -1,33 +1,20 @@
-	<div id="login-box-container">
-		<div id="center">
-			<%= image_tag "Logo-Color.png" %>
-			<div id="login-box" class="WarpShadow WLarge WLight">
-				<h1>Register an Account</h1>
-                <%= form_tag(:action => "createuser")  do |f| %>
-                    <% unless @error.nil? %>
-				    <div class="error">
-					    <p><%= @error %></p>
-				    </div>
-                  <% end %>
-				<!-- Add class="error-fieldset" to the fieldset tag in case there is an error, this class has to be added to any fieldset that has an error -->
-				<fieldset>
-					<label>Email</label>
-                    <input type="text" class="login-text" name="username" maxlength="100" />
-					<!-- Message to be shown below the filed which has a problem
-					<p>Improper email format</p>
-					-->
-				</fieldset>
-				<fieldset>
-					<label>Password</label>
-                    <input type="password" class="login-text" name="password" maxlength="15" />
-				</fieldset>
-                <fieldset>
-					<label>Confirm Password</label>
-                    <input type="password" class="login-text lastbox" name="confirm_password" maxlength="15" />
-				</fieldset>
-                <span class="menu-button"><a href="#" onclick="document.forms[0].submit();" class="small blue gradient-button">Create an account</a></span>
-				<p class="forgot-password">Did you <%= link_to "forget your password?","forgotpassword" %> or do you need to <%=link_to "login", "login" %>.</p>
-                <% end %>
-			</div>
-		</div>
-	</div>
+<div class="loginBox">
+    <h1>Sign up</h1>
+    <div class="errorContainer">
+        <% unless @error.nil? %>
+            <%= @error %>
+        <% end %>
+    </div>
+    <form id="loginForm" action="/createuser" accept-charset="UTF-8" method="post" >
+        <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token">
+        <label>Email</label>
+        <input tabindex="1" name="username" type="text" placeholder="Enter the email id you want to signed up with" id="emailid" class="required email" />
+	    <label>Password</label>
+        <input tabindex="2"  name="password" type="password" placeholder="Enter your password you signed up with" id="password" class="required" />
+        <label>Confirm Password</label>
+        <input tabindex="3"  name="confirm_password" type="password" placeholder="Enter your password you signed up with" id="confirm_password" class="required" />
+    </form>
+    <%= link_to "Forget your password?", "/forgotpassword" %> | <%=link_to "Login", :action=>"new" %><br/>
+    <a href="#" onclick="document.forms[0].submit();" class="large button blue">Sign Up</a>
+</div>
+<%= javascript_include_tag "authentication" %>

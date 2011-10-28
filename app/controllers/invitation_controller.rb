@@ -1,7 +1,9 @@
 class InvitationController < ApplicationController
-  def send
+  def send(search,emailInvite)
     unless params[:emailInvite].nil?
-      Notifications.invitation(params[:emailInvite].to_s)
+      params[:emailInvite].to_s.split(';').each do |mail|
+        Notifications.invitation(mail).deliver
+      end
       render :text => true
     else
       render :text => false
