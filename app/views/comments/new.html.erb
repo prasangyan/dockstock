@@ -1,0 +1,13 @@
+<div class="content">
+    <%= form_for(@comment, :html => {:class => "popup"} ) do |f| %>
+        <% unless @error.nil? %>
+		<div class="error">
+		    <p><%= @error %></p>
+	    </div>
+        <% end %>
+        Comment
+        <input type="text" name="comment" class = "single-line" />
+        <span class="menu-button"><a onclick="document.forms[0].submit();" href="#" class="small blue gradient-button">Add comment</a></span>
+        <input type="hidden" value="<%= @document.id %>" name="document_id" >
+    <% end %>
+</div>

@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  username: santhosh
+  password: pass
+
+two:
+  username: santhoshonet@gmail.com
+  password: password
+
+three:
+  username: "santhoshonet@gmail.com"
+  password: ""
+
+four:
+  username: ""
+  password: ""
+
+five:
+  username: nil
+  password: nil

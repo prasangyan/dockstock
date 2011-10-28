@@ -1,0 +1,32 @@
+    <div class="container">
+        <div class="content">
+            <h2>Dashboard</h2>
+            <div class="project-list">
+                <h3>Projects<span class="menu-button"><a href="/projects/new" class="small orange gradient-button" title="">+ Create Project</a></span></h3>
+                <ul>
+                    <% @folders.each do |key,value| %>
+                    <li>
+                        <a href="/filelist/<%= key %>"><%= key %></a>
+                        <!-- This sub item list is just a place holder do not implement it. Still need to decide what comes here -->
+                        <ul class="sub-items">
+                            <li>Documents: <%= value %></li>
+                            <li>Status:Onschedule</li>
+                        </ul>
+                    </li>
+                    <% end %>
+                </ul>
+		    </div>
+            <div class="activity-stream">
+          <h3>Activity Stream</h3>
+          <ul>
+            <li>A list of recent updates/activities comes here</li>
+            <li>An example would be new document uploaded by client name from company name</li>
+            <li>An example would be new mail sent by client name from company name</li>
+            <li>An example would be new comment added to file name by persons name</li>
+          </ul>
+        </div>
+        <div class="clearfix"></div>
+        </div>
+        <div class="create_project_box_container"></div>
+        <div class="create_project_box"></div>
+    </div>

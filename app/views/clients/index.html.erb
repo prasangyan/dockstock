@@ -1,0 +1,36 @@
+<div class="content">
+    <h2>Dashboard</h2>
+    <div class="project-list">
+        <h3>Clients<span class="menu-button"><a href="/clients/new" class="small orange gradient-button" title="">+ Add new client</a></span></h3>
+        <ul>
+            <% @clients.each  do |client| %>
+            <li>
+                <a href="/projectlist/<%= client.name %>"><%= client.name %></a>                <!-- This sub item list is just a place holder do not implement it. Still need to decide what comes here -->
+                <ul class="sub-items">
+                    <li><a class="sub-menu" href="/projectlist/<%= client.name %>"><%= client.projects.find(:all).length %> Projects</a></li>
+                </ul>
+            </li>
+            <% end %>
+        </ul>
+    </div>
+    <div class="activity-stream">
+        <h3>Activity Stream</h3>
+        <ul>
+            <li>
+              <a href="#">Raj</a> from <a href="#">SOMA</a> added a <a href="#">new email conversation</a>
+            </li>
+            <li>
+              <a href="#">Raj</a> from <a href="#">SOMA</a> added a <a href="#">new email conversation</a>
+            </li>
+            <li>
+              <a href="#">Raj</a> from <a href="#">SOMA</a> added a <a href="#">new email conversation</a>
+            </li>
+            <li>
+              <a href="#">Raj</a> from <a href="#">SOMA</a> added a <a href="#">new email conversation</a>
+            </li>
+        </ul>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="create_project_box_container"></div>
+<div class="create_project_box"></div>

@@ -1,0 +1,29 @@
+	<div id="login-box-container">
+		<div id="center">
+			<%= image_tag "Logo-Color.png" %>
+			<div id="login-box" class="WarpShadow WLarge WLight">
+				<h1>Login</h1>
+                <%= form_for(@authentication) do |f| %>
+                    <% unless @error.nil? %>
+				    <div class="error">
+					    <p><%= @error %></p>
+				    </div>
+                  <% end %>
+				<!-- Add class="error-fieldset" to the fieldset tag in case there is an error, this class has to be added to any fieldset that has an error -->
+				<fieldset>
+					<label>Email</label>
+                    <input type="text" class="login-text" name="username" maxlength="100" />
+					<!-- Message to be shown below the filed which has a problem
+					<p>Improper email format</p>
+					-->
+				</fieldset>
+				<fieldset>
+					<label>Password</label>
+                    <input type="password" class="login-text lastbox" name="password" maxlength="15" />
+				</fieldset>
+                <span class="menu-button"><a href="#" onclick="document.forms[0].submit();" class="small blue gradient-button">Login</a></span>
+				<p class="forgot-password">Did you <%= link_to "forget your password?", "/forgotpassword" %> or do you need to <%=link_to "create an account", :action=>"register" %>.</p>
+                  <% end %>
+			</div>
+		</div>
+	</div>

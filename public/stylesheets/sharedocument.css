@@ -1,0 +1,81 @@
+/*style a specific modal window*/
+.modalWindow
+{
+    /*important so we can position it on center later
+    don't show it
+    styling bellow
+	position: absolute;
+*/
+    background: #FFF;
+	width: 400px;
+    z-index: 100;
+    color: #000000;
+    overflow:hidden;
+    padding-left: 10px;
+	/*box-shadow: 1px 1px 3px #BDBDBD; */
+}
+.modalWindow .close
+{
+	margin: -30px 0 0 400px;
+}
+.modalWindow LABEL
+{
+	display: block;
+	color: #B9B8B8;
+}
+.modalWindow #addedEmailIds UL
+{
+	margin: 0;
+}
+.modalWindow #addedEmailIds LI
+{
+	display: inline;
+	padding: 5px;
+	border-radius: 5px;
+	background: #E7E7E7;
+	margin: 0 0 20px;
+}
+.modalWindow A.addPersonalMessage
+{
+	display: block;
+	margin-bottom: 10px;
+}
+.modalWindow INPUT
+{
+	width: 375px;
+	height: 20px;
+	padding: 10px;
+	margin: 5px 0;
+}
+.modalWindow TEXTAREA
+{
+	width: 375px;
+	height: 40px;
+	padding: 10px;
+	margin: 5px 0;
+}
+
+.modalWindow .code
+{
+    background: #ECEBEB;
+    color: #A09E9E;
+    padding: 3px 4px 4px;
+    border-radius: 5px;
+}
+
+#personalMessage
+{
+    display:none;       
+}
+.emailCloseIcon
+{
+    cursor:pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.formError
+{
+	display: none;
+	color: RED;
+}
+/************************************************************************************************************************
