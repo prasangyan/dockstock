@@ -1,0 +1,20 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  comment: "MyText"
+  authentication_id:
+  document_id:
+
+two:
+  comment:
+  authentication_id: 1
+  document_id:
+
+three:
+  comment:
+  authentication_id:
+  document_id: 1
+
+four:
+  comment: "some comment"
+  authentication_id: 1
+  document_id: 1

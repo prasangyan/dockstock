@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Numerous always-ignore extensions
 *.diff
 *.err
@@ -38,3 +39,9 @@ publish
 # build script local files
 build/buildinfo.properties
 build/config/buildinfo.properties
+=======
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/**/*
+>>>>>>> ae5edf502f1114450daf287d73ff73b70abc8faa

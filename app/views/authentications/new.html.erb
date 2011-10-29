@@ -1,0 +1,20 @@
+<div class="loginBox">
+    <h1>Login</h1>
+    <div class="errorContainer">
+        <% unless @error.nil? %>
+            <%= @error %>
+        <% end %>
+    </div>
+    <form id="loginForm" action="/authentications" accept-charset="UTF-8" method="post" >
+        <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token">
+        <label>Email</label>
+        <input tabindex="1" type="text" name="username" placeholder="Enter the email id you signed up with" id="emailid" class="required email" />
+	    <label>Password</label>
+        <input tabindex="2" type="password" name="password" placeholder="Enter your password you signed up with" id="password" class="required lastbox" />
+    </form>
+    <%= link_to "Forget your password?", "/forgotpassword" %> | <%=link_to "Sign up", :action=>"register" %><br/>
+    <a href="#" id="BtnLogIn" class="large button blue">Login</a>
+</div>
+
+<%= javascript_include_tag "JQValidation" %>
+<%= javascript_include_tag "authentication" %>

@@ -1,0 +1,12 @@
+<div class="content">
+    <%= form_for(@client, :html => {:class => "popup"} ) do |f| %>
+        <% unless @error.nil? %>
+		<div class="error">
+		    <p><%= @error %></p>
+	    </div>
+        <% end %>
+        Client Name
+        <%= f.text_field "name", :class => "single-line" %>
+        <span class="menu-button"><a onclick="document.forms[0].submit();" href="#" class="small blue gradient-button">Create new client</a></span>
+    <% end %>
+</div>

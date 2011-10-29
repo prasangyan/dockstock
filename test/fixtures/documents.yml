@@ -1,0 +1,22 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name:
+  description: MyText
+  project_id: 1
+
+two:
+  name: MyString
+  description: MyText
+  project_id:
+
+three:
+  name: "some name"
+  description: MyText
+  project_id: 1
+
+four:
+  name: "some name"
+  description: MyText
+  project_id: 1
+
