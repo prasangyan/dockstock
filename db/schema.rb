@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110326121742) do
+ActiveRecord::Schema.define(:version => 20111028141939) do
 
   create_table "authentications", :force => true do |t|
     t.string   "username"
@@ -64,6 +64,19 @@ ActiveRecord::Schema.define(:version => 20110326121742) do
     t.string   "name"
     t.text     "description"
     t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "s3_objects", :force => true do |t|
+    t.text     "key"
+    t.string   "fileName"
+    t.boolean  "folder"
+    t.integer  "size"
+    t.boolean  "rootFolder"
+    t.text     "url"
+    t.datetime "lastModified"
+    t.decimal  "content_length"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

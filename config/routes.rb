@@ -64,6 +64,8 @@ S3FileManager::Application.routes.draw do
   match 'forgotpassword', :controller => "authentications", :action => "forgotpassword"
   match 'resetpassword/:id', :controller => "authentications", :action => "resetpassword"
   match 'setpassword', :controller => "authentications", :action => "setpassword"
+  match 'SyncAmazon', :controller => "dashboard", :action =>"syncamazon"
+  match 'dashboard', :controller => "dashboard", :action => "index"
   match '/dashboard(/:key)', :controller => "dashboard", :action => "index"
   match 'clients', :controller => "clients"
   match ':controller/:action/:id'
