@@ -3,6 +3,7 @@ class CreateS3Objects < ActiveRecord::Migration
     create_table :s3_objects do |t|
       t.text :key
       t.string :fileName
+      t.string :parent
       t.boolean :folder
       t.boolean :rootFolder
       t.text  :url

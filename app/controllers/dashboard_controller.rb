@@ -1,6 +1,12 @@
 class DashboardController < ApplicationController
               before_filter :isuserloggedin
   def index
+    unless params[:key].nil?
+      @s3objects = S3Object.find_all_by_parent(params[:key].to_s.sub(";","/"))
+    else
+      @s3objects = S3Object.find_all_by_parent('')
+    end
+=begin
     #@buckets = AWS::S3::Service.buckets(:reload)
     values = {}
     @sobjects = Array.new
@@ -50,6 +56,7 @@ class DashboardController < ApplicationController
         end
       end
     end
+=end
   end
 
   def share
@@ -59,8 +66,9 @@ class DashboardController < ApplicationController
   def syncamazon
     bucket = AWS::S3::Bucket.find(S3SwfUpload::S3Config.bucket)
     bucket.objects.each do |object|
-      saveobject(object,true)
+      saveobject(object,true,"")
     end
+    render :text => "done"
   end
 
   private
@@ -68,21 +76,31 @@ class DashboardController < ApplicationController
     bucket = AWS::S3::Bucket.find(S3SwfUpload::S3Config.bucket, :prefix => key)
     bucket.objects.each do |object|
       if object.key != key
-        saveobject(object,false)
+        saveobject(object,false,key)
       end
     end
   end
-  def saveobject(object,folder)
+  def saveobject(object,root_folder,parent_folder)
     uri = URI.parse(object.url)
     uri.query = nil
     folders = object.key.split('/')
     s3object = S3Object.new
-    s3object.key = object.key
+    if object.key.to_s[object.key.length-1] == "/"
+      s3object.key = object.key[0..object.key.length-2]
+    else
+      s3object.key = object.key
+    end
     s3object.lastModified = object.about["last-modified"]
-    s3object.rootFolder=folder
+    s3object.rootFolder=root_folder
     s3object.url = uri.to_s
-    puts object.size
+    if parent_folder.to_s[parent_folder.length-1] == "/"
+      s3object.parent = parent_folder[0..parent_folder.length-2]
+    else
+      s3object.parent = parent_folder
+    end
     if object.size.to_s == "0"
+      folders = s3object.key.split('/')
+      s3object.fileName = folders[folders.length - 1]
       s3object.folder=true
       sync(object.key)
     else

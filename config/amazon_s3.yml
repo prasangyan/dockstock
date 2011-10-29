@@ -13,7 +13,7 @@ test:
   acl: public-read
   
 production:
-  bucket: "ContractRight"
+  bucket: "contractright_development"
   access_key_id: "AKIAIW36YM46YELZCT3A"
   secret_access_key: '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' 
   max_file_size: 10485760

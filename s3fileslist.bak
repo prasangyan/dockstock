@@ -205,3 +205,44 @@ AWS::S3::Bucket.create("#{@project.name}")
 
         @bucket.acl(@policy)
 
+
+
+<ul class="fileList">
+                    <% @sobjects.each do |sobject| %>
+                        <li>
+                            <%= image_tag "#{GetImage(sobject.name)}" %>
+                            <!-- <span class="docMenu"><a href="#"><img src="img/download.png">Previous Versions</a></span>	-->
+                            <!-- Todo: Figure out why when the margin-left is applied to the a element it moves only the first line	. Once I figure out that then I can remove the div tag-->
+                            <div>
+                                <a href="<%= sobject.url %>" class="docName"><%= sobject.name %></a>
+                            </div>
+                            <% if sobject.child != nil %>
+                                <ul class="documentList">
+                                    <li>
+                                        <%= image_tag "#{GetImage(sobject.child)}" %>
+                                        <div>
+                                            <a href="#" class="docName"><%= sobject.child %></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            <% end %>
+					    </li>
+
+                    <% end %>
+				</ul>
+
+
+				<ul>
+                        <% @sobjects.each do |sobject| %>
+                            <li>
+                                <%= image_tag "#{GetImage_Large(sobject.name)}" , :class => "#{GetClass(sobject.name)}" %>
+                                <% if sobject.content_length == "0" %>
+                                    <a href="/dashboard/<%= sobject.name %>"><%= sobject.name %></a>
+                                    <p class="documentSummary"><span>Files:</span> <%= sobject.size %></p>
+                                <% else %>
+                                    <a href="<%= sobject.url %>"><%= sobject.name %></a>
+                                    <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(sobject.content_length.to_d / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,sobject.last_modified)  %> ago <span>by</span> <a href="#"> Prashant Angyan</a></p>
+                                <% end %>
+                            </li>
+                            <% end %>
+                    </ul>

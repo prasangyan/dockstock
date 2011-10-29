@@ -46,7 +46,10 @@
 			    <!--This list has to be in one line. An inline-block is used. This is space dependant. So if the li is put in seperate lines it will add a 4px
 					margin next to each li. Chrome seems to do the same thing for inline also. So all the values are put in oneline instead of multiple lines -->
 				<!-- Todo: The last element has only border, need to find a way to fix this -->
-				<li>Home</li><li>User list</li><li>Dashboard</li><li>Administration</li>
+				<li>Home</li>
+                <li>User list</li>
+                <li><%= link_to "Dashboard", dashboard_url %></li>
+                <li>Administration</li>
             </ul>
         </div>
 		<div class="contentContainer">
@@ -68,26 +71,27 @@
                     </ul>
                 </div>
 				<ul class="fileList">
-                    <% @sobjects.each do |sobject| %>
+                    <% @s3objects.each do |s3object| %>
                         <li>
-                            <%= image_tag "#{GetImage(sobject.name)}" %>
+                            <%= image_tag "#{GetImage(s3object.fileName)}" %>
                             <!-- <span class="docMenu"><a href="#"><img src="img/download.png">Previous Versions</a></span>	-->
                             <!-- Todo: Figure out why when the margin-left is applied to the a element it moves only the first line	. Once I figure out that then I can remove the div tag-->
                             <div>
-                                <a href="<%= sobject.url %>" class="docName"><%= sobject.name %></a>
+                                <a href="/dashboard/<%= s3object.key.sub('/',';') %>" class="docName"><%= s3object.fileName %></a>
                             </div>
-                            <% if sobject.child != nil %>
-                                <ul class="documentList">
+                            <ul class="documentList">
+                            <% if s3object.folder == true %>
+                                  <% S3Object.find_all_by_parent(s3object.key).each do |sub_s3object| %>
                                     <li>
-                                        <%= image_tag "#{GetImage(sobject.child)}" %>
+                                        <%= image_tag "#{GetImage(sub_s3object.fileName)}" %>
                                         <div>
-                                            <a href="#" class="docName"><%= sobject.child %></a>
+                                            <a href="/dashboard/<%= sub_s3object.key.sub('/',';') %>" class="docName"><%= sub_s3object.fileName %></a>
                                         </div>
                                     </li>
-                                </ul>
+                                  <% end %>
                             <% end %>
+                            </ul>
 					    </li>
-
                     <% end %>
 				</ul>
 			</div>
@@ -103,18 +107,18 @@
                 <div class="contentFileList">
                     <h2>All files <span>Previous Versions</span></h2>
                     <ul>
-                        <% @sobjects.each do |sobject| %>
+                        <% @s3objects.each do |s3object| %>
                             <li>
-                                <%= image_tag "#{GetImage_Large(sobject.name)}" , :class => "#{GetClass(sobject.name)}" %>
-                                <% if sobject.content_length == "0" %>
-                                    <a href="/dashboard/<%= sobject.name %>"><%= sobject.name %></a>
-                                    <p class="documentSummary"><span>Files:</span> <%= sobject.size %></p>
+                                <%= image_tag "#{GetImage_Large(s3object.fileName)}" , :class => "#{GetClass(s3object.fileName)}" %>
+                                <% if s3object.folder == true %>
+                                    <a href="/dashboard/<%= s3object.key.sub('/',';') %>"><%= s3object.fileName %></a>
+                                    <p class="documentSummary"><span>Files:</span> <%= S3Object.find_all_by_parent(s3object.key).length %></p>
                                 <% else %>
-                                    <a href="<%= sobject.url %>"><%= sobject.name %></a>
-                                    <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(sobject.content_length.to_d / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,sobject.last_modified)  %> ago <span>by</span> <a href="#"> Prashant Angyan</a></p>
+                                    <a href="<%= s3object.url %>"><%= s3object.fileName %></a>
+                                    <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.content_length / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,s3object.lastModified)  %> ago <span>by</span> <a href="#"> Prashant Angyan</a></p>
                                 <% end %>
                             </li>
-                            <% end %>
+                        <% end %>
                     </ul>
                 </div>
 			</div>

@@ -71,8 +71,8 @@ ActiveRecord::Schema.define(:version => 20111028141939) do
   create_table "s3_objects", :force => true do |t|
     t.text     "key"
     t.string   "fileName"
+     t.string   "parent"
     t.boolean  "folder"
-    t.integer  "size"
     t.boolean  "rootFolder"
     t.text     "url"
     t.datetime "lastModified"
