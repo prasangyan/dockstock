@@ -2,7 +2,7 @@
     <h1>Sign up</h1>
     <div class="errorContainer">
         <% unless @error.nil? %>
-            <%= @error %>
+            <%= @error.html_safe %>
         <% end %>
     </div>
     <form id="loginForm" action="/createuser" accept-charset="UTF-8" method="post" >

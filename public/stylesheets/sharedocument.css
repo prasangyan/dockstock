@@ -78,4 +78,14 @@
 	display: none;
 	color: RED;
 }
+#SendInvitation
+{
+    display:none;
+    overflow:hidden;
+}
+#SendInvitation form
+{
+    padding-bottom:10px;
+}
+
 /************************************************************************************************************************

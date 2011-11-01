@@ -26,7 +26,7 @@ class AuthenticationsController < ApplicationController
       redirecttohome
       return
     end
-      @error = "Invalid username or password entered!"
+      @error = "Invalid email or password entered!"
       @authentication = Authentication.new
       @authentication.username = params[:username]
       render :new
@@ -44,10 +44,14 @@ class AuthenticationsController < ApplicationController
     if params[:password] == params[:confirm_password]
       if newuser.save
         session[:currentuser] = newuser.authenticate(params[:username],params[:password]).id
-        redirecttohome
+        @status = "Your account has been registered successfully. <br /> Click <a href='/dashboard' > here </a> to view your dockstock"
+        render :success
+        #redirecttohome
         return
       else
-        @error = newuser.errors.full_messages
+        newuser.errors.full_messages.each do |msg|
+          @error = msg + "<br />"
+        end
       end
     else
       @error = "Confirmation password not matched!"
@@ -67,7 +71,7 @@ class AuthenticationsController < ApplicationController
       user = Authentication.find(:first, :conditions => "username = '#{params[:username]}'")
       unless user.nil?
         user.send_reset_password
-        @status = "An email has been send to you for resetting your dockstock password."
+        @status = "An email has been send to you for resetting your dockstock password. <br /> Click <a href='/login' > here </a> to login dockstock."
         render :success
       else
           @error = 'Invalid email address entered!'
@@ -81,7 +85,6 @@ class AuthenticationsController < ApplicationController
   def resetpassword
     @user = nil
     unless params[:id].nil?
-      puts "the reset key is " + params[:id].to_s
       user = Authentication.find(:first, :conditions => "reset_code = '#{params[:id]}'")
       unless user.nil?
         @user = user
@@ -98,11 +101,11 @@ class AuthenticationsController < ApplicationController
   def setpassword
     unless params[:password].nil? and params[:confirm_password].nil? and params[:reset_code].nil?
       if params[:password] == params[:confirm_password]
-        user = Authentication.find(:first, :conditions => "reset_code = '#{params[:id]}'")
+        user = Authentication.find(:first, :conditions => "reset_code = '#{params[:reset_code]}'")
         unless user.nil?
           user.password = params[:password]
           user.save
-          @status = "Password changed successfully."
+          @status = "Password changed successfully. <br /> Click <a href='/login' > here </a> to login dockstock."
           render :success
         else
           @status = "Invalid parameters passed."

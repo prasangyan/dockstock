@@ -61,6 +61,9 @@ $(function() {
                     }
                     else if(data.indexOf("true") > -1) {
                          This.html("Invitation sent successfully");
+                         $('#addedEmailIds').html('');
+                         $('#emailInvite').val('');
+                         $('#personalMessage').val('');
                          setTimeout(closeFancyBox,1000);
                          return;
                     }

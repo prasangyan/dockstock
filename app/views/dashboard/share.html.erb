@@ -1,5 +1,5 @@
-<%= stylesheet_link_tag "sharedocument" %>
-<!-- for Popup -->
+    <%= stylesheet_link_tag "sharedocument" %>
+    <!-- for Popup -->
     <form action="/SendInvitation" class="modalWindow">
         <h1>Invite friends</h1>
         <label for="emailInvite">Enter your friends email address</label>
@@ -21,11 +21,11 @@
       <textarea name="personalMessageArea" id="personalMessage"></textarea>
       <a href="#" class="button blue activateModal" id="BtnSendInvitation" >Send invitations</a>
     </form>
-  <!--
-  <div>
-  This content has to appear the first time a person logs in after the sign up
-  VersaVault allows you to quickly and easily store and share files. It is as easy as installing the VersaVault desktop client and storing files in the folder.
-  </div>
-  -->
+    <!--
+    <div>
+    This content has to appear the first time a person logs in after the sign up
+    VersaVault allows you to quickly and easily store and share files. It is as easy as installing the VersaVault desktop client and storing files in the folder.
+    </div>
+    -->
     <%= javascript_include_tag "jquery-1.6.2.min" %>
     <%= javascript_include_tag "sharedoc" %>

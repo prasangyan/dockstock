@@ -3,13 +3,18 @@ $(function() {
     $('#shareDocument').fancybox({
         'transitionIn'	: 'elastic',
 		'transitionOut'	: 'elastic',
-        'type'			: 'ajax',
-        'width'         : '420',
-        'height'        : '300',
-        'autoScale'     : false,
-        'autoDimensions': false,
+        //'width'         : '420',
+        //'height'        : '300',
+        //'autoScale'     : false,
+        //'autoDimensions': false,
         'onComplete'    : function () {
-            $('#fancybox-content').height($('.modalWindow').height() + 10);
+            //$('#fancybox-content').height($('.modalWindow').height() + 10);
+        },
+        'onClosed'       : function () {
+            $('#SendInvitation').hide();
+        },
+        'onStart'       : function () {
+            $('#SendInvitation').show();            
         }
     });
     $('#fileNavOptions').hover(over,out);

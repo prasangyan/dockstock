@@ -3,8 +3,15 @@ class DashboardController < ApplicationController
   def index
     unless params[:key].nil?
       @s3objects = S3Object.find_all_by_parent(params[:key].to_s.sub(";","/"))
+      folder = S3Object.find_by_key(params[:key].to_s.sub(";","/"))
+      unless folder.nil?
+        @folder = folder.folder
+      else
+        @folder = false
+      end
     else
       @s3objects = S3Object.find_all_by_parent('')
+      @folder = true
     end
 =begin
     #@buckets = AWS::S3::Service.buckets(:reload)
@@ -62,7 +69,6 @@ class DashboardController < ApplicationController
   def share
     render :layout => false
   end
-
   def syncamazon
     bucket = AWS::S3::Bucket.find(S3SwfUpload::S3Config.bucket)
     bucket.objects.each do |object|
@@ -70,7 +76,6 @@ class DashboardController < ApplicationController
     end
     render :text => "done"
   end
-
   private
   def sync(key)
     bucket = AWS::S3::Bucket.find(S3SwfUpload::S3Config.bucket, :prefix => key)
@@ -111,7 +116,6 @@ class DashboardController < ApplicationController
     s3object.save
   end
 end
-
 class SObject
   attr_accessor :name, :content_length,:child,:last_modified,:size , :url, :key
   @name = ""

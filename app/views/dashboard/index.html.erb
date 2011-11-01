@@ -1,8 +1,7 @@
-
 <div class="container">
     <header>
       <div class="topBar">
-        <%= image_tag "logo.png" %>
+        <a href="/Login"><%= image_tag "logo.png" %></a>
         <div class="userInfo">
           Hello <a href="#"><%= Authentication.find(session[:currentuser]).username %></a> |  <%= link_to "Logout" ,  "/logout" %>
         </div>
@@ -46,18 +45,12 @@
 			    <!--This list has to be in one line. An inline-block is used. This is space dependant. So if the li is put in seperate lines it will add a 4px
 					margin next to each li. Chrome seems to do the same thing for inline also. So all the values are put in oneline instead of multiple lines -->
 				<!-- Todo: The last element has only border, need to find a way to fix this -->
-				<li>Home</li>
-                <li>User list</li>
-                <li><%= link_to "Dashboard", dashboard_url %></li>
-                <li>Administration</li>
+				<li><%= link_to "Home", dashboard_url %></li>
             </ul>
         </div>
 		<div class="contentContainer">
 		    <div id="fileNav">
-			    <h4>File list <span>
-                  <%= image_tag "options.png" , :id=> "fileNavOptions" %>
-                  </span>
-                </h4>
+			    <h4>File list</h4>
                 <!--Styling for the options drop down-->
                 <!--Todo: Figure out why the list cannot be styled and find out why it is being displayed as a horizontal
                     list instead of a vertical list. For now just finishing off the Jquery part -->
@@ -125,7 +118,13 @@
             <div id="subOptions">
                 <div class="inviteFriend">
                     <h3>Invite a friend</h3>
-                    <a href="/shareDocument" class="inviteFriendButton lightGreen activateModal" name="modalWindow" id="shareDocument">Share this document</a>
+                    <a href="#SendInvitation" class="inviteFriendButton lightGreen activateModal" name="modalWindow" id="shareDocument">
+                      <% if @folder == true %>
+                        Share this folder
+                      <% else %>
+                        Share this document
+                      <% end %>
+                    </a>
                 </div>
                 <div class="deleteFile">
                     <%= image_tag "recycleBinIcon.png" %>
@@ -141,3 +140,37 @@
     <footer>
     </footer>
 </div> <!--! end of #container -->
+
+<div id="SendInvitation">
+    <%= stylesheet_link_tag "sharedocument" %>
+    <!-- for Popup -->
+    <form action="/SendInvitation" class="modalWindow">
+        <h1>Invite friends</h1>
+        <label for="emailInvite">Enter your friends email address</label>
+        <input type="text" id="emailInvite" name="emailInvite">
+		<!-- This message should appear if an invalid email address is entered  [Opps looks like you entered an invalid email id]-->
+		<div class="formError">
+        </div>
+        <ul id="addedEmailIds">
+        <!--
+        <li>prashant@gmail.com <img src="img/emailCloseIcon.png"></li>
+        <li>ruben@blendit.com.my<img src="img/emailCloseIcon.png"></li>
+        <li>prashant@blendit.com.my<img src="img/emailCloseIcon.png"></li>
+        <li>rames@blendit.com.my<img src="img/emailCloseIcon.png"></li>
+        -->
+        </ul>
+      <p class="howToUse">Type an email and press <span class="code">enter</span> and we will add that person to the list of people who will recieve an invite</p>
+      <div class="clearfix"></div>
+      <a href="#" class="addPersonalMessage">Add a personal message</a>
+      <textarea name="personalMessageArea" id="personalMessage"></textarea>
+      <a href="#" class="button blue activateModal" id="BtnSendInvitation" >Send invitations</a>
+    </form>
+    <!--
+    <div>
+    This content has to appear the first time a person logs in after the sign up
+    VersaVault allows you to quickly and easily store and share files. It is as easy as installing the VersaVault desktop client and storing files in the folder.
+    </div>
+    -->
+</div>
+
+    
