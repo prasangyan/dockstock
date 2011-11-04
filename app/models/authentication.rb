@@ -3,6 +3,7 @@ class Authentication < ActiveRecord::Base
   belongs_to :history
   has_many :documents
   has_many :comments
+  has_many :s3_objects
   #validates_length_of :password, :within => 5..40 , :message => "Password length is too short!"
   validates_format_of :username, :with => %r{^(?:[_a-z0-9-]+)(\.[_a-z0-9-]+)*@([a-z0-9-]+)(\.[a-zA-Z0-9\-\.]>> +)*(\.[a-z]{2,4})|(\.[a-z]{2,4})$}i
   validates_uniqueness_of :username , :message => "This email-id already registered! Try forgot password."

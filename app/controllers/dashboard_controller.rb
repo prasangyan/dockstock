@@ -2,16 +2,23 @@ class DashboardController < ApplicationController
               before_filter :isuserloggedin
   def index
     unless params[:key].nil?
-      @s3objects = S3Object.find_all_by_parent(params[:key].to_s.sub(";","/"))
-      folder = S3Object.find_by_key(params[:key].to_s.sub(";","/"))
+      @s3objects = S3Object.find_all_by_parent_and_authentication_id(params[:key].to_s.sub(";","/"),session[:currentuser])
+      folder = S3Object.find_by_key_and_authentication_id(params[:key].to_s.sub(";","/"),session[:currentuser])
+      @parent_uid = 0
       unless folder.nil?
         @folder = folder.folder
+        @parent_uid = folder.uid
       else
         @folder = false
       end
+      @share_object_name = params[:key]
+      @s3objects_root = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
     else
-      @s3objects = S3Object.find_all_by_parent('')
+      @s3objects = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
+      @s3objects_root = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
       @folder = true
+      @parent_uid = 0
+      @share_object_name = ''
     end
 =begin
     #@buckets = AWS::S3::Service.buckets(:reload)
@@ -70,22 +77,26 @@ class DashboardController < ApplicationController
     render :layout => false
   end
   def syncamazon
-    bucket = AWS::S3::Bucket.find(S3SwfUpload::S3Config.bucket)
-    bucket.objects.each do |object|
-      saveobject(object,true,"")
+    Authentication.all.each do |authentication|
+      bucket = AWS::S3::Bucket.find(authentication.bucketKey)
+      unless bucket.nil?
+        bucket.objects.each do |object|
+          saveobject(object,true,"",authentication.id)
+        end
+      end
     end
     render :text => "done"
   end
   private
-  def sync(key)
+  def sync(key,authentication_id)
     bucket = AWS::S3::Bucket.find(S3SwfUpload::S3Config.bucket, :prefix => key)
     bucket.objects.each do |object|
       if object.key != key
-        saveobject(object,false,key)
+        saveobject(object,false,key,authentication_id)
       end
     end
   end
-  def saveobject(object,root_folder,parent_folder)
+  def saveobject(object,root_folder,parent_folder,authentication_id)
     uri = URI.parse(object.url)
     uri.query = nil
     folders = object.key.split('/')
@@ -107,15 +118,20 @@ class DashboardController < ApplicationController
       folders = s3object.key.split('/')
       s3object.fileName = folders[folders.length - 1]
       s3object.folder=true
-      sync(object.key)
+      sync(object.key,authentication_id)
     else
       s3object.content_length = object.about["content-length"]
       s3object.fileName = folders[folders.length - 1]
       s3object.folder = false
     end
+    s3object.uid = Time.now.strftime("%Y%m%d%H%M%S%L")
+    s3object.authentication_id = authentication_id
     s3object.save
   end
 end
+
+
+# un used class
 class SObject
   attr_accessor :name, :content_length,:child,:last_modified,:size , :url, :key
   @name = ""

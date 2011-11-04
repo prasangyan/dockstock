@@ -32,4 +32,7 @@
     {
       $('.errorContainer').fadeOut(1000);
     }
+    $('form').submit(function() {
+        $('#BtnLogIn').unbind('click').html('Logging...');
+    });
 })(jQuery);

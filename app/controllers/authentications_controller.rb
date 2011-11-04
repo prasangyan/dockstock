@@ -43,13 +43,23 @@ class AuthenticationsController < ApplicationController
     newuser.password = params[:password]
     if params[:password] == params[:confirm_password]
       if newuser.save
+        newuser.bucketKey = ''
+        begin
+          newuser.bucketKey = Time.now.strftime("%Y%m%d%H%M%S%L")
+          AWS::S3::Bucket.create(newuser.bucketKey)
+          bucket = AWS::S3::Bucket.find(newuser.bucketKey)
+          unless bucket.nil?
+            newuser.save
+          end
+        end
         session[:currentuser] = newuser.authenticate(params[:username],params[:password]).id
-        @status = "Your account has been registered successfully. <br /> Click <a href='/dashboard' > here </a> to view your dockstock"
-        render :success
-        #redirecttohome
+        @status = "Your account has been registered successfully. <br /> Click <a href='/dashboard' > here </a> to view your VersaVault."
+        Notifications.signup(newuser).deliver
+        #render :success
+        redirecttohome
         return
       else
-        newuser.errors.full_messages.each do |msg|
+        newuser.errors.each do |attr,msg|
           @error = msg + "<br />"
         end
       end
