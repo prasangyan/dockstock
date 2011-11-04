@@ -1,0 +1,13 @@
+<div class="content">
+    <%= form_for(@project, :html => {:class => "popup"} ) do |f| %>
+        <% unless @error.nil? %>
+		<div class="error">
+		    <p><%= @error %></p>
+	    </div>
+        <% end %>
+        Project Name
+        <input type="text" name="name" class="single-line" />
+        <span class="menu-button"><a onclick="document.forms[0].submit();" href="#" class="small blue gradient-button">Add new project</a></span>
+        <input type="hidden" value="<%= @project.client_id %>" name="client_id" >
+    <% end %>
+</div>

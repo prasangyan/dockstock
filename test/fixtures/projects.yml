@@ -1,0 +1,14 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: "cimb"
+  description: "some description"
+
+two:
+  name: nil
+  description: nil
+
+three:
+  name: "cimb"
+  description: "some description"
+
