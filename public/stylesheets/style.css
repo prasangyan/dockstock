@@ -1353,3 +1353,9 @@ Inlined to avoid required HTTP connection: h5bp.com/r
 {
     display:none;
 }
+
+.selected
+{
+    color: #fff;
+    font-weight:bold;
+}

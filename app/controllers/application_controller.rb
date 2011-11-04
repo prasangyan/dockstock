@@ -6,7 +6,8 @@ class ApplicationController < ActionController::Base
       if session[:currentuser].nil?
         redirect_to :controller => "authentications", :action => "new"
       else
-        if Authentication.find_by_id(session[:currentuser]).nil?
+        authentication = Authentication.find_by_id(session[:currentuser])
+        if authentication.nil?
           redirect_to :controller => "authentications", :action => "new"
           return false
         else

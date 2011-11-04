@@ -42,4 +42,7 @@
     {
       $('.errorContainer').fadeOut(1000);
     }
+    $('form').submit(function(){
+        $('#BtnSignUp').unbind('click').html('Please wait....');
+    });
 })(jQuery);

@@ -10,13 +10,18 @@
         }
     });
     $('#BtnResetPassword').click(function() {
-        var options = {
-        };
+       if(validateForm())
+         $('form').submit();
+    });
+    function validateForm()
+    {
         if($('#emailid').validateText())
         {
             if($('#emailid').validateEmail())
             {
-                $('form').submit();
+                $('#BtnResetPassword').unbind('click');
+                $('#BtnResetPassword').html('Submitting, Please wait ...');
+                return true;
             }
             else
             {
@@ -31,6 +36,9 @@
             setTimeout(hideflash,5000);
             return false;
         }
+    }
+    $('form').submit(function() {
+        return validateForm();
     });
     function hideflash()
     {

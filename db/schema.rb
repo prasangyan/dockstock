@@ -10,13 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111028141939) do
+ActiveRecord::Schema.define(:version => 20111102090148) do
 
   create_table "authentications", :force => true do |t|
     t.string   "username"
     t.string   "password_salt"
     t.string   "crypted_password"
     t.string   "reset_code"
+    t.string   "bucketKey"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -71,7 +72,7 @@ ActiveRecord::Schema.define(:version => 20111028141939) do
   create_table "s3_objects", :force => true do |t|
     t.text     "key"
     t.string   "fileName"
-     t.string   "parent"
+    t.string   "parent"
     t.boolean  "folder"
     t.boolean  "rootFolder"
     t.text     "url"
@@ -79,6 +80,8 @@ ActiveRecord::Schema.define(:version => 20111028141939) do
     t.decimal  "content_length"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uid"
+    t.integer  "authentication_id"
   end
 
   create_table "sessions", :force => true do |t|

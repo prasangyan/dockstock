@@ -1,10 +1,13 @@
 class Notifications < ActionMailer::Base
   def forgot_password(user,resetcode)
-    setup_email(user, "reset your password")
+    setup_email(user, "Reset your password")
     @resetcode = resetcode
   end
   def invitation(email)
     setup_invitation_email(email, "Invitation from DockStock")
+  end
+  def signup(user)
+    setup_email(user,"Welcome to Versa Vault")
   end
   protected
   def setup_email(user,subject)

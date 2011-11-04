@@ -137,3 +137,12 @@ var readableBytes = function(bytes) {
 <%= #image_tag "fileicons/" + File.extname(object.key).to_s[1..4] + ".png" %>
 
 <li><%= link_to "View History", "/histories/" + document.id.to_s, :class => "sub-menu" %></li>
+
+<div class="topNavigation">
+		    <ul class="navigation">
+			    <!--This list has to be in one line. An inline-block is used. This is space dependant. So if the li is put in seperate lines it will add a 4px
+					margin next to each li. Chrome seems to do the same thing for inline also. So all the values are put in oneline instead of multiple lines -->
+				<!-- Todo: The last element has only border, need to find a way to fix this -->
+				<li><%= link_to "Home", dashboard_url %></li>
+            </ul>
+        </div>
