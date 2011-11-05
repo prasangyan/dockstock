@@ -7,12 +7,14 @@
     </div>
     <form id="loginForm" action="/createuser" accept-charset="UTF-8" method="post" >
         <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token">
+        <label>Username</label>
+        <input tabindex="1" name="name" type="text" placeholder="Enter the name" id="name" class="required email" value="<%= @authentication.name %>" />
         <label>Email</label>
-        <input tabindex="1" name="username" type="text" placeholder="Enter the email id you want to signed up with" id="emailid" class="required email" value="<%= @authentication.username %>" />
+        <input tabindex="2" name="username" type="text" placeholder="Enter the email id you want to signed up with" id="emailid" class="required email" value="<%= @authentication.username %>" />
 	    <label>Password</label>
-        <input tabindex="2"  name="password" type="password" placeholder="Enter your password you signed up with" id="password" class="required" />
+        <input tabindex="3"  name="password" type="password" placeholder="Enter your password you signed up with" id="password" class="required" />
         <label>Confirm Password</label>
-        <input tabindex="3"  name="confirm_password" type="password" placeholder="Enter your password you signed up with" id="confirm_password" class="required lastbox" />
+        <input tabindex="4"  name="confirm_password" type="password" placeholder="Enter your password you signed up with" id="confirm_password" class="required lastbox" />
     </form>
     <%= link_to "Forget your password?", "/forgotpassword" %> | <%=link_to "Login", :action=>"new" %><br/>
     <a href="#" id="BtnSignUp" class="large button blue">Sign Up</a>

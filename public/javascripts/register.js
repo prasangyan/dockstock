@@ -12,7 +12,7 @@
     $('#BtnSignUp').click(function() {
         var options = {
         };
-        if($('#emailid').validateText() && $('input[type="password"]').validateText())
+        if($('#name').validateText() && $('#emailid').validateText() && $('input[type="password"]').validateText())
         {
             if($('#emailid').validateEmail())
             {
