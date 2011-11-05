@@ -19,5 +19,14 @@
     <%= link_to "Forget your password?", "/forgotpassword" %> | <%=link_to "Login", :action=>"new" %><br/>
     <a href="#" id="BtnSignUp" class="large button blue">Sign Up</a>
 </div>
+<div class="modalWindow">
+  <h2>You are all set, <label id="lbl_name"></label>. Thanks!</h2>
+  <p>You can start uploading files easily. Just download the <a href="<download link>">Versa Vault Desktop Client</a>
+  and you can start storing and sharing documents. We also sent you an email with all the details on how to get back here</p>
+  <%= link_to "Lets get started", dashboard_url %>    
+</div>
+<%= stylesheet_link_tag "jquery.fancybox-1.3.4" %>
 <%= javascript_include_tag  "JQValidation" %>
+<%= javascript_include_tag "jquery.mousewheel-3.0.4.pack" %>
+<%= javascript_include_tag "jquery.fancybox-1.3.4.pack" %>
 <%= javascript_include_tag "register" %>

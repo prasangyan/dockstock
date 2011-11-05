@@ -75,6 +75,9 @@ S3FileManager::Application.routes.draw do
   match 'projectlist/:id', :controller => "projects", :action => "index"
   match 'Commentlist/:id', :controller => "comments", :action => "index"
   match 'histories/:id', :controller => "history", :action => "index"
+
+  # routes for web service
+  match 'get_amazon_bucket_id(/:username/:password)', :controller => "authentications", :action => "getamazonbucketid"
   # See how all your routes lay out with "rake routes"
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
