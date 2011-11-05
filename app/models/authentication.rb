@@ -13,7 +13,8 @@ class Authentication < ActiveRecord::Base
   attr_protected :id, :salt
   attr_accessor :password
   def authenticate(username, pass)
-    u= Authentication.find(:first, :conditions=>["username = ?", username])
+    u = Authentication.find(:first, :conditions=>["username = ?", username])
+    puts u.bucketKey
     return nil if u.nil?
     return u if Authentication.encrypt(pass, u.password_salt)==u.crypted_password
     nil
