@@ -1363,9 +1363,7 @@ Inlined to avoid required HTTP connection: h5bp.com/r
     font-weight:bold;
 }
 
-/*Delete this*/
-.SomearibtaryClassToSee
+.modalWindow
 {
-	color:#fff;
-	background:#000;
+    display:none;
 }

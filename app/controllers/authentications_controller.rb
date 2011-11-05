@@ -38,36 +38,42 @@ class AuthenticationsController < ApplicationController
 
   def createuser
     @error = nil
-    newuser = Authentication.new
-    newuser.username = params[:username]
-    newuser.password = params[:password]
-    if params[:password] == params[:confirm_password]
-      if newuser.save
-        newuser.bucketKey = ''
-        begin
-          newuser.bucketKey = Time.now.strftime("%Y%m%d%H%M%S%L")
-          AWS::S3::Bucket.create(newuser.bucketKey)
-          bucket = AWS::S3::Bucket.find(newuser.bucketKey)
-          unless bucket.nil?
-            newuser.save
+    unless params[:name].nil? && params[:username] && params[:password].nil?
+      newuser = Authentication.new
+      newuser.name = params[:name]
+      newuser.username = params[:username]
+      newuser.password = params[:password]
+      if params[:password] == params[:confirm_password]
+        if newuser.save
+          newuser.bucketKey = ''
+          begin
+            newuser.bucketKey = Time.now.strftime("%Y%m%d%H%M%S%L")
+            AWS::S3::Bucket.create(newuser.bucketKey)
+            bucket = AWS::S3::Bucket.find(newuser.bucketKey)
+            unless bucket.nil?
+              newuser.save
+            end
+          end
+          session[:currentuser] = newuser.authenticate(params[:username],params[:password]).id
+          @status = "Your account has been registered successfully. <br /> Click <a href='/dashboard' > here </a> to view your VersaVault."
+          Notifications.signup(newuser).deliver
+          render :success
+          #redirecttohome
+          return
+        else
+          newuser.errors.each do |attr,msg|
+            @error = msg + "<br />"
           end
         end
-        session[:currentuser] = newuser.authenticate(params[:username],params[:password]).id
-        @status = "Your account has been registered successfully. <br /> Click <a href='/dashboard' > here </a> to view your VersaVault."
-        Notifications.signup(newuser).deliver
-        #render :success
-        redirecttohome
-        return
       else
-        newuser.errors.each do |attr,msg|
-          @error = msg + "<br />"
-        end
+        @error = "Confirmation password not matched!"
       end
     else
-      @error = "Confirmation password not matched!"
+      @error = "Ooops, Unable to register your account due to invalid inputs found."
     end
     @authentication = Authentication.new
     @authentication.username = params[:username]
+    @authentication.name = params[:name]
     render :register
   end
 
@@ -130,4 +136,20 @@ class AuthenticationsController < ApplicationController
         render :success
     end
   end
+
+  #methods for sync tool
+
+  def getamazonbucketid
+    unless params[:username].nil? && params[:password].nil?
+      result = Authentication.authenticate(params[:username].to_s,params[:password].to_s)
+      unless result.nil?
+        render :json => {:bucket_id => result.bucketKey}
+      else
+        render :json => {:error => "Invalid username or password"}
+      end
+    else
+      render :json => {:error => "Invalid parameters password"}
+    end
+  end
+
 end
