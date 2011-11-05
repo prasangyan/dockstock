@@ -22,10 +22,11 @@ end
 
 browser = Watir::Browser.new
 
-site = "versavault.com"
+site = "http://staging-versavault.heroku.com"
 testEmail = "prashant@blendit.com.my"
 testEmailPassword = "password@123"
-signUpURL = "http://versavault.com/register"
+signUpURL = "http://staging-versavault.heroku.com/register"
+dashboardPage = "http://versavault.com/dashboard"
 loginEmailIdField = "emailid"
 browser.goto site
 
@@ -168,7 +169,7 @@ browser.text_field(:id,"emailid").set testEmail
 browser.text_field(:id,"password").set testEmailPassword
 browser.link(:id,"BtnLogIn").click
 
-testResult = browser.url == "http://versavault.com/dashboard"
+testResult = browser.url == dashboardPage
 results(browser,test_case,testResult,'Login successful. The page redirects to the dashboard page',
         "Login was unsuccessful. The page does not redirect to the dashboard page")
 
