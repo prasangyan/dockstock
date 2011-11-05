@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111102090148) do
+ActiveRecord::Schema.define(:version => 20111105071532) do
 
   create_table "authentications", :force => true do |t|
     t.string   "username"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20111102090148) do
     t.string   "bucketKey"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   create_table "categories", :force => true do |t|

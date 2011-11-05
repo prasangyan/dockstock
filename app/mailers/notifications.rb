@@ -16,7 +16,7 @@ class Notifications < ActionMailer::Base
     @sent_on = Time.now
     @body[:user] = user
     @subject = subject
-    @name = user.username
+    @name = user.name
     @content_type = "text/html"
   end
   def setup_invitation_email(email,subject)
