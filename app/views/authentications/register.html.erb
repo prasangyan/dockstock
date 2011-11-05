@@ -7,7 +7,7 @@
     </div>
     <form id="loginForm" action="/createuser" accept-charset="UTF-8" method="post" >
         <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token">
-        <label>Username</label>
+        <label>Name</label>
         <input tabindex="1" name="name" type="text" placeholder="Enter the name" id="name" class="required email" value="<%= @authentication.name %>" />
         <label>Email</label>
         <input tabindex="2" name="username" type="text" placeholder="Enter the email id you want to signed up with" id="emailid" class="required email" value="<%= @authentication.username %>" />
