@@ -20,7 +20,7 @@ def results(browser,test_case,testResult,successMessage,failureMessage)
 end
 ############################################################################
 
-browser = Watir::Browser.new
+browser = Watir::Browser.new :chrome
 
 site = "http://staging-versavault.heroku.com"
 testEmail = "prashant@blendit.com.my"
