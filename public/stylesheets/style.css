@@ -872,6 +872,7 @@ Three column floating layout*/
 	position: relative;
 	width: 53%;
 	padding: 10px;
+	min-height:300px;
 /*Curl Effect*/
 	background-color: #FFF;
 	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
