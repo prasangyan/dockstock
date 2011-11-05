@@ -26,6 +26,7 @@ site = "versavault.com"
 testEmail = "prashant@blendit.com.my"
 testEmailPassword = "password@123"
 signUpURL = "http://versavault.com/register"
+name = "Prashant Angyan"
 loginEmailIdField = "emailid"
 browser.goto site
 
@@ -94,9 +95,10 @@ messageToShowAfterRegistration = '<h2>You are all set, <name>. Thanks!</h2>
 <p>You can start uploading files easily. Just download the <a href="<download link>">Versa Vault Desktop Client</a>
 and you can start storing and sharing documents. We also sent you an email with all the details on how to get back here</p>'
 
-browser.text_field(:id,"emailid").set testEmail
-browser.text_field(:id,"password").set testEmailPassword
-browser.text_field(:id,"confirm_password").set testEmailPassword
+browser.text_field(:id => "name").set name
+browser.text_field(:id => "emailid").set testEmail
+browser.text_field(:id => "password").set testEmailPassword
+browser.text_field(:id => "confirm_password").set testEmailPassword
 browser.link(:id,"BtnSignUp").click
 
 testResult = browser.url == "http://versavault.com/dashboard"
