@@ -86,7 +86,8 @@ class DashboardController < ApplicationController
           end
         end
       rescue => ex
-        if ex.message == ""
+        puts ex.message
+        if ex.message == "The specified bucket does not exist"
           AWS::S3::Bucket.create(authentication.bucketKey)
         end
       end

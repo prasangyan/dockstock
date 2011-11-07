@@ -10,6 +10,10 @@
         }
     });
     $('#BtnSignUp').click(function() {
+        Validate_and_Submit_form();
+    });
+    function Validate_and_Submit_form()
+    {
         var options = {
         };
         if($('#name').validateText() && $('#emailid').validateText() && $('input[type="password"]').validateText())
@@ -37,7 +41,7 @@
             $('.errorContainer').html("Please input the fields properly.").show();
             setTimeout(hideflash,5000);
         }
-    });
+    }
     function hideflash()
     {
       $('.errorContainer').fadeOut(1000);
@@ -69,6 +73,9 @@
             success: function(data) {
                 if (typeof (data) == typeof (int)) {
                     showError("Unable to reach the server. Check your internet connection. Refresh the page to continue.");
+                    $('#BtnSignUp').html('Sign up').click(function() {
+                        Validate_and_Submit_form();
+                    });
                 }
                 else if(data.indexOf("success") > -1) {
                     var content = $('.modalWindow').html();
@@ -92,6 +99,9 @@
             },
             error: function(request, error) {
                 showError("Unable to reach the server. Refresh the page to continue.");
+                $('#BtnSignUp').html('Sign up').click(function() {
+                        Validate_and_Submit_form();
+                });
             }});
     }
 })(jQuery);
