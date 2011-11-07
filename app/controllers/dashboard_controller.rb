@@ -78,10 +78,16 @@ class DashboardController < ApplicationController
   end
   def syncamazon
     Authentication.all.each do |authentication|
-      bucket = AWS::S3::Bucket.find(authentication.bucketKey)
-      unless bucket.nil?
-        bucket.objects.each do |object|
-          saveobject(object,true,"",authentication.id)
+      begin
+        bucket = AWS::S3::Bucket.find(authentication.bucketKey)
+        unless bucket.nil?
+          bucket.objects.each do |object|
+            saveobject(object,true,"",authentication.id)
+          end
+        end
+      rescue => ex
+        if ex.message == ""
+          AWS::S3::Bucket.create(authentication.bucketKey)
         end
       end
     end
