@@ -47,8 +47,8 @@ class AuthenticationsController < ApplicationController
         if newuser.save
           newuser.bucketKey = ''
           begin
-            newuser.bucketKey = Time.now.strftime("%Y%m%d%H%M%S%L")
-            AWS::S3::Bucket.create(newuser.bucketKey)
+            newuser.bucketKey = newuser.name + "-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
+            AWS::S3::Bucket.create(newuser.bucketKey,:access => :public_read)
             bucket = AWS::S3::Bucket.find(newuser.bucketKey)
             unless bucket.nil?
               newuser.save
