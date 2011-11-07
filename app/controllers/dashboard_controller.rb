@@ -88,7 +88,7 @@ class DashboardController < ApplicationController
       rescue => ex
         puts ex.message
         if ex.message == "The specified bucket does not exist"
-          AWS::S3::Bucket.create(authentication.bucketKey)
+          AWS::S3::Bucket.create(authentication.bucketKey,:access => :public_read)
         end
       end
     end
