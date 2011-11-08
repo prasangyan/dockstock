@@ -25,7 +25,8 @@ module DashboardHelper
         when ".jpg",".jpeg",".png",".bmp",".gif",".jfif",".exif",".tiff" , ".raw" , ".ppm" , ".pgm" , ".pbm" , ".pnm" , ".cgm" , ".svg" , ".pns" , ".jps"
           return "imageIcon-Large.png"
         when ".pdf"
-          return "pdfIcon-Large.png"
+          return "fileIcon-Large.png"
+          #return "pdfIcon-Large.png"
         when ""
           return "folderIcon-Large.png"
         else
