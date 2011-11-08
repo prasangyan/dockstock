@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
-              before_filter :isuserloggedin
+              before_filter :isuserloggedin , :except => "syncamazon"
   def index
     unless params[:key].nil?
       @s3objects = S3Object.find_all_by_parent_and_authentication_id(params[:key].to_s.sub(";","/"),session[:currentuser])
@@ -78,16 +78,22 @@ class DashboardController < ApplicationController
   end
   def syncamazon
     Authentication.all.each do |authentication|
-      begin
-        bucket = AWS::S3::Bucket.find(authentication.bucketKey)
-        unless bucket.nil?
-          bucket.objects.each do |object|
-            saveobject(object,true,"",authentication.id)
+      unless authentication.bucketKey.nil?
+        begin
+          bucket = AWS::S3::Bucket.find(authentication.bucketKey)
+          unless bucket.nil?
+            bucket.objects.each do |object|
+              saveobject(object,true,"",authentication.id)
+            end
+          end
+        rescue => ex
+          if ex.message == "The specified bucket does not exist"
+            AWS::S3::Bucket.create(authentication.bucketKey,:access => :public_read)
           end
         end
-      rescue => ex
-        puts ex.message
-        if ex.message == "The specified bucket does not exist"
+      else
+        authentication.bucketKey = authentication.name + "-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
+        if authentication.save
           AWS::S3::Bucket.create(authentication.bucketKey,:access => :public_read)
         end
       end

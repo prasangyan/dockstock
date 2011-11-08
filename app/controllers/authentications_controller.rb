@@ -143,7 +143,15 @@ class AuthenticationsController < ApplicationController
     unless params[:username].nil? && params[:password].nil?
       result = Authentication.authenticate(params[:username].to_s,params[:password].to_s)
       unless result.nil?
-        render :json => {:bucket_id => result.bucketKey}
+        unless result.bucketKey.nil?
+          render :json => {:bucket_id => result.bucketKey}
+        else
+          result.bucketKey = result.name + "-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
+          if result.save
+            AWS::S3::Bucket.create(result.bucketKey,:access => :public_read)
+          end
+          render :json => {:bucket_id => result.bucketKey}
+        end
       else
         render :json => {:error => "Invalid username or password"}
       end
