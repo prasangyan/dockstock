@@ -187,8 +187,9 @@ class DashboardController < ApplicationController
       end
     end
     s3object.parent = parent_folder
-    if object.size.to_s == "0"
+    if object.about["content-length"].to_s == "0"
       folders = s3object.key.split('/')
+      s3object.folder = true
       s3object.fileName = folders[folders.length - 1]
       s3object.content_length = 0
       sync(object.key,bucket_id,authentication_id)
