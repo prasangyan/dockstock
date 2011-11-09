@@ -3,7 +3,7 @@
       <div class="topBar">
         <a href="/Login"><%= image_tag "logo.png" %></a>
         <div class="userInfo">
-          Hello <a href="#"><%= Authentication.find(session[:currentuser]).name %></a> |  <%= link_to "Logout" ,  "/logout" %>
+          Hello <a href="#"><%= @current_user.name %></a> |  <%= link_to "Logout" ,  "/logout" %>
         </div>
       </div>
     </header>
@@ -163,5 +163,15 @@
     </div>
     -->
 </div>
+
+<!-- popup when the user views dashboard first time -->
+<% if Time.now - @current_user.created_at < 20 %>
+<div class="modalWindow" id="WelcomeBox">
+  <h2>You are all set, <label id="lbl_name"></label>. Thanks!</h2>
+  <p>You can start uploading files easily. Just download the <a href="http://s3.amazonaws.com/VersaVault/AmazonS3FileSyncTool_32Bit.exe">Versa Vault Desktop Client</a>
+  and you can start storing and sharing documents. We also sent you an email with all the details on how to get back here</p>
+  <a href="#" id="LnkCloseFancyBox">Lets get started</a>
+</div>
+<% end %>
 
     

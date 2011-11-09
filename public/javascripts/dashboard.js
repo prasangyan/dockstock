@@ -23,5 +23,23 @@ $(function() {
 	$(this).parent('div').parent('li').children('ul').hide();
 	*/
     }
+    if($('#WelcomeBox').size() > 0)
+    {
+        $.fancybox({
+            'content': $('#WelcomeBox').html(),
+            'padding' : 20,
+            'width': 500,
+            'height': 300,
+            'autoDimensions':false,
+            onClosed: function()
+            {
+                $('#WelcomeBox').remove();
+            }
+        });
+    }
+    $('#LnkCloseFancyBox').live('click',function(){
+        alert("closing");
+        $.fancybox.close();
+    });
 });
 

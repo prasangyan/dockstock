@@ -23,7 +23,7 @@
                 $('input[type="password"]')[0].value = $.trim($('input[type="password"]')[0].value);
                 $('input[type="password"]')[1].value = $.trim($('input[type="password"]')[1].value);
                 if($('input[type="password"]')[0].value == $('input[type="password"]')[1].value)
-                    submit_form();
+                    $('form').trigger('submit');
                 else
                 {
                     $('.errorContainer').html("Confirm password not matched!.").show();
@@ -52,56 +52,8 @@
             setTimeout(hideflash,5000);
     }
     $('form').submit(function(){
-        submit_form();
-        return false;
-        //$('#BtnSignUp').unbind('click').html('Please wait....');
+        //submit_form();
+        //return false;
+        $('#BtnSignUp').unbind('click').html('Please wait....');
     });
-    function submit_form()
-    {
-        $.ajax({
-            url: "/createuser",
-            timeout: 20000,
-            async: true,
-            //datatype: 'xml',
-            cache: false,
-            data: $('form').serialize(),
-            type: "POST",
-            //contentType: "application/xml; charset=utf-8",
-            beforeSend: function() {
-                $('#BtnSignUp').unbind('click').html('Please wait....');
-            },
-            success: function(data) {
-                if (typeof (data) == typeof (int)) {
-                    showError("Unable to reach the server. Check your internet connection. Refresh the page to continue.");
-                    $('#BtnSignUp').html('Sign up').click(function() {
-                        Validate_and_Submit_form();
-                    });
-                }
-                else if(data.indexOf("success") > -1) {
-                    var content = $('.modalWindow').html();
-                    $.fancybox({
-                        'content': content,
-                        'padding' : 20,
-                        'width': 500,
-                        'height': 300,
-                        'autoDimensions':false,
-                        onClosed: function()
-                        {
-                            window.location = "/dashboard";
-                        }
-                    });
-                }
-                else
-                {
-                    $('body').html(data);
-                    //showError(data);
-                }
-            },
-            error: function(request, error) {
-                showError("Unable to reach the server. Refresh the page to continue.");
-                $('#BtnSignUp').html('Sign up').click(function() {
-                        Validate_and_Submit_form();
-                });
-            }});
-    }
 })(jQuery);
