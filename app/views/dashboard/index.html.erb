@@ -62,7 +62,7 @@
                             <!-- <span class="docMenu"><a href="#"><img src="img/download.png">Previous Versions</a></span>	-->
                             <!-- Todo: Figure out why when the margin-left is applied to the a element it moves only the first line	. Once I figure out that then I can remove the div tag-->
                             <div>
-                                <a href="/dashboard/<%= s3object.key.sub('/',';') %>" class="<%= s3object.uid == @parent_uid ? "docName selected" : "docName" %>"><%= s3object.fileName %></a>
+                                <a href="/dashboard/<%= s3object.uid %>" class="<%= s3object.uid == @parent_uid ? "docName selected" : "docName" %>"><%= s3object.fileName %></a>
                             </div>
                             <ul class="documentList">
                             <% if s3object.folder == true %>
@@ -70,7 +70,7 @@
                                     <li>
                                         <%= image_tag "#{GetImage(sub_s3object.fileName)}" %>
                                         <div>
-                                            <a href="/dashboard/<%= sub_s3object.key.sub('/',';') %>" class="docName"><%= sub_s3object.fileName %></a>
+                                            <a href="/dashboard/<%= sub_s3object.uid %>" class="docName"><%= sub_s3object.fileName %></a>
                                         </div>
                                     </li>
                                   <% end %>
@@ -96,7 +96,7 @@
                             <li>
                                 <%= image_tag "#{GetImage_Large(s3object.fileName)}" , :class => "#{GetClass(s3object.fileName)}" %>
                                 <% if s3object.folder == true %>
-                                    <a href="/dashboard/<%= s3object.key.sub('/',';') %>"><%= s3object.fileName %></a>
+                                    <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
                                     <p class="documentSummary"><span>Files:</span> <%= S3Object.find_all_by_parent(s3object.key).length %></p>
                                 <% else %>
                                     <a href="<%= s3object.url %>"><%= s3object.fileName %></a>

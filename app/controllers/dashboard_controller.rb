@@ -1,27 +1,27 @@
 class DashboardController < ApplicationController
               before_filter :isuserloggedin , :except => "syncamazon"
-
   def index
     @current_user = Authentication.find(session[:currentuser])
     unless params[:key].nil?
-      @s3objects = S3Object.find_all_by_parent_and_authentication_id(params[:key].to_s.sub(";","/"),session[:currentuser])
-      folder = S3Object.find_by_key_and_authentication_id(params[:key].to_s.sub(";","/"),session[:currentuser])
-      @parent_uid = 0
-      unless folder.nil?
-        @folder = folder.folder
-        @parent_uid = folder.uid
-      else
-        @folder = false
-      end
-      @share_object_name = params[:key]
-      @s3objects_root = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
-    else
-      @s3objects = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
-      @s3objects_root = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
-      @folder = true
-      @parent_uid = 0
-      @share_object_name = ''
+        @s3objects = S3Object.find_all_by_parent_uid_and_authentication_id(params[:key],session[:currentuser])
+        folder = S3Object.find_by_parent_uid_and_authentication_id(params[:key],session[:currentuser])
+        @parent_uid = 0
+        unless folder.nil?
+          @folder = folder.folder
+          @parent_uid = folder.uid
+        else
+          @folder = false
+        end
+        @share_object_name = params[:key]
+        @s3objects_root = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
+        return
     end
+    @s3objects = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
+    @s3objects_root = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
+    @folder = true
+    @parent_uid = 0
+    @share_object_name = ''
+
 =begin
     #@buckets = AWS::S3::Service.buckets(:reload)
     values = {}
@@ -73,6 +73,7 @@ class DashboardController < ApplicationController
       end
     end
 =end
+
   end
 
   def share
@@ -139,8 +140,14 @@ class DashboardController < ApplicationController
       s3obj.uid = Time.now.strftime("%Y%m%d%H%M%S%L")
       s3obj.authentication_id = authentication_id
       s3obj.content_length = 0
+      parent_uid = '0'
+      begin
+        parent_uid = S3Object.find_by_key(parent_folder).uid
+      rescue
+      end
+      s3obj.parent_uid = parent_uid
       s3obj.save
-    end
+      end
   end
 
   def saveobject(object,parent_folder,bucket_id,authentication_id)
@@ -192,7 +199,14 @@ class DashboardController < ApplicationController
     end
     s3object.uid = Time.now.strftime("%Y%m%d%H%M%S%L")
     s3object.authentication_id = authentication_id
+    parent_uid = '0'
+    begin
+      parent_uid = S3Object.find_by_key(parent_folder).uid
+    rescue
+    end
+    s3object.parent_uid = parent_uid
     s3object.save
   end
+
 end
 
