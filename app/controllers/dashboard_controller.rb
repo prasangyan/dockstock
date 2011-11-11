@@ -86,7 +86,7 @@ class DashboardController < ApplicationController
           bucket = AWS::S3::Bucket.find(authentication.bucketKey)
           unless bucket.nil?
             bucket.objects.each do |object|
-              saveobject(object,"",authentication.bucketKey,authentication.id)
+              saveobject(object,authentication.bucketKey,authentication.id)
             end
           end
         rescue => ex
@@ -111,7 +111,7 @@ class DashboardController < ApplicationController
     bucket = AWS::S3::Bucket.find(bucket_id, :prefix => key)
     bucket.objects.each do |object|
       if object.key != key
-        saveobject(object,key,bucket_id,authentication_id)
+        saveobject(object,bucket_id,authentication_id)
       end
     end
   end
@@ -142,7 +142,7 @@ class DashboardController < ApplicationController
       s3obj.content_length = 0
       parent_uid = '0'
       begin
-        parent_uid = S3Object.find_by_key(parent_folder).uid
+        parent_uid = S3Object.find_by_key_and_authentication_id(parent_folder,authentication_id).uid
       rescue
       end
       s3obj.parent_uid = parent_uid
@@ -150,7 +150,7 @@ class DashboardController < ApplicationController
       end
   end
 
-  def saveobject(object,parent_folder,bucket_id,authentication_id)
+  def saveobject(object,bucket_id,authentication_id)
     uri = URI.parse(object.url)
     uri.query = nil
     s3object = S3Object.new
@@ -180,13 +180,13 @@ class DashboardController < ApplicationController
       if object.about["content-length"] != "0" && idx == parentfolder.length - 1 && idx != 0
       else
           if parent_folder == ''
-            parent_folder = fld
+            parent_folder = fld.to_s.rstrip
           else
-            parent_folder = parent_folder + "/" + fld
+            parent_folder = parent_folder + "/" + fld.to_s.rstrip
           end
       end
     end
-    s3object.parent = parent_folder
+    s3object.parent = parent_folder.to_s.rstrip
     if object.about["content-length"].to_s == "0"
       folders = s3object.key.split('/')
       s3object.folder = true
@@ -202,8 +202,9 @@ class DashboardController < ApplicationController
     s3object.authentication_id = authentication_id
     parent_uid = '0'
     begin
-      parent_uid = S3Object.find_by_key(parent_folder).uid
-    rescue
+      parent_uid = S3Object.find_by_key_and_authentication_id(parent_folder,authentication_id).uid
+    rescue => ex
+      puts ex.message
     end
     s3object.parent_uid = parent_uid
     s3object.save
