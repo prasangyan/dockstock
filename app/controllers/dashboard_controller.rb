@@ -119,7 +119,10 @@ class DashboardController < ApplicationController
   def savefolders(folders,authentication_id,last_modified,bucket_id,size)
     path = ''
     folders.each_with_index do |fld,idx|
-      if size.to_s != "0" && idx == folders.length - 1 && idx != 0
+      if folders.length == 1 && size != "0"
+        return
+      end
+      if size != "0" && idx == folders.length - 1 && idx != 0
         return
       end
       parent_folder = path
@@ -160,13 +163,11 @@ class DashboardController < ApplicationController
       s3object.key = object.key
     end
     folders = s3object.key.to_s.split("/")
-    if folders.length == 0
+    if folders.length == 1
       s3object.rootFolder=true
     else
       s3object.rootFolder=false
-      #if object.size.to_s == "0"
-        savefolders(folders,authentication_id,object.about["last-modified"],bucket_id,object.about["content-length"].to_s)
-      #end
+      savefolders(folders,authentication_id,object.about["last-modified"],bucket_id,object.about["content-length"].to_s)
     end
     s3object.lastModified = object.about["last-modified"]
     if uri.to_s[uri.to_s.length-1] == "/"
@@ -187,8 +188,8 @@ class DashboardController < ApplicationController
       end
     end
     s3object.parent = parent_folder.to_s.rstrip
+    #puts s3object.key.to_s  + "-" + object.about["content-length"].to_s
     if object.about["content-length"].to_s == "0"
-      folders = s3object.key.split('/')
       s3object.folder = true
       s3object.fileName = folders[folders.length - 1]
       s3object.content_length = 0
