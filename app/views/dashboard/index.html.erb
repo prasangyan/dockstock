@@ -1,9 +1,9 @@
 <div class="container">
     <header>
       <div class="topBar">
-        <a href="/Login"><%= image_tag "logo.png" %></a>
+        <a href="/dashboard"><%= image_tag "logo.png" %></a>
         <div class="userInfo">
-          Hello <a href="#"><%= Authentication.find(session[:currentuser]).name %></a> |  <%= link_to "Logout" ,  "/logout" %>
+          Hello <a href="#"><%= @current_user.name %></a> |  <%= link_to "Logout" ,  "/logout" %>
         </div>
       </div>
     </header>
@@ -62,15 +62,15 @@
                             <!-- <span class="docMenu"><a href="#"><img src="img/download.png">Previous Versions</a></span>	-->
                             <!-- Todo: Figure out why when the margin-left is applied to the a element it moves only the first line	. Once I figure out that then I can remove the div tag-->
                             <div>
-                                <a href="/dashboard/<%= s3object.key.sub('/',';') %>" class="<%= s3object.uid == @parent_uid ? "docName selected" : "docName" %>"><%= s3object.fileName %></a>
+                                <a href="/dashboard/<%= s3object.uid %>" class="<%= s3object.uid == @parent_uid ? "docName selected" : "docName" %>"><%= s3object.fileName %></a>
                             </div>
                             <ul class="documentList">
                             <% if s3object.folder == true %>
-                                  <% S3Object.find_all_by_parent(s3object.key).each do |sub_s3object| %>
+                                  <% S3Object.find_all_by_parent_uid(s3object.uid).each do |sub_s3object| %>
                                     <li>
                                         <%= image_tag "#{GetImage(sub_s3object.fileName)}" %>
                                         <div>
-                                            <a href="/dashboard/<%= sub_s3object.key.sub('/',';') %>" class="docName"><%= sub_s3object.fileName %></a>
+                                            <a href="/dashboard/<%= sub_s3object.uid %>" class="docName"><%= sub_s3object.fileName %></a>
                                         </div>
                                     </li>
                                   <% end %>
@@ -96,8 +96,8 @@
                             <li>
                                 <%= image_tag "#{GetImage_Large(s3object.fileName)}" , :class => "#{GetClass(s3object.fileName)}" %>
                                 <% if s3object.folder == true %>
-                                    <a href="/dashboard/<%= s3object.key.sub('/',';') %>"><%= s3object.fileName %></a>
-                                    <p class="documentSummary"><span>Files:</span> <%= S3Object.find_all_by_parent(s3object.key).length %></p>
+                                    <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
+                                    <p class="documentSummary"><span>Files:</span> <%= S3Object.find_all_by_parent_uid(s3object.uid).length %></p>
                                 <% else %>
                                     <a href="<%= s3object.url %>"><%= s3object.fileName %></a>
                                     <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.content_length / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,s3object.lastModified)  %> ago <span>by</span> <a href="#"> Prashant Angyan</a></p>
@@ -163,5 +163,12 @@
     </div>
     -->
 </div>
-
-    
+<% if (Time.now - @current_user.created_at) < 20  %>
+<!-- Popup when the user logged in the dashboard first time -->
+<div class="modalWindow" id="WelcomeBox">
+  <h2>You are all set, <label id="lbl_name"></label>. Thanks!</h2>
+  <p>You can start uploading files easily. Just download the <a href="http://s3.amazonaws.com/VersaVault/AmazonS3FileSyncTool_32Bit.exe">Versa Vault Desktop Client</a>
+  and you can start storing and sharing documents. We also sent you an email with all the details on how to get back here</p>
+  <%= link_to "Lets get started", dashboard_url %>
+</div>
+<% end %>

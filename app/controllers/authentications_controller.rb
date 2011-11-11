@@ -4,6 +4,9 @@ class AuthenticationsController < ApplicationController
   def new
     @error = nil
     @authentication = Authentication.new
+    if session[:currentuser] != nil && Authentication.find_by_id(session[:currentuser]) != nil
+      redirecttohome
+    end
     #if Authentication.find(:all).length > 0
     #  session[:currentuser] = Authentication.find(:first).id
     #  redirecttohome
@@ -57,8 +60,7 @@ class AuthenticationsController < ApplicationController
           session[:currentuser] = newuser.authenticate(params[:username],params[:password]).id
           @status = "Your account has been registered successfully. <br /> Click <a href='/dashboard' > here </a> to view your VersaVault."
           Notifications.signup(newuser).deliver
-          render :success
-          #redirecttohome
+          redirecttohome
           return
         else
           newuser.errors.each do |attr,msg|
@@ -143,7 +145,15 @@ class AuthenticationsController < ApplicationController
     unless params[:username].nil? && params[:password].nil?
       result = Authentication.authenticate(params[:username].to_s,params[:password].to_s)
       unless result.nil?
-        render :json => {:bucket_id => result.bucketKey}
+        unless result.bucketKey.nil?
+          render :json => {:bucket_id => result.bucketKey}
+        else
+          result.bucketKey = result.name + "-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
+          if result.save
+            AWS::S3::Bucket.create(result.bucketKey,:access => :public_read)
+          end
+          render :json => {:bucket_id => result.bucketKey}
+        end
       else
         render :json => {:error => "Invalid username or password"}
       end
