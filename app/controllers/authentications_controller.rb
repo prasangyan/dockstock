@@ -57,8 +57,7 @@ class AuthenticationsController < ApplicationController
           session[:currentuser] = newuser.authenticate(params[:username],params[:password]).id
           @status = "Your account has been registered successfully. <br /> Click <a href='/dashboard' > here </a> to view your VersaVault."
           Notifications.signup(newuser).deliver
-          render :success
-          #redirecttohome
+          redirecttohome
           return
         else
           newuser.errors.each do |attr,msg|

@@ -3,7 +3,7 @@
       <div class="topBar">
         <a href="/Login"><%= image_tag "logo.png" %></a>
         <div class="userInfo">
-          Hello <a href="#"><%= Authentication.find(session[:currentuser]).name %></a> |  <%= link_to "Logout" ,  "/logout" %>
+          Hello <a href="#"><%= @current_user.name %></a> |  <%= link_to "Logout" ,  "/logout" %>
         </div>
       </div>
     </header>
@@ -62,7 +62,7 @@
                             <!-- <span class="docMenu"><a href="#"><img src="img/download.png">Previous Versions</a></span>	-->
                             <!-- Todo: Figure out why when the margin-left is applied to the a element it moves only the first line	. Once I figure out that then I can remove the div tag-->
                             <div>
-                                <a href="/dashboard/<%= s3object.key.sub('/',';') %>" class="<%= s3object.uid == @parent_uid ? "docName selected" : "docName" %>"><%= s3object.fileName %></a>
+                                <a href="/dashboard/<%= s3object.uid %>" class="<%= s3object.uid == @parent_uid ? "docName selected" : "docName" %>"><%= s3object.fileName %></a>
                             </div>
                             <ul class="documentList">
                             <% if s3object.folder == true %>
@@ -70,7 +70,7 @@
                                     <li>
                                         <%= image_tag "#{GetImage(sub_s3object.fileName)}" %>
                                         <div>
-                                            <a href="/dashboard/<%= sub_s3object.key.sub('/',';') %>" class="docName"><%= sub_s3object.fileName %></a>
+                                            <a href="/dashboard/<%= sub_s3object.uid %>" class="docName"><%= sub_s3object.fileName %></a>
                                         </div>
                                     </li>
                                   <% end %>
@@ -163,5 +163,15 @@
     </div>
     -->
 </div>
+<% if (Time.now - @current_user.created_at) < 20  %>
+<!-- Popup when the user logged in the dashboard first time -->
+<div class="modalWindow" id="WelcomeBox">
+  <h2>You are all set, <label id="lbl_name"></label>. Thanks!</h2>
+  <p>You can start uploading files easily. Just download the <a href="http://s3.amazonaws.com/VersaVault/AmazonS3FileSyncTool_32Bit.exe">Versa Vault Desktop Client</a>
+  and you can start storing and sharing documents. We also sent you an email with all the details on how to get back here</p>
+  <%= link_to "Lets get started", dashboard_url %>
+</div>
+<% end %>
+
 
     

@@ -1,9 +1,10 @@
 class DashboardController < ApplicationController
               before_filter :isuserloggedin , :except => "syncamazon"
   def index
+    @current_user = Authentication.find(session[:currentuser])
     unless params[:key].nil?
-      @s3objects = S3Object.find_all_by_parent_and_authentication_id(params[:key].to_s.sub(";","/"),session[:currentuser])
-      folder = S3Object.find_by_key_and_authentication_id(params[:key].to_s.sub(";","/"),session[:currentuser])
+      @s3objects = S3Object.find_all_by_uid_and_authentication_id(params[:key].to_s,session[:currentuser])
+      folder = S3Object.find_by_uid_and_authentication_id(params[:key].to_s,session[:currentuser])
       @parent_uid = 0
       unless folder.nil?
         @folder = folder.folder
