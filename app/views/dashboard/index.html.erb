@@ -96,7 +96,7 @@
                             <li>
                                 <%= image_tag "#{GetImage_Large(s3object.fileName)}" , :class => "#{GetClass(s3object.fileName)}" %>
                                 <% if s3object.folder == true %>
-                                    <a href="/dashboard/<%= s3object.key.sub('/',';') %>"><%= s3object.fileName %></a>
+                                    <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
                                     <p class="documentSummary"><span>Files:</span> <%= S3Object.find_all_by_parent(s3object.key).length %></p>
                                 <% else %>
                                     <a href="<%= s3object.url %>"><%= s3object.fileName %></a>
@@ -172,6 +172,3 @@
   <%= link_to "Lets get started", dashboard_url %>
 </div>
 <% end %>
-
-
-    

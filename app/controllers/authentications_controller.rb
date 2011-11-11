@@ -4,6 +4,9 @@ class AuthenticationsController < ApplicationController
   def new
     @error = nil
     @authentication = Authentication.new
+    if session[:currentuser] != nil && Authentication.find_by_id(session[:currentuser]) != nil
+      redirecttohome
+    end
     #if Authentication.find(:all).length > 0
     #  session[:currentuser] = Authentication.find(:first).id
     #  redirecttohome

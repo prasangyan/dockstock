@@ -146,8 +146,7 @@ var readableBytes = function(bytes) {
 				<li><%= link_to "Home", dashboard_url %></li>
             </ul>
         </div>
-
-        function submit_form()
+      function submit_form()
     {
         $.ajax({
             url: "/createuser",
