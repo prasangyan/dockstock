@@ -64,7 +64,11 @@ module DashboardHelper
     minutes = minutes - (hours * 60)
     hours = hours - (days * 24)
     words = dist <= 0 ? '' : '-'
-    words << "#{days} #{days > 1 ? 'days' : 'day' } and " if days > 0
+    if days > 0
+      words << "#{days} #{days > 1 ? 'days' : 'day' } and "
+    else
+      words = ''
+    end
     words << "#{hours} #{hours > 1 ? 'hours' : 'hour' } and " if hours > 0
     words << "#{minutes} #{minutes == 1 ? 'minute' : 'minutes' }"
   end
