@@ -4,19 +4,19 @@ class DashboardController < ApplicationController
     @current_user = Authentication.find(session[:currentuser])
     unless params[:key].nil?
       @s3objects = S3Object.find_all_by_parent_uid_and_authentication_id(params[:key].to_s,session[:currentuser])
-      folder = S3Object.find_by_uid_and_authentication_id(params[:key].to_s,session[:currentuser])
+      @s3object = S3Object.find_by_uid_and_authentication_id(params[:key].to_s,session[:currentuser])
       @parent_uid = 0
-      unless folder.nil?
-        @folder = folder.folder
-        @parent_uid = folder.uid
+      unless @s3object.nil?
+        @folder = @s3object.folder
+        @parent_uid = @s3object.uid
       else
         @folder = false
       end
       @share_object_name = params[:key]
-      @s3objects_root = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
+      @s3objects_root = S3Object.find_all_by_parent_uid_and_authentication_id("0",session[:currentuser])
       return
     end
-    @s3objects = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
+    @s3objects = S3Object.find_all_by_parent_uid_and_authentication_id("0",session[:currentuser])
     @s3objects_root = @s3objects
     @folder = true
     @parent_uid = 0

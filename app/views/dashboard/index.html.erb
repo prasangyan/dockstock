@@ -90,7 +90,18 @@
                     <p><span class="metaDataTitle">Last Modified by: </span><a href="#">Prashant Angyan</a></p>
                 </div>-->
                 <div class="contentFileList">
-                    <h2>All files <span>Previous Versions</span></h2>
+                    <h2>
+                      <% if @parent_uid == 0 %>
+                      All files
+                      <% else %>
+                          <%= @s3object.fileName %>
+                          <% if @s3object.folder != true %>
+                            <span>Previous Versions</span>
+                          <% else %>
+                            <span> - Files</span>
+                          <% end %>
+                      <% end %>
+                    </h2>
                     <ul>
                         <% @s3objects.each do |s3object| %>
                             <li>
@@ -164,11 +175,11 @@
     -->
 </div>
 <% if (Time.now - @current_user.created_at) < 20  %>
-<!-- Popup when the user logged in the dashboard first time -->
-<div class="modalWindow" id="WelcomeBox">
-  <h2>You are all set, <label id="lbl_name"></label>. Thanks!</h2>
-  <p>You can start uploading files easily. Just download the <a href="http://s3.amazonaws.com/VersaVault/AmazonS3FileSyncTool_32Bit.exe">Versa Vault Desktop Client</a>
-  and you can start storing and sharing documents. We also sent you an email with all the details on how to get back here</p>
-  <%= link_to "Lets get started", dashboard_url %>
-</div>
+    <!-- Popup when the user logged in the dashboard first time -->
+    <div class="modalWindow" id="WelcomeBox">
+        <h2>You are all set, <label id="lbl_name"></label>. Thanks!</h2>
+        <p>You can start uploading files easily. Just download the <a href="http://s3.amazonaws.com/VersaVault/AmazonS3FileSyncTool_32Bit.exe">Versa Vault Desktop Client</a>
+            and you can start storing and sharing documents. We also sent you an email with all the details on how to get back here</p>
+        <%= link_to "Lets get started", dashboard_url %>
+    </div>
 <% end %>
