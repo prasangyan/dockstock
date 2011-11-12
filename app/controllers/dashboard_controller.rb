@@ -13,10 +13,10 @@ class DashboardController < ApplicationController
         @folder = false
       end
       @share_object_name = params[:key]
-      @s3objects_root = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
+      @s3objects_root = S3Object.find_all_by_parent_uid_and_authentication_id("0",session[:currentuser])
       return
     end
-    @s3objects = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
+    @s3objects = S3Object.find_all_by_parent_uid_and_authentication_id("0",session[:currentuser])
     @s3objects_root = @s3objects
     @folder = true
     @parent_uid = 0
