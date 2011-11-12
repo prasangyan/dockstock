@@ -90,7 +90,18 @@
                     <p><span class="metaDataTitle">Last Modified by: </span><a href="#">Prashant Angyan</a></p>
                 </div>-->
                 <div class="contentFileList">
-                    <h2>All files <span>Previous Versions</span></h2>
+                    <h2>
+                      <% if @parent_uid == 0 %>
+                      All files
+                      <% else %>
+                          <%= @s3object.fileName %>
+                          <% if @s3object.folder != true %>
+                            <span>Previous Versions</span>
+                          <% else %>
+                            <span> - Files</span>
+                          <% end %>
+                      <% end %>
+                    </h2>
                     <ul>
                         <% @s3objects.each do |s3object| %>
                             <li>
