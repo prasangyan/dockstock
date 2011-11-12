@@ -208,8 +208,15 @@ class DashboardController < ApplicationController
       puts ex.message
     end
     s3object.parent_uid = parent_uid
-    s3object.save
+    unless s3object.save
+      begin
+        s3obj = S3Object.find_by_key(s3object.key)
+        unless s3obj.nil?
+          s3obj.lastModified = s3object.lastModified
+          s3obj.save
+        end
+      end
+    end
   end
-
 end
 
