@@ -17,6 +17,7 @@ S3FileManager::Application.routes.draw do
   match 'SyncAmazon', :controller => "dashboard", :action =>"syncamazon"
   match 'dashboard', :controller => "dashboard", :action => "index"
   match 'shareDocument', :controller => "dashboard", :action => "share"
+  match '/versions', :controller => "dashboard", :action => "versions"
   match '/dashboard(/:key)', :controller => "dashboard", :action => "index"
   match ':controller/:action/:id'
   match ':controller/:action'

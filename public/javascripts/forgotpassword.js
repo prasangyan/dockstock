@@ -44,4 +44,5 @@
     {
       $('.errorContainer').fadeOut(1000);
     }
+    $('#emailid').focus();
 })(jQuery);

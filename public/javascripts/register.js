@@ -56,4 +56,5 @@
         //return false;
         $('#BtnSignUp').unbind('click').html('Please wait....');
     });
+    $('#name').focus();
 })(jQuery);

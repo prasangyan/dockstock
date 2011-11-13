@@ -92,4 +92,5 @@ $(function() {
         $('#fancybox-outer').trigger('click');
         $('.fancybox-bg').trigger('click');
     }
+    $('#emailInvite').focus();
 });

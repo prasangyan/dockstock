@@ -1,16 +1,41 @@
 class DashboardController < ApplicationController
               before_filter :isuserloggedin , :except => "syncamazon"
+  def versions
+    s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+     Authentication.all.each do |authentication|
+        bucket = s3.buckets[authentication.bucketKey]
+        unless bucket.nil?
+          bucket.objects.each do |object|
+            puts object.versions.count
+            object.versions.each do |version|
+                puts version.key
+            end
+          end
+        end
+     end
+    render :text => "done"
+  end
+
   def index
     @current_user = Authentication.find(session[:currentuser])
     unless params[:key].nil?
-      @s3objects = S3Object.find_all_by_parent_uid_and_authentication_id(params[:key].to_s,session[:currentuser])
+      @s3objects = []
       @s3object = S3Object.find_by_uid_and_authentication_id(params[:key].to_s,session[:currentuser])
       @parent_uid = 0
+      @folder = false
       unless @s3object.nil?
         @folder = @s3object.folder
         @parent_uid = @s3object.uid
+      end
+      if @folder == false
+         # loading file version history
+        s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+        bucket = s3.buckets[@current_user.bucketKey]
+        unless bucket.nil?
+          @s3objects = bucket.objects[@s3object.key].versions
+        end
       else
-        @folder = false
+        @s3objects = S3Object.find_all_by_parent_uid_and_authentication_id(params[:key].to_s,session[:currentuser])
       end
       @share_object_name = params[:key]
       @s3objects_root = S3Object.find_all_by_parent_uid_and_authentication_id("0",session[:currentuser])
