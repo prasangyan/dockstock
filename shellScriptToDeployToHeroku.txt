@@ -1,0 +1,9 @@
+echo "The current working directory is"
+pwd
+echo "Adding Heroku as a remote"
+git remote add heroku git@heroku.com:staging-versavault.git
+echo "Pushing to heroku"
+pushResult= git push git@heroku.com:staging-versavault.git staging:master
+if pushResult -eq 0; then
+	heroku rake db:migrate
+fi

@@ -1,0 +1,117 @@
+body {
+    background-color: #444;
+    background-image: -webkit-radial-gradient(hsla(0,0%,0%,.3) 15%, transparent 16%),
+                      -webkit-radial-gradient(hsla(0,0%,0%,.3) 15%, transparent 16%),
+                      -webkit-radial-gradient(hsla(0,0%,100%,.1) 15%, transparent 20%),
+                      -webkit-radial-gradient(hsla(0,0%,100%,.1) 15%, transparent 20%);
+    background-image:    -moz-radial-gradient(hsla(0,0%,0%,.3) 15%, transparent 16%),
+                         -moz-radial-gradient(hsla(0,0%,0%,.3) 15%, transparent 16%),
+                         -moz-radial-gradient(hsla(0,0%,100%,.1) 15%, transparent 20%),
+                         -moz-radial-gradient(hsla(0,0%,100%,.1) 15%, transparent 20%);
+    background-image:         radial-gradient(hsla(0,0%,0%,.3) 15%, transparent 16%),
+                              radial-gradient(hsla(0,0%,0%,.3) 15%, transparent 16%),
+                              radial-gradient(hsla(0,0%,100%,.1) 15%, transparent 20%),
+                              radial-gradient(hsla(0,0%,100%,.1) 15%, transparent 20%);
+    background-position: 0 0, 8px 8px, 0 1px, 8px 9px;
+    background-size:16px 16px;
+    padding: 50px;
+}
+
+/* Button */
+
+a {
+    background-color: #222;
+    background-image: -webkit-linear-gradient(hsla(0,0%,100%,.15), hsla(0,0%,0%,0));
+    background-image:    -moz-linear-gradient(hsla(0,0%,100%,.15), hsla(0,0%,0%,0));
+    background-image:     -ms-linear-gradient(hsla(0,0%,100%,.15), hsla(0,0%,0%,0));
+    background-image:      -o-linear-gradient(hsla(0,0%,100%,.15), hsla(0,0%,0%,0));
+    background-image:         linear-gradient(hsla(0,0%,100%,.15), hsla(0,0%,0%,0));
+    border: 1px solid #111;
+    color: #c6c6c6;
+    float: left;
+    font: bold 14px/30px sans-serif;
+    height: 30px;
+    margin: 10px 20px;
+    padding: 0 15px;
+    position: relative;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px hsla(0,0%,0%,.8);
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
+    -webkit-box-shadow: 0 1px 4px hsla(0,0%,0%,.4),
+                        inset 0 1px 0 hsla(0,0%,100%,.2);
+       -moz-box-shadow: 0 1px 4px hsla(0,0%,0%,.4),
+                        inset 0 1px 0 hsla(0,0%,100%,.2);
+            box-shadow: 0 1px 4px hsla(0,0%,0%,.4),
+                        inset 0 1px 0 hsla(0,0%,100%,.2);
+}
+a:hover, a:focus {
+    background-color: #242424;
+    color: #f6f6f6;
+    -webkit-box-shadow: 0 1px 4px hsla(0,0%,0%,.4),
+                        inset 0 1px 0 hsla(0,0%,100%,.2);
+       -moz-box-shadow: 0 1px 4px hsla(0,0%,0%,.4),
+                        inset 0 1px 0 hsla(0,0%,100%,.2);
+            box-shadow: 0 1px 4px hsla(0,0%,0%,.4),
+                        inset 0 1px 0 hsla(0,0%,100%,.2);
+}
+a:after {
+    background-image: -webkit-linear-gradient(left, hsla(0,0%,0%,0), hsla(0,0%,100%,.8), hsla(0,0%,0%,0));
+    background-image:    -moz-linear-gradient(left, hsla(0,0%,0%,0), hsla(0,0%,100%,.8), hsla(0,0%,0%,0));
+    background-image:     -ms-linear-gradient(left, hsla(0,0%,0%,0), hsla(0,0%,100%,.8), hsla(0,0%,0%,0));
+    background-image:      -o-linear-gradient(left, hsla(0,0%,0%,0), hsla(0,0%,100%,.8), hsla(0,0%,0%,0));
+    background-image:         linear-gradient(left, hsla(0,0%,0%,0), hsla(0,0%,100%,.8), hsla(0,0%,0%,0));
+    background-position: 50% 0%;
+    background-size: 200% 200%;
+    content: '';
+    display: none;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+a:hover:after, a:focus:after {
+    display: block;
+}
+a:before {
+    background: #363636;
+    bottom: -8px;
+    content: '';
+    left: -8px;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    z-index: -1;
+    -webkit-border-radius: 6px;
+       -moz-border-radius: 6px;
+            border-radius: 6px;
+    -webkit-box-shadow: 0 1px 1px hsla(0,0%,100%,.3),
+                        inset 0 1px 1px hsla(0,0%,0%,.4),
+                        inset 0 0 5px hsla(0,0%,0%,.2);
+       -moz-box-shadow: 0 1px 1px hsla(0,0%,100%,.3),
+                        inset 0 1px 1px hsla(0,0%,0%,.4),
+                        inset 0 0 5px hsla(0,0%,0%,.2);
+            box-shadow: 0 1px 1px hsla(0,0%,100%,.3),
+                        inset 0 1px 1px hsla(0,0%,0%,.4),
+                        inset 0 0 5px hsla(0,0%,0%,.2);
+}
+a:active {
+    background-color: #202020;
+    color: #b6b6b6;
+    line-height: 32px;
+    -webkit-box-shadow: 0 1px 0 hsla(0,0%,100%,.1),
+                        inset 0 1px 4px hsla(0,0%,0%,.8);
+       -moz-box-shadow: 0 1px 0 hsla(0,0%,100%,.1),
+                        inset 0 1px 4px hsla(0,0%,0%,.8);
+            box-shadow: 0 1px 0 hsla(0,0%,100%,.1),
+                        inset 0 1px 4px hsla(0,0%,0%,.8);
+}
+a:active:after {
+    display: block;
+    left: 1px;
+    opacity: .5;
+    right: 1px;
+    top: 31px;
+}
