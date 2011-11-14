@@ -1,12 +1,19 @@
 namespace :launch do
-  desc "Deploy to staging-versavault.heroku.com"
+  desc "Pull source from github and overwrite the local copy"
+  task "githubPull" do
+    sh "git checkout staging"
+    sh "git reset --hard HEAD"
+    sh "git clean -f -d"
+    sh "git pull origin staging"
+  end
 
-  task "staging" do
+  desc "Deploy to staging-versavault.heroku.com"
+  task "staging" => "githubPull" do
 		# Push to Heroku, migrate and restartl
 		# Todo: Check if remote heroku exists otherwise create it.
-		%x[git push heroku staging:master -f]
-		%x[heroku rake db:migrate --app staging-versavault]
-		%x[heroku rake db:seed --app staging-versavault]
-		%x[heroku restart --app staging-versavault]
+		sh "git push heroku staging:master -f"
+		sh "heroku rake db:migrate --app staging-versavault"
+		sh "heroku rake db:seed --app staging-versavault"
+		sh "heroku restart --app staging-versavault"
   end
 end
