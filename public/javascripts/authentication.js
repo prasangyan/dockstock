@@ -35,4 +35,5 @@
     $('form').submit(function() {
         $('#BtnLogIn').unbind('click').html('Logging...');
     });
+    $('#emailid').focus();
 })(jQuery);

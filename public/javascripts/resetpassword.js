@@ -46,4 +46,5 @@
     $('#loginForm').submit(function() {
         return validateForm();
     });
+    $('#password').focus();
 })(jQuery);

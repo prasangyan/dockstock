@@ -4,6 +4,9 @@ class AuthenticationsController < ApplicationController
   def new
     @error = nil
     @authentication = Authentication.new
+    if session[:currentuser] != nil && Authentication.find_by_id(session[:currentuser]) != nil
+      redirecttohome
+    end
     #if Authentication.find(:all).length > 0
     #  session[:currentuser] = Authentication.find(:first).id
     #  redirecttohome
@@ -57,7 +60,6 @@ class AuthenticationsController < ApplicationController
           session[:currentuser] = newuser.authenticate(params[:username],params[:password]).id
           @status = "Your account has been registered successfully. <br /> Click <a href='/dashboard' > here </a> to view your VersaVault."
           Notifications.signup(newuser).deliver
-          #render :success
           redirecttohome
           return
         else

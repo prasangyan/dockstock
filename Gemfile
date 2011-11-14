@@ -11,6 +11,7 @@ gem 'pg'
 
 gem 'aws-s3', :require => 'aws/s3'
 
+gem "aws-sdk"
 
 # Use unicorn as the web server
 # gem 'unicorn'

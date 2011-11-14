@@ -1,26 +1,51 @@
 class DashboardController < ApplicationController
               before_filter :isuserloggedin , :except => "syncamazon"
+  def versions
+    s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+     Authentication.all.each do |authentication|
+        bucket = s3.buckets[authentication.bucketKey]
+        unless bucket.nil?
+          bucket.objects.each do |object|
+            puts object.versions.count
+            object.versions.each do |version|
+                puts version.key
+            end
+          end
+        end
+     end
+    render :text => "done"
+  end
+
   def index
     @current_user = Authentication.find(session[:currentuser])
     unless params[:key].nil?
-      @s3objects = S3Object.find_all_by_parent_and_authentication_id(params[:key].to_s.sub(";","/"),session[:currentuser])
-      folder = S3Object.find_by_key_and_authentication_id(params[:key].to_s.sub(";","/"),session[:currentuser])
+      @s3objects = []
+      @s3object = S3Object.find_by_uid_and_authentication_id(params[:key].to_s,session[:currentuser])
       @parent_uid = 0
-      unless folder.nil?
-        @folder = folder.folder
-        @parent_uid = folder.uid
+      @folder = false
+      unless @s3object.nil?
+        @folder = @s3object.folder
+        @parent_uid = @s3object.uid
+      end
+      if @folder == false
+         # loading file version history
+        s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+        bucket = s3.buckets[@current_user.bucketKey]
+        unless bucket.nil?
+          @s3objects = bucket.objects[@s3object.key].versions
+        end
       else
-        @folder = false
+        @s3objects = S3Object.find_all_by_parent_uid_and_authentication_id(params[:key].to_s,session[:currentuser])
       end
       @share_object_name = params[:key]
-      @s3objects_root = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
-    else
-      @s3objects = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
-      @s3objects_root = S3Object.find_all_by_parent_and_authentication_id('',session[:currentuser])
-      @folder = true
-      @parent_uid = 0
-      @share_object_name = ''
+      @s3objects_root = S3Object.find_all_by_parent_uid_and_authentication_id("0",session[:currentuser])
+      return
     end
+    @s3objects = S3Object.find_all_by_parent_uid_and_authentication_id("0",session[:currentuser])
+    @s3objects_root = @s3objects
+    @folder = true
+    @parent_uid = 0
+    @share_object_name = ''
 =begin
     #@buckets = AWS::S3::Service.buckets(:reload)
     values = {}
@@ -72,108 +97,16 @@ class DashboardController < ApplicationController
       end
     end
 =end
+
   end
 
   def share
     render :layout => false
   end
+
   def syncamazon
-    Authentication.all.each do |authentication|
-      unless authentication.bucketKey.nil?
-        begin
-          bucket = AWS::S3::Bucket.find(authentication.bucketKey)
-          unless bucket.nil?
-            bucket.objects.each do |object|
-              saveobject(object,true,"",authentication.id)
-            end
-          end
-        rescue => ex
-          if ex.message == "The specified bucket does not exist"
-            AWS::S3::Bucket.create(authentication.bucketKey,:access => :public_read)
-          end
-        end
-      else
-        authentication.bucketKey = authentication.name + "-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
-        if authentication.save
-          AWS::S3::Bucket.create(authentication.bucketKey,:access => :public_read)
-        end
-      end
-    end
+    system "rake syncamazon"
     render :text => "done"
   end
-  private
-  def sync(key,authentication_id)
-    bucket = AWS::S3::Bucket.find(S3SwfUpload::S3Config.bucket, :prefix => key)
-    bucket.objects.each do |object|
-      if object.key != key
-        saveobject(object,false,key,authentication_id)
-      end
-    end
-  end
-  def saveobject(object,root_folder,parent_folder,authentication_id)
-    uri = URI.parse(object.url)
-    uri.query = nil
-    folders = object.key.split('/')
-    s3object = S3Object.new
-    if object.key.to_s[object.key.length-1] == "/"
-      s3object.key = object.key[0..object.key.length-2]
-    else
-      s3object.key = object.key
-    end
-    s3object.lastModified = object.about["last-modified"]
-    s3object.rootFolder=root_folder
-    s3object.url = uri.to_s
-    if parent_folder.to_s[parent_folder.length-1] == "/"
-      s3object.parent = parent_folder[0..parent_folder.length-2]
-    else
-      s3object.parent = parent_folder
-    end
-    if object.size.to_s == "0"
-      folders = s3object.key.split('/')
-      s3object.fileName = folders[folders.length - 1]
-      s3object.folder=true
-      sync(object.key,authentication_id)
-    else
-      s3object.content_length = object.about["content-length"]
-      s3object.fileName = folders[folders.length - 1]
-      s3object.folder = false
-    end
-    s3object.uid = Time.now.strftime("%Y%m%d%H%M%S%L")
-    s3object.authentication_id = authentication_id
-    s3object.save
-  end
 end
 
-
-# un used class
-class SObject
-  attr_accessor :name, :content_length,:child,:last_modified,:size , :url, :key
-  @name = ""
-  @child = ""
-  @content_length = 0
-  @last_modified = Time.now
-  @size = 0
-  @url = ""
-  @key = ""
-  def name=(name)
-    @name = name
-  end
-  def child=(setchild)
-    @child = setchild
-  end
-  def content_length=(content_length)
-    @content_length = content_length
-  end
-  def last_modified=(last_modified)
-    @last_modified = last_modified
-  end
-  def size=(size)
-    @size = size
-  end
-  def url=(url)
-    @url = url
-  end
-  def key=(key)
-    @key = key
-  end
-end

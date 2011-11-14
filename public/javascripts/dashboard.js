@@ -19,10 +19,10 @@ $(function() {
 	    $(this).parent('div').parent('li').children('ul').show();
 	}
 	function out_a(){
-	/* Todo: Figure out how to hide this when they click on the link again
-	$(this).parent('div').parent('li').children('ul').hide();
-	*/
+	// Todo: Figure out how to hide this when they click on the link again
+	    //$(this).parent('div').parent('li').children('ul').hide();
     }
+    $('.documentList').mouseleave(function() { $(this).hide(); });
     if($('#WelcomeBox').size() > 0)
     {
         $.fancybox({
