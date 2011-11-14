@@ -13,7 +13,7 @@ namespace :launch do
 		# Todo: Check if remote heroku exists otherwise create it. Force creating for now
     # sh "git remote add heroku git@heroku.com:staging-versavault.git"
 		sh "git push heroku staging:master -f"
-    sh "bundle exec heroku run rake --app staging-versavault db:migrate"
+    sh "bundle exec heroku run rake --app staging-versavault db:migrate --trace"
     sh "bundle exec heroku run rake db:seed --app staging-versavault"
     sh "bundle exec heroku restart --app staging-versavault"
   end
