@@ -11,7 +11,7 @@ namespace :launch do
   task "staging" => "githubPull" do
 		# Push to Heroku, migrate and restartl
 		# Todo: Check if remote heroku exists otherwise create it. Force creating for now
-    sh "git remote add heroku git@heroku.com:staging-versavault.git"
+    # sh "git remote add heroku git@heroku.com:staging-versavault.git"
 		sh "git push heroku staging:master -f"
 		sh "heroku rake db:migrate --app staging-versavault"
 		sh "heroku rake db:seed --app staging-versavault"
