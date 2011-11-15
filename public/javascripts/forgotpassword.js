@@ -25,14 +25,14 @@
             }
             else
             {
-                $('.errorContainer').html("Oops please input valid email.").show();
+                $('.errorContainer').html("Invalid email address. Please change it and try again..").show();
                 setTimeout(hideflash,5000);
                 return false;
             }
         }
         else
         {
-            $('.errorContainer').html("Oops please input email.").show();
+            $('.errorContainer').html("You cannot leave the email address field blank. Please fill it and try again.").show();
             setTimeout(hideflash,5000);
             return false;
         }

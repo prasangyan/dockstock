@@ -18,13 +18,13 @@
             }
             else
             {
-                $('.errorContainer').html("Please input valid email.").show();
+                $('.errorContainer').html("Invalid email address or password. Please try again.").show();
                 setTimeout(hideflash,5000);
             }
         }
         else
         {
-            $('.errorContainer').html("Please input the fields properly.").show();
+            $('.errorContainer').html("Invalid email address or password. Please try again.").show();
             setTimeout(hideflash,5000);     
         }
     });
@@ -33,7 +33,7 @@
       $('.errorContainer').fadeOut(1000);
     }
     $('form').submit(function() {
-        $('#BtnLogIn').unbind('click').html('Logging...');
+        $('#BtnLogIn').unbind('click').html('Logging in...');
     });
     $('#emailid').focus();
 })(jQuery);
