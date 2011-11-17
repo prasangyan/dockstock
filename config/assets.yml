@@ -1,0 +1,20 @@
+package_assets: always
+compress_assets: on
+embed_assets: on
+
+javascripts:
+  common:
+    - public/javascripts/vendor/jquery.js
+    - public/javascripts/*.js
+    - public/javascripts/lib/*.js
+    - public/javascripts/mylibs/*.js
+    - public/javascripts/profiling/*.js
+    - app/views/workspace/*.jst
+
+stylesheets:
+  common:
+    - public/stylesheets/*.css
+  workspace:
+    - public/stylesheets/pages/workspace.css
+  empty:
+    - public/stylesheets/pages/empty.css
