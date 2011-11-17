@@ -9,12 +9,12 @@
         begin
           bucket = AWS::S3::Bucket.find(authentication.bucketKey)
           unless bucket.nil?
+            S3Object.find_all_by_authentication_id(authentication.id).delete_all
             bucket.objects.each do |object|
               saveobject(object,authentication.bucketKey,authentication.id)
             end
           end
         rescue => ex
-          puts ex.message
           if ex.message == "The specified bucket does not exist"
             AWS::S3::Bucket.create(authentication.bucketKey,:access => :public_read)
           end
