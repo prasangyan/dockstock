@@ -97,15 +97,12 @@ class DashboardController < ApplicationController
       end
     end
 =end
-
   end
-
   def share
     render :layout => false
   end
-
   def syncamazon
-    system "rake syncamazon"
+    system "rake syncamazon --trace"
     render :text => "done"
   end
 end

@@ -4,34 +4,45 @@
   end
   private
   def startsync
+    s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
     Authentication.all.each do |authentication|
       unless authentication.bucketKey.nil?
         begin
-          bucket = AWS::S3::Bucket.find(authentication.bucketKey)
+          #bucket = AWS::S3::Bucket.find(authentication.bucketKey)
+          bucket = s3.buckets[authentication.bucketKey]
           unless bucket.nil?
-            S3Object.find_all_by_authentication_id(authentication.id).delete_all
+            begin
+              S3Object.find_all_by_authentication_id(authentication.id).each do |object|
+                object.destroy
+              end
+            rescue => ex
+              puts ex.message
+            end
             bucket.objects.each do |object|
-              saveobject(object,authentication.bucketKey,authentication.id)
+              saveobject(s3,object,authentication.bucketKey,authentication.id)
             end
           end
         rescue => ex
           if ex.message == "The specified bucket does not exist"
-            AWS::S3::Bucket.create(authentication.bucketKey,:access => :public_read)
+            bucket = s3.buckets.create(authentication.bucketKey)
+          else
+            puts ex.message
           end
         end
       else
         authentication.bucketKey = authentication.name + "-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
         if authentication.save
-          AWS::S3::Bucket.create(authentication.bucketKey,:access => :public_read)
+          bucket = s3.buckets.create(authentication.bucketKey)
         end
       end
     end
   end
-  def sync(key,bucket_id,authentication_id)
-    bucket = AWS::S3::Bucket.find(bucket_id, :prefix => key)
-    bucket.objects.each do |object|
+  def sync(s3,key,bucket_id,authentication_id)
+    #bucket = AWS::S3::Bucket.find(bucket_id, :prefix => key)
+    bucket = s3.buckets[bucket_id]
+    bucket.objects(key).each do |object|
       if object.key != key
-        saveobject(object,bucket_id,authentication_id)
+        saveobject(s3,object,bucket_id,authentication_id)
       end
     end
   end
@@ -71,8 +82,8 @@
       s3obj.save
       end
   end
-  def saveobject(object,bucket_id,authentication_id)
-    uri = URI.parse(object.url)
+  def saveobject(s3,object,bucket_id,authentication_id)
+    uri = URI.parse(object.key)
     uri.query = nil
     s3object = S3Object.new
     if object.key.to_s[object.key.length-1] == "/"
@@ -85,9 +96,11 @@
       s3object.rootFolder=true
     else
       s3object.rootFolder=false
-      savefolders(folders,authentication_id,object.about["last-modified"],bucket_id,object.about["content-length"].to_s)
+      #savefolders(folders,authentication_id,object.about["last-modified"],bucket_id,object.about["content-length"].to_s)
+      savefolders(folders,authentication_id,object.last_modified,bucket_id,object.content_length.to_s)
     end
-    s3object.lastModified = object.about["last-modified"]
+    #s3object.lastModified = object.about["last-modified"]
+    s3object.lastModified = object.last_modified
     if uri.to_s[uri.to_s.length-1] == "/"
       s3object.url = uri.to_s[0..uri.to_s.length-2]
     else
@@ -96,7 +109,8 @@
     parentfolder =s3object.key.split("/")
     parent_folder = ''
     parentfolder.each_with_index do |fld,idx|
-      if object.about["content-length"] != "0" && idx == parentfolder.length - 1 && idx != 0
+    #if object.about["content-length"] != "0" && idx == parentfolder.length - 1 && idx != 0
+    if object.content_length != "0" && idx == parentfolder.length - 1 && idx != 0
       else
           if parent_folder == ''
             parent_folder = fld.to_s.rstrip
@@ -107,13 +121,15 @@
     end
     s3object.parent = parent_folder.to_s.rstrip
     #puts s3object.key.to_s  + "-" + object.about["content-length"].to_s
-    if object.about["content-length"].to_s == "0"
+    #if object.about["content-length"].to_s == "0"
+    if object.content_length.to_s == "0"
       s3object.folder = true
       s3object.fileName = folders[folders.length - 1]
       s3object.content_length = 0
-      sync(object.key,bucket_id,authentication_id)
+      sync(s3,object.key,bucket_id,authentication_id)
     else
-      s3object.content_length = object.about["content-length"]
+      #s3object.content_length = object.about["content-length"]
+      s3object.content_length = object.content_length
       s3object.fileName = folders[folders.length - 1]
       s3object.folder = false
     end
@@ -123,10 +139,10 @@
     begin
       parent_uid = S3Object.find_by_key_and_authentication_id(parent_folder,authentication_id).uid
     rescue => ex
-      puts ex.message
     end
     s3object.parent_uid = parent_uid
     unless s3object.save
+      puts s3object.errors.full_messages
       begin
         s3obj = S3Object.find_by_url(s3object.url)
         unless s3obj.nil?

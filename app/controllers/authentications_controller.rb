@@ -13,12 +13,10 @@ class AuthenticationsController < ApplicationController
     #  return
     #end
   end
-
   def logout
     session[:currentuser] = nil
     redirect_to login_url
   end
-
   # POST /authentications
   # POST /authentications.xml
   def create
@@ -34,11 +32,9 @@ class AuthenticationsController < ApplicationController
       @authentication.username = params[:username]
       render :new
   end
-
   def register
     @authentication = Authentication.new
   end
-
   def createuser
     @error = nil
     unless params[:name].nil? && params[:username] && params[:password].nil?
@@ -50,9 +46,11 @@ class AuthenticationsController < ApplicationController
         if newuser.save
           newuser.bucketKey = ''
           begin
-            newuser.bucketKey = newuser.name + "-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
-            AWS::S3::Bucket.create(newuser.bucketKey,:access => :public_read)
-            bucket = AWS::S3::Bucket.find(newuser.bucketKey)
+            newuser.bucketKey = newuser.name.downcase + "-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
+            #AWS::S3::Bucket.create(newuser.bucketKey)
+            #bucket = AWS::S3::Bucket.find(newuser.bucketKey)
+            s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+            bucket = s3.buckets.create(newuser.bucketKey)
             unless bucket.nil?
               newuser.save
             end
@@ -78,12 +76,10 @@ class AuthenticationsController < ApplicationController
     @authentication.name = params[:name]
     render :register
   end
-
   def redirecttohome
     redirect_to dashboard_url
     #redirect_to :controller => "dashboard", :action => "index"
   end
-
   def forgotpassword
     unless params[:username].nil?
       user = Authentication.find(:first, :conditions => "username = '#{params[:username]}'")
@@ -96,10 +92,8 @@ class AuthenticationsController < ApplicationController
       end
     end
   end
-
   def success
   end
-
   def resetpassword
     @user = nil
     unless params[:id].nil?
@@ -115,7 +109,6 @@ class AuthenticationsController < ApplicationController
       render :success
     end
   end
-
   def setpassword
     unless params[:password].nil? and params[:confirm_password].nil? and params[:reset_code].nil?
       if params[:password] == params[:confirm_password]
@@ -138,9 +131,7 @@ class AuthenticationsController < ApplicationController
         render :success
     end
   end
-
   #methods for sync tool
-
   def getamazonbucketid
     unless params[:username].nil? && params[:password].nil?
       result = Authentication.authenticate(params[:username].to_s,params[:password].to_s)
@@ -150,7 +141,12 @@ class AuthenticationsController < ApplicationController
         else
           result.bucketKey = result.name + "-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
           if result.save
-            AWS::S3::Bucket.create(result.bucketKey,:access => :public_read)
+            #AWS::S3::Bucket.create(result.bucketKey,:access => :public_read)
+            s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+            bucket = s3.buckets.create(result.bucketKey)
+            unless bucket.nil?
+              result.save
+            end
           end
           render :json => {:bucket_id => result.bucketKey}
         end
@@ -161,5 +157,4 @@ class AuthenticationsController < ApplicationController
       render :json => {:error => "Invalid parameters password"}
     end
   end
-
 end
