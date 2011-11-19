@@ -46,7 +46,7 @@ class AuthenticationsController < ApplicationController
         if newuser.save
           newuser.bucketKey = ''
           begin
-            newuser.bucketKey = newuser.name.downcase + "-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
+            newuser.bucketKey =  "versavault-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
             #AWS::S3::Bucket.create(newuser.bucketKey)
             #bucket = AWS::S3::Bucket.find(newuser.bucketKey)
             s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
