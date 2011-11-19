@@ -30,7 +30,7 @@
           end
         end
       else
-        authentication.bucketKey = authentication.name + "-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
+        authentication.bucketKey =  "versavault-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
         if authentication.save
           bucket = s3.buckets.create(authentication.bucketKey)
         end
