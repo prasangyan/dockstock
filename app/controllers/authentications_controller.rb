@@ -2,6 +2,7 @@ class AuthenticationsController < ApplicationController
   # GET /authentications/new
   # GET /authentications/new.xml
   def new
+    @resetpassword = false
     @error = nil
     @authentication = Authentication.new
     if session[:currentuser] != nil && Authentication.find_by_id(session[:currentuser]) != nil
@@ -85,8 +86,10 @@ class AuthenticationsController < ApplicationController
       user = Authentication.find(:first, :conditions => "username = '#{params[:username]}'")
       unless user.nil?
         user.send_reset_password
-        @status = "An email has been send to you for resetting your dockstock password. <br /> Click <a href='/login' > here </a> to login dockstock."
-        render :success
+        @resetpassword = true
+        @error = nil
+        @authentication = Authentication.new
+        render :new
       else
           @error = 'Invalid email address entered!'
       end

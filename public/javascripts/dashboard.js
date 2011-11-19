@@ -38,7 +38,6 @@ $(function() {
         });
     }
     $('#LnkCloseFancyBox').live('click',function(){
-        alert("closing");
         $.fancybox.close();
     });
 });
