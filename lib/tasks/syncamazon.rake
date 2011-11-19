@@ -3,6 +3,7 @@
     startsync
   end
   private
+  private
   def startsync
     s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
     Authentication.all.each do |authentication|
@@ -83,15 +84,14 @@
       end
   end
   def saveobject(s3,object,bucket_id,authentication_id)
-    uri = URI.parse(object.key)
-    uri.query = nil
     s3object = S3Object.new
-    if object.key.to_s[object.key.length-1] == "/"
-      s3object.key = object.key[0..object.key.length-2]
+    key = object.key
+    if key.to_s[key.length-1] == "/"
+      s3object.key = key[0..key.length-2]
     else
-      s3object.key = object.key
+      s3object.key = key
     end
-    folders = s3object.key.to_s.split("/")
+    folders = key.to_s.split("/")
     if folders.length == 1
       s3object.rootFolder=true
     else
@@ -101,16 +101,12 @@
     end
     #s3object.lastModified = object.about["last-modified"]
     s3object.lastModified = object.last_modified
-    if uri.to_s[uri.to_s.length-1] == "/"
-      s3object.url = uri.to_s[0..uri.to_s.length-2]
-    else
-      s3object.url = uri.to_s
-    end
-    parentfolder =s3object.key.split("/")
+    s3object.url = object.url_for(:read)
+    parentfolder = s3object.key.split("/")
     parent_folder = ''
     parentfolder.each_with_index do |fld,idx|
-    #if object.about["content-length"] != "0" && idx == parentfolder.length - 1 && idx != 0
-    if object.content_length != "0" && idx == parentfolder.length - 1 && idx != 0
+      #if object.about["content-length"] != "0" && idx == parentfolder.length - 1 && idx != 0
+      if object.content_length != "0" && idx == parentfolder.length - 1 && idx != 0
       else
           if parent_folder == ''
             parent_folder = fld.to_s.rstrip
