@@ -105,7 +105,9 @@ class DashboardController < ApplicationController
   end
   def syncamazon
     system "rake syncamazon --trace"
+    #startsync
     render :text => "done"
   end
+
 end
 
