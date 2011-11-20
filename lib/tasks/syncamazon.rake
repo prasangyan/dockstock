@@ -1,28 +1,51 @@
   desc "This task is to update database with objects in amazon s3"
+
   task :syncamazon => :environment do
     startsync
   end
+
+  task :update_object, :bucket_key, :key , :needs => :environment  do |t, args|
+    puts args[:key]
+    auth = Authentication.find_by_bucketKey(args[:bucket_key].to_s)
+    unless auth.nil?
+      s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+      sync_bucket(s3,auth,args[:key])
+    end
+  end
+
   private
+
   def startsync
     s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
     Authentication.all.each do |authentication|
-      unless authentication.bucketKey.nil?
-          bucket = s3.buckets[authentication.bucketKey]
-          unless bucket.nil?
-            S3Object.find_all_by_authentication_id(authentication.id).each do |object|
-              object.destroy
-            end
-            bucket.objects.each do |object|
-              saveobject(s3,object,authentication.bucketKey,authentication.id)
-            end
-          else
-            bucket = s3.buckets.create(authentication.bucketKey)
+      S3Object.find_all_by_authentication_id(authentication.id).each do |object|
+        object.destroy
+      end
+      sync_bucket(s3,authentication,nil)
+    end
+  end
+
+  def sync_bucket(s3,authentication,key)
+    unless authentication.bucketKey.nil?
+      bucket = s3.buckets[authentication.bucketKey]
+      unless bucket.nil?
+        if key.nil?
+          bucket.objects.each do |object|
+            saveobject(s3,object,authentication.bucketKey,authentication.id)
           end
-      else
-        authentication.bucketKey =  "versavault-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
-        if authentication.save
-          bucket = s3.buckets.create(authentication.bucketKey)
+        else
+          bucket.objects.with_prefix(key).each do |object|
+            puts key
+            saveobject(s3,object,authentication.bucketKey,authentication.id)
+          end
         end
+      else
+        bucket = s3.buckets.create(authentication.bucketKey)
+      end
+    else
+      authentication.bucketKey =  "versavault-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
+      if authentication.save
+        bucket = s3.buckets.create(authentication.bucketKey)
       end
     end
   end
