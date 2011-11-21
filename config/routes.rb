@@ -21,6 +21,7 @@ S3FileManager::Application.routes.draw do
   match '/dashboard(/:key)', :controller => "dashboard", :action => "index"
   match ':controller/:action/:id'
   match ':controller/:action'
+  match '/installer' => redirect("http://s3.amazonaws.com/VersaVault/VersaVaultSyncTool_32Bit.exe")
 
   # routes for web service
   match 'get_amazon_bucket_id(/:username/:password)', :controller => "authentications", :action => "getamazonbucketid"
