@@ -184,7 +184,7 @@
     </div>
     -->
 </div>
-<% if (Time.now - @current_user.created_at) < 20  %>
+<% if (Time.now - @current_user.created_at) < 10  %>
     <!-- Popup when the user logged in the dashboard first time -->
     <div class="modalWindow" id="WelcomeBox">
         <h2>You are all set, <label id="lbl_name"></label>. Thanks!</h2>

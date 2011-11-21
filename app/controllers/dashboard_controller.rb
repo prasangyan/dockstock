@@ -26,13 +26,15 @@ class DashboardController < ApplicationController
       unless @s3object.nil?
         @folder = @s3object.folder
         @parent_uid = @s3object.uid
-      end
-      if @folder == false
-         # loading file version history
-        s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
-        bucket = s3.buckets[@current_user.bucketKey]
-        unless bucket.nil?
-          @s3objects = bucket.objects[@s3object.key].versions
+        if @folder == false
+           # loading file version history
+          s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+          bucket = s3.buckets[@current_user.bucketKey]
+          unless bucket.nil?
+            @s3objects = bucket.objects[@s3object.key].versions
+          end
+        else
+          @s3objects = S3Object.find_all_by_parent_uid_and_authentication_id(params[:key].to_s,session[:currentuser])
         end
       else
         @s3objects = S3Object.find_all_by_parent_uid_and_authentication_id(params[:key].to_s,session[:currentuser])
@@ -97,16 +99,15 @@ class DashboardController < ApplicationController
       end
     end
 =end
-
   end
-
   def share
     render :layout => false
   end
-
   def syncamazon
-    system "rake syncamazon"
+    system "rake syncamazon --trace"
+    #startsync
     render :text => "done"
   end
+
 end
 
