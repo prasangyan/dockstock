@@ -1,21 +1,5 @@
 class DashboardController < ApplicationController
               before_filter :isuserloggedin , :except => "syncamazon"
-  def versions
-    s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
-     Authentication.all.each do |authentication|
-        bucket = s3.buckets[authentication.bucketKey]
-        unless bucket.nil?
-          bucket.objects.each do |object|
-            puts object.versions.count
-            object.versions.each do |version|
-                puts version.key
-            end
-          end
-        end
-     end
-    render :text => "done"
-  end
-
   def index
     @current_user = Authentication.find(session[:currentuser])
     unless params[:key].nil?
@@ -100,14 +84,10 @@ class DashboardController < ApplicationController
     end
 =end
   end
-  def share
-    render :layout => false
-  end
+
   def syncamazon
     system "rake syncamazon --trace"
-    #startsync
     render :text => "done"
   end
-
 end
 

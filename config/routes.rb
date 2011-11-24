@@ -16,13 +16,10 @@ S3FileManager::Application.routes.draw do
   match 'setpassword', :controller => "authentications", :action => "setpassword"
   match 'SyncAmazon', :controller => "dashboard", :action =>"syncamazon"
   match 'dashboard', :controller => "dashboard", :action => "index"
-  match 'shareDocument', :controller => "dashboard", :action => "share"
-  match '/versions', :controller => "dashboard", :action => "versions"
   match '/dashboard(/:key)', :controller => "dashboard", :action => "index"
   match ':controller/:action/:id'
   match ':controller/:action'
   match '/installer' => redirect("http://s3.amazonaws.com/VersaVault/VersaVaultSyncTool_32Bit.exe")
-
   # routes for web service
   match 'get_amazon_bucket_id(/:username/:password)', :controller => "authentications", :action => "getamazonbucketid"
   # See how all your routes lay out with "rake routes"

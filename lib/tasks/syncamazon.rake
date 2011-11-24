@@ -49,52 +49,6 @@
       end
     end
   end
-  #def sync(s3,key,bucket_id,authentication_id)
-    #bucket = AWS::S3::Bucket.find(bucket_id, :prefix => key)
-    #bucket = s3.buckets[bucket_id]
-    #bucket.objects.with_prefix(key).each do |object|
-    #  puts object.key
-    #  if object.key != key
-    #    saveobject(s3,object,bucket_id,authentication_id)
-    #  end
-    #end
-  #end
-  #def savefolders(folders,authentication_id,last_modified,bucket_id,size,url)
-  #  path = ''
-  #  folders.each_with_index do |fld,idx|
-  #    if folders.length == 1 && size != "0"
-  #      return
-  #    end
-  #    if size != "0" && idx == folders.length - 1 && idx != 0
-  #      return
-  #    end
-  #    parent_folder = path
-  #    s3obj = S3Object.new
-  #    if path == ''
-  #      path = path + fld
-  #      s3obj.rootFolder=true
-  #    else
-  #      path = path + "/" + fld
-  #      s3obj.rootFolder=false
-  #    end
-  #    s3obj.key = path
-  #    s3obj.lastModified = last_modified
-  #    s3obj.url = url #"http://s3.amazonaws.com/" + bucket_id + "/" + path
-  #    s3obj.parent = parent_folder
-  #    s3obj.fileName = fld
-  #    s3obj.folder=true
-  #    s3obj.uid = Time.now.strftime("%Y%m%d%H%M%S%L")
-  #    s3obj.authentication_id = authentication_id
-  #    s3obj.content_length = 0
-  #    parent_uid = '0'
-  #    begin
-  #      parent_uid = S3Object.find_by_key_and_authentication_id(parent_folder,authentication_id).uid
-  #    rescue
-  #    end
-  #    s3obj.parent_uid = parent_uid
-  #    s3obj.save
-  #    end
-  #end
   def saveobject(s3,object,bucket_id,authentication_id)
     s3object = S3Object.new
     key = object.key
@@ -142,7 +96,7 @@
       s3object.fileName = folders[folders.length - 1]
       s3object.folder = false
     end
-    s3object.uid = Time.now.strftime("%Y%m%d%H%M%S%L")
+    s3object.uid = Time.now.strftime("%y%m%d%H%M%S%L")
     s3object.authentication_id = authentication_id
     parent_uid = '0'
     begin
