@@ -19,4 +19,5 @@ ActionMailer::Base.smtp_settings = {
         }
 ActionMailer::Base.delivery_method = :smtp
 
-ENV["WEBSOLR_URL"] = "http://index.websolr.com/solr/92e950b86ee"
+ENV["WEBSOLR_URL"] = "http://index.websolr.com/solr/b840ba32a68"
+

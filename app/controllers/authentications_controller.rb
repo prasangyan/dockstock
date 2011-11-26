@@ -134,30 +134,4 @@ class AuthenticationsController < ApplicationController
         render :success
     end
   end
-  #methods for sync tool
-  def getamazonbucketid
-    unless params[:username].nil? && params[:password].nil?
-      result = Authentication.authenticate(params[:username].to_s,params[:password].to_s)
-      unless result.nil?
-        unless result.bucketKey.nil?
-          render :json => {:bucket_id => result.bucketKey}
-        else
-          result.bucketKey =  "versavault-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
-          if result.save
-            #AWS::S3::Bucket.create(result.bucketKey,:access => :public_read)
-            s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
-            bucket = s3.buckets.create(result.bucketKey)
-            unless bucket.nil?
-              result.save
-            end
-          end
-          render :json => {:bucket_id => result.bucketKey}
-        end
-      else
-        render :json => {:error => "Invalid username or password"}
-      end
-    else
-      render :json => {:error => "Invalid parameters password"}
-    end
-  end
 end

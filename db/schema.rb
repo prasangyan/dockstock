@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111109161636) do
+ActiveRecord::Schema.define(:version => 20111125144703) do
 
   create_table "authentications", :force => true do |t|
     t.string   "username"
@@ -39,6 +39,14 @@ ActiveRecord::Schema.define(:version => 20111109161636) do
     t.string   "parent_uid"
   end
 
+  create_table "s3object_update_queues", :force => true do |t|
+    t.string   "bucket_key"
+    t.string   "key"
+    t.string   "last_modified"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
     t.text     "data"
@@ -48,5 +56,16 @@ ActiveRecord::Schema.define(:version => 20111109161636) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "sync_lock", :force => true do |t|
+    t.boolean "lock"
+  end
+
+  create_table "sync_locks", :force => true do |t|
+    t.string   "bucket_key"
+    t.boolean  "lock"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

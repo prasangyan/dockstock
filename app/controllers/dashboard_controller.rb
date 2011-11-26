@@ -85,6 +85,15 @@ class DashboardController < ApplicationController
 =end
   end
 
+  def auto_complete
+    unless params[:key].nil?
+       # right now sending manual values to check ui
+       render :json =>  { :folders =>  ["folder1","folder2"], :files => ["file1", "file2"]}
+    else
+      render :json => {:error => "invalid parameters passed."}
+    end
+  end
+
   def syncamazon
     system "rake syncamazon --trace"
     render :text => "done"
