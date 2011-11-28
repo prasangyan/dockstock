@@ -149,5 +149,4 @@
     unless s3object.save
       puts s3object.errors.full_messages
     end
-    S3Object.record_timestamps = true
   end

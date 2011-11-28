@@ -69,7 +69,7 @@ class ApiController < ApplicationController
       result = Authentication.authenticate(params[:username].to_s,params[:password].to_s)
       unless result.nil?
         unless result.bucketKey.nil?
-          render :json => {:bucket_id => result.bucketKey}
+          render :json => {:BucketId => result.bucketKey}
         else
           result.bucketKey =  "versavault-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
           if result.save
@@ -80,13 +80,13 @@ class ApiController < ApplicationController
               result.save
             end
           end
-          render :json => {:bucket_id => result.bucketKey}
+          render :json => {:BucketId => result.bucketKey}
         end
       else
-        render :json => {:error => "Invalid username or password"}
+        render :json => {:Error => "Invalid username or password"}
       end
     else
-      render :json => {:error => "Invalid parameters password"}
+      render :json => {:Error => "Invalid parameters password"}
     end
   end
 

@@ -50,6 +50,12 @@
                     </ul>
                 </div>
 				<ul class="fileList">
+                    <li>
+                        <%= image_tag "#{GetImage('')}" %>
+                        <div>
+                            <a href="/dashboard" class="docName">Home</a>
+                        </div>
+                    </li>
                     <% @s3objects_root.each do |s3object| %>
                         <li>
                             <%= image_tag "#{GetImage(s3object.fileName)}" %>
