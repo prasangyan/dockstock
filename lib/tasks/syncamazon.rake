@@ -25,7 +25,7 @@
       #end
 
       # getting time to track the deleted objects in the database
-      current_Time = Time.now
+      current_Time = Time.parse((Time.now - 60).to_s).getutc
 
       # lock the user from update his objects from api
       sync_lock = SyncLock.find_by_bucket_key(authentication.bucketKey)
@@ -44,8 +44,8 @@
       sync_bucket(s3,authentication,nil,nil)
 
       # lets destroy the unavailable object record from database
-      S3Object.find(:all, :conditions => "updated_at < '#{current_Time}' ").each do |s3object|
-        #s3object.destroy
+      S3Object.find(:all, :conditions => "sync_time < '#{current_Time}' ").each do |s3object|
+        s3object.destroy
       end
 
       # finally release the lock
@@ -138,8 +138,6 @@
     else
       s3object.lastModified = object.last_modified
     end
-    puts s3object.key
-    puts s3object.lastModified
     if object.content_length.to_s == "0"
       s3object.folder = true
       s3object.content_length = 0
@@ -147,6 +145,7 @@
       s3object.content_length = object.content_length
       s3object.folder = false
     end
+    s3object.sync_time = Time.now
     unless s3object.save
       puts s3object.errors.full_messages
     end
