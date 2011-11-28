@@ -74,7 +74,7 @@
       bucket = s3.buckets[authentication.bucketKey]
       unless bucket.nil?
         if key.nil?
-          bucket.objects.each do |object|
+          bucket.objects.with_prefix('').each do |object|
             saveobject(object,authentication.id,last_modified)
           end
         else
