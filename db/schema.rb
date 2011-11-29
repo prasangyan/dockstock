@@ -10,17 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111109161636) do
+ActiveRecord::Schema.define(:version => 20111128075807) do
 
   create_table "authentications", :force => true do |t|
-    t.string   "username"
-    t.string   "password_salt"
-    t.string   "crypted_password"
-    t.string   "reset_code"
-    t.string   "bucketKey"
+    t.string "username"
+    t.string "password_salt"
+    t.string "crypted_password"
+    t.string "reset_code"
+    t.string "bucketKey"
+    t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
   end
 
   create_table "s3_objects", :force => true do |t|
@@ -32,11 +32,16 @@ ActiveRecord::Schema.define(:version => 20111109161636) do
     t.text     "url"
     t.datetime "lastModified"
     t.decimal  "content_length"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "uid"
     t.integer  "authentication_id"
     t.string   "parent_uid"
+    t.datetime "sync_time"
+  end
+
+  create_table "s3object_update_queues", :force => true do |t|
+    t.string "bucket_key"
+    t.string "key"
+    t.string "last_modified"
   end
 
   create_table "sessions", :force => true do |t|
@@ -48,5 +53,14 @@ ActiveRecord::Schema.define(:version => 20111109161636) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "sync_lock", :force => true do |t|
+    t.boolean "lock"
+  end
+
+  create_table "sync_locks", :force => true do |t|
+    t.string  "bucket_key"
+    t.boolean "lock"
+  end
 
 end

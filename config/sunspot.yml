@@ -1,0 +1,20 @@
+production:
+  solr:
+    hostname: "index.websolr.com"
+    port:  8983
+    log_level: WARNING
+    index: "3a1db62f51b"
+
+development:
+  solr:
+    hostname: "index.websolr.com"
+    port: 8983
+    log_level: INFO
+    index: "3a1db62f51b"
+
+test:
+  solr:
+    hostname: "index.websolr.com"
+    port: 8983
+    log_level: WARNING
+    index: "3a1db62f51b"

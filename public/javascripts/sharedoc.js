@@ -2,7 +2,7 @@ $(function() {
     $('.addPersonalMessage').click(function() {
         $('#personalMessage').toggle();
         $('#fancybox-content div').eq(0).height($('.modalWindow').height() + 40);
-        $('#fancybox-content').eq(0).height($('.modalWindow').height() );
+        $('#fancybox-content').eq(0).height($('.modalWindow').height() + 10 );
         $('#personalMessage').focus();
     });
     $('#emailInvite').bind('keypress', function(e){
@@ -12,7 +12,7 @@ $(function() {
             $(this).val('');
 			$('.formError').html('');
             $('#fancybox-content div').eq(0).height($('.modalWindow').height() + 40);
-            $('#fancybox-content').eq(0).height($('.modalWindow').height() );
+            $('#fancybox-content').eq(0).height($('.modalWindow').height() + 10 );
             $('#emailInvite').focus();
             return false;
         }

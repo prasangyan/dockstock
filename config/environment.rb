@@ -6,7 +6,7 @@ S3FileManager::Application.initialize!
  #     :access_key_id => "AKIAIW36YM46YELZCT3A",
  #     :secret_access_key => "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"
  #)
-ENV["mail_username"] = "support@getclaimed.com"
+ENV["mail_username"] = "notifications@versavault.com"
 ActionMailer::Base.smtp_settings = {
         :enable_starttls_auto => true,
         :address => "smtp.gmail.com",
@@ -18,3 +18,6 @@ ActionMailer::Base.smtp_settings = {
         :content_type => "text/html"
         }
 ActionMailer::Base.delivery_method = :smtp
+
+ENV["WEBSOLR_URL"] = "http://index.websolr.com/solr/b840ba32a68"
+

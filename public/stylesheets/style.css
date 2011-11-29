@@ -1365,3 +1365,8 @@ Inlined to avoid required HTTP connection: h5bp.com/r
 {
     display:none;
 }
+
+.searchArrow, .searchResults
+{
+    display: none;
+}
