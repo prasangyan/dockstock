@@ -28,7 +28,7 @@ $(function() {
             'content': $('#WelcomeBox').html(),
             'padding' : 20,
             'width': 500,
-            'height': 300,
+            'height': 230,
             'autoDimensions':false,
             onClosed: function()
             {
@@ -37,6 +37,9 @@ $(function() {
         });
     }
     $('#LnkCloseFancyBox').live('click',function(){
+        $.fancybox.close();
+    });
+    $('#downloadSyncTool').live('click',function () {
         $.fancybox.close();
     });
     // auto complete code starts here

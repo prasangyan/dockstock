@@ -187,9 +187,14 @@
 <% if (Time.now - @current_user.created_at) < 10  %>
     <!-- Popup when the user logged in the dashboard first time -->
     <div class="modalWindow" id="WelcomeBox">
-        <h2>You are all set, <label id="lbl_name"></label>. Thanks!</h2>
-        <p>You can start uploading files easily. Just download the <a href="http://s3.amazonaws.com/VersaVault/AmazonS3FileSyncTool_32Bit.exe">Versa Vault Desktop Client</a>
-            and you can start storing and sharing documents. We also sent you an email with all the details on how to get back here</p>
-        <%= link_to "Lets get started", dashboard_url %>
+        <h2>You are all set, <%= @current_user.name %> <label id="lbl_name"></label>. Thanks!</h2>
+        <p>
+            You can start uploading files easily. Just download the Versa Vault Desktop Client and you can start storing
+         and sharing documents. The VersaVault client will create a folder called VersaVault in your My Documents
+         folder. Just put all the files you want stored and shared in that folder and we will take care of the rest.
+         You can use it as a normal folder, so you just save your documents there when you create it. We also sent you
+         an email with all the details on how to get back here
+        </p>
+        <a href="http://versavault.com/installer" id="downloadSyncTool" class="large button blue" target="_top">Download the VersaVault client</a>
     </div>
 <% end %>
