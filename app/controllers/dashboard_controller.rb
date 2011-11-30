@@ -103,7 +103,7 @@ class DashboardController < ApplicationController
     @s3objects = []
     unless params[:key].nil?
       rsolr = RSolr.connect :url => ENV["WEBSOLR_URL"]
-      search = rsolr.select :params => {:q => "easy", :defType => "dismax", :qf => "pdf_texts"}
+      search = rsolr.select :params => {:q => params[:key], :defType => "dismax", :qf => "pdf_texts"}
       search['response']['docs'].each do |doc_id|
         if doc_id["id"].to_s.strip != ''
             s3_object = S3Object.find_by_id(doc_id["id"])
