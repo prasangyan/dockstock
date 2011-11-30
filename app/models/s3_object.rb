@@ -14,20 +14,26 @@ class S3Object < ActiveRecord::Base
   def push_content_to_websolr
     if self.folder == false
       begin
-        if File.extname(self.fileName).to_s().downcase == ".pdf"
-            rsolr = RSolr.connect :url => ENV["WEBSOLR_URL"]
-            io = open(self.url.to_s)
-            reader = PDF::Reader.new(io)
-            unless reader.nil?
-              pdf_content = ''
-              reader.pages.each do |page|
-                unless page.text.nil?
-                  pdf_content += page.text
-                end
+        file_extention = File.extname(self.fileName).to_s().downcase
+        if file_extention == ".pdf"
+          rsolr = RSolr.connect :url => ENV["WEBSOLR_URL"]
+          io = open(self.url.to_s)
+          reader = PDF::Reader.new(io)
+          unless reader.nil?
+            pdf_content = ''
+            reader.pages.each do |page|
+              unless page.text.nil?
+                pdf_content += page.text
               end
-              rsolr.add(:id => self.id, :pdf_texts => pdf_content )
-              rsolr.commit
             end
+            rsolr.add(:id => self.id, :pdf_texts => pdf_content )
+            rsolr.commit
+          end
+        elsif file_extention == ".txt" or file_extention == ".csv" or file_extention == ".html" or file_extention == ".htm" or file_extention == ".csv" or file_extention == ".xml" or file_extention == ".xml" or file_extention == ".xhtml" or file_extention == ".xps" or file_extention == ".tiff" or file_extention == ".php" or file_extention == ".aspx" or file_extention == ".asp" or file_extention == ".c" or file_extention == ".h" or file_extention == ".cpp" or file_extention == ".vb" or file_extention == ".bat"
+          rsolr = RSolr.connect :url => ENV["WEBSOLR_URL"]
+          io = open(self.url.to_s)
+          rsolr.add(:id => self.id, :pdf_texts => io.read )
+          rsolr.commit
         end
       rescue => ex
         puts ex.message
