@@ -53,6 +53,11 @@ $(function() {
                 hideAutopoupBoxes();
                 return;
             }
+            case 13:
+            {
+                submit_search();
+                return;
+            }
         }
         var keyword = $.trim($(this).val());
         if(keyword != "" && keyword != previousCriteria)
@@ -114,9 +119,14 @@ $(function() {
             hideAutopoupBoxes();
             previousCriteria = '';
         }
-
     });
-
+    $('#search_submit').click(function() {
+        submit_search();
+    });
+    function submit_search()
+    {
+        window.location = "/search/" + $.trim($('#searchInput').val());
+    }
     function hideAutopoupBoxes()
     {
         if($('.searchArrow:visible').length != 0)

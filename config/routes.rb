@@ -15,6 +15,7 @@ S3FileManager::Application.routes.draw do
   match 'resetpassword/:id', :controller => "authentications", :action => "resetpassword"
   match 'setpassword', :controller => "authentications", :action => "setpassword"
   match 'auto_complete/:key', :controller => "dashboard", :action => "auto_complete", :constraints => {:key => /[^\/]*/}
+  match 'search/:key', :controller => "dashboard", :action => "search"
   match 'SyncAmazon', :controller => "dashboard", :action =>"syncamazon"
   match 'dashboard', :controller => "dashboard", :action => "index"
   match '/dashboard(/:key)', :controller => "dashboard", :action => "index"

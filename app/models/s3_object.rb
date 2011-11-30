@@ -25,7 +25,7 @@ class S3Object < ActiveRecord::Base
                   pdf_content += page.text
                 end
               end
-              rsolr.add(:id => self.id, :text => pdf_content )
+              rsolr.add(:id => self.id, :pdf_texts => pdf_content )
               rsolr.commit
             end
         end

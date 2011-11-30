@@ -79,49 +79,22 @@
 				</ul>
 			</div>
 			<div id="content">
-                <!--Todo: Show this along with the preview of the file-->
-                <!--<h3>52.png</h3>
-                <div class="previewContainer">
-                    <p><span class="metaDataTitle">File Size: </span>5 MB</p>
-                    <p><span class="metaDataTitle">Download File: </span><a href="#">Some Link</a> </p>
-                    <p><span class="metaDataTitle">Last Modified: </span><a href="#">1 hour ago</a></p>
-                    <p><span class="metaDataTitle">Last Modified by: </span><a href="#">Prashant Angyan</a></p>
-                </div>-->
                 <div class="contentFileList">
                     <h2>
-                      <% if @parent_uid == 0 %>
-                      All files
-                      <% else %>
-                          <%= @s3object.fileName %>
-                          <% if @s3object.folder != true %>
-                            <span>Previous Versions</span>
-                          <% else %>
-                            <span> - Files</span>
-                          <% end %>
-                      <% end %>
+                      Search result
                     </h2>
                     <ul>
-                        <% if @folder == true %>
-                            <% @s3objects.each do |s3object| %>
-                            <li>
-                                <%= image_tag "#{GetImage_Large(s3object.fileName)}" , :class => "#{GetClass(s3object.fileName)}" %>
-                                <% if s3object.folder == true %>
-                                    <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
-                                    <p class="documentSummary"><span>Files:</span> <%= S3Object.find_all_by_parent_uid(s3object.uid).length %></p>
-                                <% else %>
-                                    <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
-                                    <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.content_length / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,s3object.lastModified)  %> ago <span>by</span> <a href="#"> <%= @current_user.name %></a></p>
-                                <% end %>
-                            </li>
+                        <% @s3objects.each do |s3object| %>
+                        <li>
+                            <%= image_tag "#{GetImage_Large(s3object.fileName)}" , :class => "#{GetClass(s3object.fileName)}" %>
+                            <% if s3object.folder == true %>
+                                <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
+                                <p class="documentSummary"><span>Files:</span> <%= S3Object.find_all_by_parent_uid(s3object.uid).length %></p>
+                            <% else %>
+                                <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
+                                <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.content_length / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,s3object.lastModified)  %> ago <span>by</span> <a href="#"> <%= @current_user.name %></a></p>
                             <% end %>
-                        <% else %>
-                            <% @s3objects.each do |s3object| %>
-                            <li>
-                                <%= image_tag "#{GetImage_Large(s3object.key)}" , :class => "#{GetClass(s3object.key)}" %>
-                                <a href="<%= s3object.object.url_for(:read) %>"><%= s3object.key %></a>
-                                <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.object.content_length / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,s3object.object.last_modified)  %> ago <span>by</span> <a href="#"> <%= @current_user.name %></a></p>
-                            </li>
-                            <% end %>
+                        </li>
                         <% end %>
                     </ul>
                 </div>
@@ -130,20 +103,8 @@
                 <div class="inviteFriend">
                     <h3>Invite a friend</h3>
                     <a href="#SendInvitation" class="inviteFriendButton lightGreen activateModal" name="modalWindow" id="shareDocument">
-                      <% if @folder == true %>
-                        Share this folder
-                      <% else %>
-                        Share this document
-                      <% end %>
+                      Share this results
                     </a>
-                </div>
-                <div class="deleteFile">
-                    <%= image_tag "recycleBinIcon.png" %>
-                    <h4>Delete This File</h4>
-                    <p>This will permanently delete the file. So becareful!</p>
-                    <div class="clearfix"></div>
-                    <!--Todo: Need to change the text displayed in this link so when they click on a folder it changes to Delete this folder instead of file-->
-                    <a href="#" class="deleteFileButton grey">Delete this file</a>
                 </div>
             </div>
 		</div>
@@ -170,17 +131,3 @@
       <a href="#" class="button blue activateModal" id="BtnSendInvitation" >Send invitations</a>
     </form>
 </div>
-<% if (Time.now - @current_user.created_at) < 10  %>
-    <!-- Popup when the user logged in the dashboard first time -->
-    <div class="modalWindow" id="WelcomeBox">
-        <h2>You are all set, <%= @current_user.name %> <label id="lbl_name"></label>. Thanks!</h2>
-        <p>
-            You can start uploading files easily. Just download the Versa Vault Desktop Client and you can start storing
-         and sharing documents. The VersaVault client will create a folder called VersaVault in your My Documents
-         folder. Just put all the files you want stored and shared in that folder and we will take care of the rest.
-         You can use it as a normal folder, so you just save your documents there when you create it. We also sent you
-         an email with all the details on how to get back here
-        </p>
-        <a href="http://versavault.com/installer" id="downloadSyncTool" class="large button blue" target="_top">Download the VersaVault client</a>
-    </div>
-<% end %>

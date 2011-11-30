@@ -98,5 +98,27 @@ class DashboardController < ApplicationController
     system "rake syncamazon --trace"
     render :text => "done"
   end
+
+  def search
+    @s3objects = []
+    unless params[:key].nil?
+      rsolr = RSolr.connect :url => ENV["WEBSOLR_URL"]
+      search = rsolr.select :params => {:q => "easy", :defType => "dismax", :qf => "pdf_texts"}
+      search['response']['docs'].each do |doc_id|
+        if doc_id["id"].to_s.strip != ''
+            s3_object = S3Object.find_by_id(doc_id["id"])
+            unless s3_object.nil?
+              @s3objects.add(s3_object)
+            end
+        end
+      end
+    end
+    @current_user = Authentication.find(session[:currentuser])
+    @s3objects_root = S3Object.find_all_by_parent_uid_and_authentication_id("0",session[:currentuser])
+    @folder = true
+    @parent_uid = 0
+    @share_object_name = ''
+  end
+
 end
 
