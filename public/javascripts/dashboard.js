@@ -45,6 +45,7 @@ $(function() {
     // auto complete code starts here
     var previousCriteria = '';
     $('#searchInput').keyup(function(e) {
+       return;
        // get keywords from server
         switch(e.which)
         {
