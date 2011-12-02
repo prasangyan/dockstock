@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  last_modified: 
+  url: MyString
+  s3_object_id: 1
+
+two:
+  last_modified: 
+  url: MyString
+  s3_object_id: 1

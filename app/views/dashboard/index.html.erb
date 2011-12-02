@@ -110,7 +110,7 @@
                                     <p class="documentSummary"><span>Files:</span> <%= S3Object.find_all_by_parent_uid(s3object.uid).length %></p>
                                 <% else %>
                                     <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
-                                    <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.content_length / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,s3object.lastModified)  %> ago <span>by</span> <a href="#"> <%= @current_user.name %></a></p>
+                                    <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.content_length / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,Date.today)  %> ago <span>by</span> <a href="#"> <%= @current_user.name %></a></p>
                                 <% end %>
                             </li>
                             <% end %>
@@ -119,7 +119,7 @@
                             <li>
                                 <%= image_tag "#{GetImage_Large(s3object.key)}" , :class => "#{GetClass(s3object.key)}" %>
                                 <a href="<%= s3object.object.url_for(:read) %>"><%= s3object.key %></a>
-                                <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.object.content_length / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,s3object.object.last_modified)  %> ago <span>by</span> <a href="#"> <%= @current_user.name %></a></p>
+                                <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.object.content_length / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,Date.today)  %> ago <span>by</span> <a href="#"> <%= @current_user.name %></a></p>
                             </li>
                             <% end %>
                         <% end %>

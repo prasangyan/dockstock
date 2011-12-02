@@ -1,6 +1,10 @@
 require "open-uri"
 class S3Object < ActiveRecord::Base
   belongs_to :authentication
+  has_many :shared_s3_objectses
+  has_many :object_time_trackings
+  has_many :s3_object_versions
+  has_many :object_change_histories
   validates_presence_of :key
   #validates_uniqueness_of :url
   validate :validate_record , :on => :create
