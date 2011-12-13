@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  s3_object_id: 1
+  last_modified: 
+  machine_id: 1
+  status: false
+
+two:
+  s3_object_id: 1
+  last_modified: 
+  machine_id: 1
+  status: false

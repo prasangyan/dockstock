@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  machine_key: MyString
+  authentication_id: 1
+  status: false
+
+two:
+  machine_key: MyString
+  authentication_id: 1
+  status: false

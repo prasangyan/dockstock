@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  machine_id: 1
+  s3_object_id: 1
+  s3_object_version_id: 1
+
+two:
+  machine_id: 1
+  s3_object_id: 1
+  s3_object_version_id: 1

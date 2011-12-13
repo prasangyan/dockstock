@@ -28,7 +28,7 @@ $(function() {
             'content': $('#WelcomeBox').html(),
             'padding' : 20,
             'width': 500,
-            'height': 300,
+            'height': 230,
             'autoDimensions':false,
             onClosed: function()
             {
@@ -39,15 +39,24 @@ $(function() {
     $('#LnkCloseFancyBox').live('click',function(){
         $.fancybox.close();
     });
+    $('#downloadSyncTool').live('click',function () {
+        $.fancybox.close();
+    });
     // auto complete code starts here
     var previousCriteria = '';
     $('#searchInput').keyup(function(e) {
+       return;
        // get keywords from server
         switch(e.which)
         {
             case 27:
             {
                 hideAutopoupBoxes();
+                return;
+            }
+            case 13:
+            {
+                submit_search();
                 return;
             }
         }
@@ -111,9 +120,14 @@ $(function() {
             hideAutopoupBoxes();
             previousCriteria = '';
         }
-
     });
-
+    $('#search_submit').click(function() {
+        submit_search();
+    });
+    function submit_search()
+    {
+        window.location = "/search/" + $.trim($('#searchInput').val());
+    }
     function hideAutopoupBoxes()
     {
         if($('.searchArrow:visible').length != 0)

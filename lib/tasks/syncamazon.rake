@@ -9,7 +9,7 @@
     auth = Authentication.find_by_bucketKey(args[:bucket_key].to_s)
     unless auth.nil?
       s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
-      sync_bucket(s3,auth,args[:key],args[:last_modified])
+      sync_bucket(s3,auth,args[:key])
     end
   end
 
@@ -41,7 +41,7 @@
       end
 
       # lets start the sync process
-      sync_bucket(s3,authentication,nil,nil)
+      sync_bucket(s3,authentication,nil)
 
       # lets destroy the unavailable object record from database
       S3Object.find(:all, :conditions => "sync_time < '#{current_Time}' ").each do |s3object|
@@ -53,6 +53,7 @@
       sync_lock.save
 
     end
+=begin
     # finally check whether any queue process is pending
     S3objectUpdateQueue.all.each do |s3_object_update_queue|
       auth = Authentication.find_by_bucketKey(s3_object_update_queue.bucket_key)
@@ -62,24 +63,25 @@
             s3_object.lastModified = DateTime.strptime(s3_object_update_queue.last_modified, "%m/%d/%Y %H:%M:%S %p").to_time
             s3_object.save
           end
-          #sync_bucket(s3,auth,s3_object_update_queue.key,s3_object_update_queue.last_modified)
       end
       # finally remove the record
       s3_object_update_queue.destroy
     end
+=end
+
   end
 
-  def sync_bucket(s3,authentication,key,last_modified)
+  def sync_bucket(s3,authentication,key)
     unless authentication.bucketKey.nil?
       bucket = s3.buckets[authentication.bucketKey]
       unless bucket.nil?
         if key.nil?
           bucket.objects.with_prefix('').each do |object|
-            saveobject(object,authentication.id,last_modified)
+            saveobject(object,authentication.id)
           end
         else
           bucket.objects.with_prefix(key).each do |object|
-            saveobject(object,authentication.id,last_modified)
+            saveobject(object,authentication.id)
           end
         end
       else
@@ -93,7 +95,7 @@
     end
   end
 
-  def saveobject(object,authentication_id,last_modified)
+  def saveobject(object,authentication_id)
     key = object.key
     if key.to_s[key.length-1] == "/"
       key = key[0..key.length-2]
@@ -133,11 +135,6 @@
     end
     url = object.url_for(:read,:secure => false)
     s3object.url = url
-    unless last_modified.nil?
-      s3object.lastModified = DateTime.strptime(last_modified, "%m/%d/%Y %H:%M:%S %p").to_time
-    else
-      s3object.lastModified = object.last_modified
-    end
     if object.content_length.to_s == "0"
       s3object.folder = true
       s3object.content_length = 0

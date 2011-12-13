@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  s3_object_id: 1
+  authentication_id: 1
+
+two:
+  s3_object_id: 1
+  authentication_id: 1

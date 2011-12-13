@@ -10,15 +10,48 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111128075807) do
+ActiveRecord::Schema.define(:version => 20111201150627) do
 
   create_table "authentications", :force => true do |t|
-    t.string "username"
-    t.string "password_salt"
-    t.string "crypted_password"
-    t.string "reset_code"
-    t.string "bucketKey"
-    t.string "name"
+    t.string   "username"
+    t.string   "password_salt"
+    t.string   "crypted_password"
+    t.string   "reset_code"
+    t.string   "bucketKey"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "machines", :force => true do |t|
+    t.string   "machine_key"
+    t.integer  "authentication_id"
+    t.boolean  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "object_change_histories", :force => true do |t|
+    t.integer  "machine_id"
+    t.integer  "s3_object_id"
+    t.integer  "s3_object_version_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "object_time_trackings", :force => true do |t|
+    t.integer  "s3_object_id"
+    t.datetime "last_modified"
+    t.integer  "machine_id"
+    t.boolean  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "s3_object_versions", :force => true do |t|
+    t.datetime "last_modified"
+    t.string   "url"
+    t.integer  "s3_object_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -30,7 +63,6 @@ ActiveRecord::Schema.define(:version => 20111128075807) do
     t.boolean  "folder"
     t.boolean  "rootFolder"
     t.text     "url"
-    t.datetime "lastModified"
     t.decimal  "content_length"
     t.string   "uid"
     t.integer  "authentication_id"
@@ -54,8 +86,11 @@ ActiveRecord::Schema.define(:version => 20111128075807) do
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
-  create_table "sync_lock", :force => true do |t|
-    t.boolean "lock"
+  create_table "shared_s3_objects", :force => true do |t|
+    t.integer  "s3_object_id"
+    t.integer  "authentication_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sync_locks", :force => true do |t|
