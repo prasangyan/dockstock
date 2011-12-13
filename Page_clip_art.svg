@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="svg1" sodipodi:docname="page.svg" sodipodi:version="0.32" inkscape:version="0.39cvs" sodipodi:docbase="C:\Projects\iCLIC\2_planning\design\WEB+" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:cc="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="595.275px"
+	 height="841.89px" viewBox="0 0 595.275 841.89" enable-background="new 0 0 595.275 841.89" xml:space="preserve">
+<sodipodi:namedview  id="base" inkscape:window-width="1024" inkscape:window-x="-4" inkscape:window-y="-4" inkscape:pageshadow="2" inkscape:pageopacity="0.0" inkscape:window-height="721" pagecolor="#ffffff" borderopacity="1.0" inkscape:zoom="0.43415836" inkscape:cx="305.25953" inkscape:cy="325.71719" bordercolor="#666666">
+	</sodipodi:namedview>
+<linearGradient id="rect908_1_" gradientUnits="userSpaceOnUse" x1="288.8433" y1="421.8521" x2="288.299" y2="422.7773" gradientTransform="matrix(515.3438 0 0 -699.625 -148443.75 295894.2813)">
+	<stop  offset="0" style="stop-color:#CBCBCB"/>
+	<stop  offset="0.3879" style="stop-color:#CDCDCD"/>
+	<stop  offset="1" style="stop-color:#F0F0F0"/>
+</linearGradient>
+<path id="rect908" fill="url(#rect908_1_)" stroke="#DDDDDD" d="M39.961,60.063v699.625h515.344V235.844L389.867,60.063H39.961z"/>
+<linearGradient id="path1535_1_" gradientUnits="userSpaceOnUse" x1="288.0474" y1="422.9331" x2="288.0474" y2="422.9331" gradientTransform="matrix(515.3438 0 0 -699.625 -148443.75 295894.2813)">
+	<stop  offset="0" style="stop-color:#9B9B9B"/>
+	<stop  offset="0.5" style="stop-color:#CDCDCD"/>
+	<stop  offset="1" style="stop-color:#FFFFFF"/>
+</linearGradient>
+<path id="path1535" sodipodi:nodetypes="" fill="url(#path1535_1_)" stroke="#000000" d="M0,0"/>
+<path id="path1538_1_" sodipodi:nodetypes="cccc" fill-opacity="0.29" stroke="#EEEEEE" d="M555.313,235.678L388.324,60.051
+	l-22.187,193.394L555.313,235.678z"/>
+<linearGradient id="path1538_2_" gradientUnits="userSpaceOnUse" x1="288.8843" y1="423.8149" x2="288.1198" y2="423.0673" gradientTransform="matrix(169.8689 0 0 -175.6272 -48554.0586 74534.2266)">
+	<stop  offset="0" style="stop-color:#9B9B9B"/>
+	<stop  offset="0.5" style="stop-color:#CDCDCD"/>
+	<stop  offset="1" style="stop-color:#FFFFFF"/>
+</linearGradient>
+<path id="path1538" sodipodi:nodetypes="cccc" fill="url(#path1538_2_)" d="M555.313,235.678L388.324,60.051l-2.879,175.627H555.313
+	z"/>
+</svg>
