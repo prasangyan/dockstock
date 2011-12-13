@@ -16,6 +16,34 @@ class ApiController < ApplicationController
     end
   end
 
+  def get_object_status
+    unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?
+      auth = Authentication.find_by_bucketKey(params[:bucket_key])
+      unless auth.nil?
+        machine = get_machine(params[:machine_key],auth.id)
+        ActiveRecord::Base.include_root_in_json = true
+        s3objects = {}
+        s3objects["S3Object"] = []
+        S3Object.find_all_by_key_and_authentication_id(params[:key],auth.id).each do |object|
+          s3object = {}
+          s3object[:FileName] = object.fileName
+          s3object[:Folder] = object.folder
+          s3object[:Key] = object.key
+          object_time = ObjectTimeTracking.find_by_s3_object_id_and_machine_id(object.id,machine.id)
+          unless object_time.nil?
+            s3object[:LastModified] =  object_time.last_modified
+            s3object[:Status] = object_time.status
+          else
+            s3object[:LastModified] = DateTime.parse("2000-01-01")
+          end
+          s3object[:Uid] = object.uid
+          s3objects["S3Object"].push (s3object)
+        end
+        render :json =>  s3objects.to_json
+      end
+    end
+  end
+
   def get_s3_objects(parent_uid,bucket_key,machine_key)
     auth = Authentication.find_by_bucketKey(bucket_key)
     unless auth.nil?
@@ -49,17 +77,7 @@ class ApiController < ApplicationController
         machine = get_machine(params[:machine_key],authentication.id)
         s3_object = S3Object.find_by_authentication_id_and_key(authentication.id,params[:key])
         unless s3_object.nil?
-          object_time_on_machine = ObjectTimeTracking.find_by_s3_object_id_and_machine_id(s3_object.id,machine.id)
-          if object_time_on_machine.nil?
-            object_time_on_machine = ObjectTimeTracking.new
-            object_time_on_machine.s3_object_id = s3_object.id
-            object_time_on_machine.machine_id = machine.id
-            object_time_on_machine.status=true
-            object_time_on_machine.last_modified = Time.now.to_s
-            object_time_on_machine.save
-          end
-          object_time_on_machine.last_modified = params[:last_modified]
-          object_time_on_machine.save
+          update_time_tracking(s3_object.id,machine.id)
           render :text => "updated."
           return
           #sync_lock = SyncLock.find_by_bucket_key(params[:bucket_key].to_s)
@@ -75,6 +93,16 @@ class ApiController < ApplicationController
           #  end
           #end
           #system "rake update_object['#{params[:bucket_key]}','#{params[:key]}','#{params[:last_modified]}'] --trace"
+        else
+          require "Synchonization"
+          sync = Synchronization.new
+          sync.sync_object_with_tree(authentication.id,params[:bucket_key],params[:key])
+          s3_object = S3Object.find_by_authentication_id_and_key(authentication.id,params[:key])
+          unless s3_object.nil?
+            update_time_tracking(s3_object.id,machine.id)
+            render :text => "updated."
+            return
+          end
         end
       end
       render :text => "invalid parameters passed."
@@ -83,7 +111,6 @@ class ApiController < ApplicationController
       render :json => {:error => "Invalid key passed."}
     end
   end
-
   def delete_files
     unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?
       auth = Authentication.find_by_bucketKey(params[:bucket_key])
@@ -109,7 +136,6 @@ class ApiController < ApplicationController
       render :json => {:error => "Invalid key passed."}
     end
   end
-
   #methods for sync tool
   def get_amazon_bucket_id
     unless params[:username].nil? && params[:password].nil?
@@ -138,7 +164,6 @@ class ApiController < ApplicationController
   end
 
   private
-
   def get_machine(machine_key,authentication_id)
     machine = Machine.find_by_machine_key_and_authentication_id(machine_key,authentication_id)
     if machine.nil?
@@ -150,5 +175,17 @@ class ApiController < ApplicationController
     end
     return machine
   end
-
+  def update_time_tracking(s3_object_id,machine_id)
+    object_time_on_machine = ObjectTimeTracking.find_by_s3_object_id_and_machine_id(s3_object_id,machine_id)
+    if object_time_on_machine.nil?
+      object_time_on_machine = ObjectTimeTracking.new
+      object_time_on_machine.s3_object_id = s3_object_id
+      object_time_on_machine.machine_id = machine_id
+      object_time_on_machine.status=true
+      object_time_on_machine.last_modified = Time.now.to_s
+      object_time_on_machine.save
+    end
+    object_time_on_machine.last_modified = params[:last_modified]
+    object_time_on_machine.save
+  end
 end
