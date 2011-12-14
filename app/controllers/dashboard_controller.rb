@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
-              before_filter :isuserloggedin , :except => "syncamazon, notify"
+              before_filter :isuserloggedin , :except =>["syncamazon", "notify"]
   def index
     @current_user = Authentication.find(session[:currentuser])
     unless params[:key].nil?
@@ -71,15 +71,11 @@ class DashboardController < ApplicationController
 
   def notify
     unless params[:sender_email].nil?
-      puts params[:sender_email]
       notification = Notification.new
       notification.email = params[:sender_email]
       if notification.save
-        render :text => "success"
-      else
-        puts notification.errors[0].to_s
-        render :text => notification.errors[0].to_s
       end
+      render :text => "success"
     else
       render :text => "invalid parameters passed."
     end
