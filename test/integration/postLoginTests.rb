@@ -1,5 +1,4 @@
 require 'watir-webdriver'
-require 'colorize'
 
 ############################################################################
 # Functions
@@ -17,12 +16,16 @@ end
 
 browser = Watir::Browser.new
 
+############################################################################
+# Variables
+############################################################################
 site = "versavault.com"
 testEmail = "prashant@blendit.com.my"
 testEmailPassword = "password@123"
 signUpURL = "http://versavault.com/register"
 dashboardPage = "http://versavault.com/dashboard"
 loginEmailIdField = "emailid"
+
 browser.goto site
 
 ############################################################################
@@ -56,4 +59,3 @@ metaDataTextThatShouldNotBeVisible2
 results(browser, test_case, testResult, 'None of the Amazon metadata files are shown',
         'Amazon meta data files are shown.')
 
-puts not browser.text.include? metaDataTextThatShouldNotBeVisible1
