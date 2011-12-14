@@ -7,3 +7,12 @@ C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\obj\x86\
 C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\obj\x86\Debug\MetroUI.exe
 C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\obj\x86\Debug\MetroUI.pdb
+C:\Users\Santhosh\Desktop\MyWorks\Contract Right _ S3FilesManager\S3FileManager\Windows App\MetroUI\MetroUI\obj\x86\Debug\MetroUI.exe
+C:\Users\Santhosh\Desktop\MyWorks\Contract Right _ S3FilesManager\S3FileManager\Windows App\MetroUI\MetroUI\obj\x86\Debug\MetroUI.pdb
+C:\Users\Santhosh\Desktop\MyWorks\Contract Right _ S3FilesManager\S3FileManager\Windows App\MetroUI\MetroUI\bin\Debug\MetroUI.exe
+C:\Users\Santhosh\Desktop\MyWorks\Contract Right _ S3FilesManager\S3FileManager\Windows App\MetroUI\MetroUI\bin\Debug\MetroUI.pdb
+C:\Users\Santhosh\Desktop\MyWorks\Contract Right _ S3FilesManager\S3FileManager\Windows App\MetroUI\MetroUI\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Santhosh\Desktop\MyWorks\Contract Right _ S3FilesManager\S3FileManager\Windows App\MetroUI\MetroUI\obj\x86\Debug\MetroUI.Form1.resources
+C:\Users\Santhosh\Desktop\MyWorks\Contract Right _ S3FilesManager\S3FileManager\Windows App\MetroUI\MetroUI\obj\x86\Debug\MetroUI.Properties.Resources.resources
+C:\Users\Santhosh\Desktop\MyWorks\Contract Right _ S3FilesManager\S3FileManager\Windows App\MetroUI\MetroUI\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Santhosh\Desktop\MyWorks\Contract Right _ S3FilesManager\S3FileManager\Windows App\MetroUI\MetroUI\obj\x86\Debug\GenerateResource.write.1.tlog

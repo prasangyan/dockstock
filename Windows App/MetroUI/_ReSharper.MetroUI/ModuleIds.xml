@@ -1,0 +1,4 @@
+<Modules>
+  <Module PersistentId="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="System.Windows.Forms" />
+  <Module PersistentId="56937D16-0283-4C73-8B79-223C373541BA" ModuleId="MetroUI" />
+</Modules>

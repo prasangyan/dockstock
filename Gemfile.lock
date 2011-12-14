@@ -51,6 +51,7 @@ GEM
     mime-types (1.16)
     multi_json (1.0.3)
     multi_xml (0.4.1)
+    newrelic_rpm (3.3.1.beta2)
     nokogiri (1.5.0-x86-mingw32)
     pdf-reader (1.0.0.beta1)
       Ascii85 (~> 1.0.0)
@@ -90,6 +91,7 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk
+  newrelic_rpm
   pdf-reader
   pg
   rails (= 3.0.3)
