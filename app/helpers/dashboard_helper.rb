@@ -55,21 +55,23 @@ module DashboardHelper
     end
   end
   def distance_of_time_in_hours_and_minutes(from_time, to_time)
-    from_time = from_time.to_time if from_time.respond_to?(:to_time)
-    to_time = to_time.to_time if to_time.respond_to?(:to_time)
-    dist = to_time - from_time
-    minutes = (dist.abs / 60).round
-    hours = minutes / 60
-    days = hours / 24
-    minutes = minutes - (hours * 60)
-    hours = hours - (days * 24)
-    words = dist <= 0 ? '' : '-'
-    if days > 0
-      words << "#{days} #{days > 1 ? 'days' : 'day' } and "
-    else
-      words = ''
+    unless to_time.nil?
+      from_time = from_time.to_time if from_time.respond_to?(:to_time)
+      to_time = to_time.to_time if to_time.respond_to?(:to_time)
+      dist = to_time - from_time
+      minutes = (dist.abs / 60).round
+      hours = minutes / 60
+      days = hours / 24
+      minutes = minutes - (hours * 60)
+      hours = hours - (days * 24)
+      words = dist <= 0 ? '' : '-'
+      if days > 0
+        words << "#{days} #{days > 1 ? 'days' : 'day' } and "
+      else
+        words = ''
+      end
+      words << "#{hours} #{hours > 1 ? 'hours' : 'hour' } and " if hours > 0
+      words << "#{minutes} #{minutes == 1 ? 'minute' : 'minutes' }"
     end
-    words << "#{hours} #{hours > 1 ? 'hours' : 'hour' } and " if hours > 0
-    words << "#{minutes} #{minutes == 1 ? 'minute' : 'minutes' }"
   end
 end
