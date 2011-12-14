@@ -109,7 +109,7 @@ class Synchronization
     end
     url = object.url_for(:read,:secure => false)
     s3object.url = url
-    if object.content_length.to_s == "0"
+    if object.key.to_s[object.key.length-1] == "/" #if object.content_length.to_s == "0"
       s3object.folder = true
       s3object.content_length = 0
     else
