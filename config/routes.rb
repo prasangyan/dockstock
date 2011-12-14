@@ -6,7 +6,9 @@ S3FileManager::Application.routes.draw do
   resources :authentications
   #root :controller => "authentications", :action => "new"
   match '/SendInvitation', :controller => "invitation", :action => "send"
-  root :controller => "dashboard" , :action => "index"
+  match '/NotifyMe', :controller => "dashboard", :action => "notify"
+  #root :path => "/index.html"
+  #root :controller => "dashboard" , :action => "index"
   match '/register' , :controller => "authentications", :action => 'register'
   match '/createuser' , :controller => "authentications", :action => 'createuser'
   match 'login', :controller => "authentications", :action => "new"
