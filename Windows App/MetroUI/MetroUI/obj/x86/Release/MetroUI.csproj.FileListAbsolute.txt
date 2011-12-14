@@ -1,0 +1,9 @@
+C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\obj\x86\Release\MetroUI.Form1.resources
+C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\obj\x86\Release\MetroUI.Properties.Resources.resources
+C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\bin\Release\MetroUI.exe
+C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\bin\Release\MetroUI.pdb
+C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\obj\x86\Release\MetroUI.exe
+C:\Users\Prashant\Documents\Visual Studio 2010\Projects\MetroUI\MetroUI\obj\x86\Release\MetroUI.pdb
