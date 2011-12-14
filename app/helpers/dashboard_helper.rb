@@ -46,9 +46,9 @@ module DashboardHelper
         when ".pdf"
           return "imageFile"
         when ""
-          return "folderFile"
+          return "wordFile"
         else
-          return "folderFile"
+          return "wordFile"
       end
     else
       return "folderFile"

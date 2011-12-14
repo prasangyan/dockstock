@@ -136,6 +136,7 @@ class ApiController < ApplicationController
       render :json => {:error => "Invalid key passed."}
     end
   end
+
   #methods for sync tool
   def get_amazon_bucket_id
     unless params[:username].nil? && params[:password].nil?
