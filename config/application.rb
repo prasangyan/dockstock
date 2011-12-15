@@ -35,7 +35,10 @@ module S3FileManager
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
-
+    config.action_controller.session = {
+      :session_key => '_store_session',
+      :secret      => '851939c37d94574e284ded8437d4ea3447dae24cc5bda61d8eaf2731d49273bc4c620'
+    }
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
     config.filter_parameters += [:bucket_key]

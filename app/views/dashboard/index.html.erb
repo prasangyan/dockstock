@@ -102,24 +102,30 @@
                     </h2>
                     <ul>
                         <% if @folder == true %>
-                            <% @s3objects.each do |s3object| %>
-                            <li>
-                                <%= image_tag "#{GetImage_Large(s3object.fileName)}" , :class => "#{GetClass(s3object.fileName)}" %>
-                                <% if s3object.folder == true %>
-                                    <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
-                                    <p class="documentSummary"><span>Files:</span> <%= S3Object.find_all_by_parent_uid(s3object.uid).length %></p>
-                                <% else %>
-                                    <% time_track = ObjectTimeTracking.find_all_by_s3_object_id(s3object.id).first
-                                       time = Date.today
-                                       unless time_track.nil?
-                                        time = time_track.last_modified
-                                       end
-                                    %>
-                                    <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
-                                    <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.content_length.to_f / 1048576)) %> MB  | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,time)  %> ago <span>by</span> <a href="#"> <%= s3object.authentication.name %></a></p>
+                            <% if @s3objects.length > 0 %>
+                                <% @s3objects.each do |s3object| %>
+                                <li>
+                                    <%= image_tag "#{GetImage_Large(s3object.fileName)}" , :class => "#{GetClass(s3object.fileName)}" %>
+                                    <% if s3object.folder == true %>
+                                        <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
+                                        <p class="documentSummary"><span>Files:</span> <%= S3Object.find_all_by_parent_uid(s3object.uid).length %></p>
+                                    <% else %>
+                                        <% time_track = ObjectTimeTracking.find_all_by_s3_object_id(s3object.id).first
+                                           time = Date.today
+                                           unless time_track.nil?
+                                            time = time_track.last_modified
+                                           end
+                                        %>
+                                        <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
+                                        <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.content_length.to_f / 1048576)) %> MB  | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,time)  %> ago <span>by</span> <a href="#"> <%= s3object.authentication.name %></a></p>
+                                    <% end %>
+                                </li>
                                 <% end %>
-                            </li>
-                            <% end %>
+                             <% else %>
+                                <li>
+                                   This folder is empty.
+                                </li>
+                             <% end %>
                         <% else %>
                             <% @s3objects.each do |s3object| %>
                               <% unless s3object.delete_marker? %>
