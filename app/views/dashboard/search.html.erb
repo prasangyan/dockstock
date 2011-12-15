@@ -1,7 +1,7 @@
 <div class="container">
     <header>
       <div class="topBar">
-        <a href="/dashboard"><%= image_tag "logo.png" %></a>
+        <a href="/dashboard"><%= image_tag "logo_versavault.png" %></a>
         <div class="userInfo">
           Hello <a href="#"><%= @current_user.name %></a> |  <%= link_to "Logout" ,  "/logout" %>
         </div>
@@ -86,13 +86,19 @@
                     <ul>
                         <% @s3objects.each do |s3object| %>
                         <li>
+                            <% time_track = ObjectTimeTracking.find_all_by_s3_object_id(s3object.id).first
+                                time = Date.today
+                                unless time_track.nil?
+                                    time = time_track.last_modified
+                                end
+                            %>
                             <%= image_tag "#{GetImage_Large(s3object.fileName)}" , :class => "#{GetClass(s3object.fileName)}" %>
                             <% if s3object.folder == true %>
                                 <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
                                 <p class="documentSummary"><span>Files:</span> <%= S3Object.find_all_by_parent_uid(s3object.uid).length %></p>
                             <% else %>
                                 <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
-                                <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.content_length / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,s3object.lastModified)  %> ago <span>by</span> <a href="#"> <%= @current_user.name %></a></p>
+                                <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.content_length / 1048576)) %> MB | <span>Version: </span><a href="#">1.0</a> | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,time)  %> ago <span>by</span> <a href="#"> <%= @current_user.name %></a></p>
                             <% end %>
                         </li>
                         <% end %>

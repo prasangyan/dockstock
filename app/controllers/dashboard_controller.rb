@@ -55,10 +55,15 @@ class DashboardController < ApplicationController
       search = rsolr.select :params => {:q => params[:key], :defType => "dismax", :qf => "pdf_texts"}
       search['response']['docs'].each do |doc_id|
         if doc_id["id"].to_s.strip != ''
-            s3_object = S3Object.find_by_id(doc_id["id"])
-            unless s3_object.nil?
-              @s3objects.add(s3_object)
-            end
+          s3_object = S3Object.find_by_id(doc_id["id"])
+          unless s3_object.nil?
+            @s3objects.push(s3_object)
+          end
+        end
+      end
+      S3Object.where("upper(key) LIKE '%#{params[:key].to_s.upcase}%'").each do |object|
+        unless @s3objects.include?(object)
+          @s3objects.push(object)
         end
       end
     end
