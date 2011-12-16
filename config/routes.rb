@@ -5,8 +5,8 @@ S3FileManager::Application.routes.draw do
 
   resources :authentications
   #root :controller => "authentications", :action => "new"
-  match '/SendInvitation', :controller => "invitation", :action => "send"
-  match '/NotifyMe', :controller => "dashboard", :action => "notify"
+  match '/sendinvitation', :controller => "invitation", :action => "send"
+  match '/notifyme', :controller => "dashboard", :action => "notify"
   #root :path => "/index.html"
   #root :controller => "dashboard" , :action => "index"
   match '/register' , :controller => "authentications", :action => 'register'
@@ -18,7 +18,7 @@ S3FileManager::Application.routes.draw do
   match 'setpassword', :controller => "authentications", :action => "setpassword"
   match 'auto_complete/:key', :controller => "dashboard", :action => "auto_complete", :constraints => {:key => /[^\/]*/}
   match 'search/:key', :controller => "dashboard", :action => "search"
-  match 'SyncAmazon', :controller => "dashboard", :action =>"syncamazon"
+  match 'syncamazon', :controller => "dashboard", :action =>"syncamazon"
   match 'dashboard', :controller => "dashboard", :action => "index"
   match '/dashboard(/:key)', :controller => "dashboard", :action => "index"
   match ':controller/:action/:id'

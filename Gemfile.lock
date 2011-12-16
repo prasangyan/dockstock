@@ -30,6 +30,8 @@ GEM
       activesupport (= 3.0.3)
     activesupport (3.0.3)
     arel (2.0.7)
+    authlogic (2.1.6)
+      activesupport
     aws-sdk (1.2.3)
       httparty (~> 0.7)
       json (~> 1.4)
@@ -90,9 +92,11 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  authlogic
   aws-sdk
   newrelic_rpm
   pdf-reader
   pg
   rails (= 3.0.3)
+  rake (= 0.8.7)
   rsolr

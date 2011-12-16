@@ -1,7 +1,7 @@
 class Synchronization
   attr_accessor :startsync
   def startsync
-    s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+    s3 = AWS::S3.new(:access_key_id => AMAZON_CONFIG["access_key_id"],:secret_access_key => AMAZON_CONFIG["secret_access_key"])
     Authentication.all.each do |authentication|
       # getting time to track the deleted objects in the database
       current_Time = Time.parse((Time.now - 60).to_s).getutc
@@ -125,7 +125,7 @@ class Synchronization
   def sync_object_with_tree(authentication_id,bucket_key,key)
     auth = Authentication.find(authentication_id)
     unless auth.nil?
-      s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+      s3 = AWS::S3.new(:access_key_id => AMAZON_CONFIG["access_key_id"],:secret_access_key => AMAZON_CONFIG["secret_access_key"])
       bucket = s3.buckets[bucket_key]
       unless bucket.nil?
         tree = bucket.as_tree(:prefix => key)

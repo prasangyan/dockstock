@@ -1,5 +1,6 @@
 require 'digest/sha1'
 class Authentication < ActiveRecord::Base
+  acts_as_authentic
   has_many :s3_objects
   has_many :machines
   #validates_length_of :password, :within => 5..40 , :message => "Password length is too short!"
@@ -11,14 +12,14 @@ class Authentication < ActiveRecord::Base
   attr_protected :id, :salt
   attr_accessor :password
   def authenticate(username, pass)
-    u = Authentication.find(:first, :conditions=>["username = ?", username])
+    u = Authentication.find(:first, :conditions=>["upper(username) = ?", username.to_s.upcase])
     puts u.bucketKey
     return nil if u.nil?
     return u if Authentication.encrypt(pass, u.password_salt)==u.crypted_password
     nil
   end
   def self.authenticate(username, pass)
-    u= Authentication.find(:first, :conditions=>["username = ?", username])
+    u= Authentication.find(:first, :conditions=>["upper(username) = ?", username.to_s.upcase])
     return nil if u.nil?
     return u if Authentication.encrypt(pass, u.password_salt)==u.crypted_password
     nil

@@ -12,7 +12,7 @@ class DashboardController < ApplicationController
         @parent_uid = @s3object.uid
         if @folder == false
            # loading file version history
-          s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+          s3 = AWS::S3.new(:access_key_id => AMAZON_CONFIG["access_key_id"],:secret_access_key => AMAZON_CONFIG["secret_access_key"])
           bucket = s3.buckets[@current_user.bucketKey]
           unless bucket.nil?
             @s3objects = bucket.objects[@s3object.key].versions

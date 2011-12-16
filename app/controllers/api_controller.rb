@@ -148,7 +148,7 @@ class ApiController < ApplicationController
           result.bucketKey =  "versavault-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
           if result.save
             #AWS::S3::Bucket.create(result.bucketKey,:access => :public_read)
-            s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+            s3 = AWS::S3.new(:access_key_id => AMAZON_CONFIG["access_key_id"],:secret_access_key => AMAZON_CONFIG["secret_access_key"])
             bucket = s3.buckets.create(result.bucketKey)
             unless bucket.nil?
               result.save

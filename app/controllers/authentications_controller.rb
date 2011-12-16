@@ -44,13 +44,14 @@ class AuthenticationsController < ApplicationController
       newuser.username = params[:username]
       newuser.password = params[:password]
       if params[:password] == params[:confirm_password]
+        newuser.password_confirmation = params[:confirm_password]
         if newuser.save
           newuser.bucketKey = ''
           begin
             newuser.bucketKey =  "versavault-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
             #AWS::S3::Bucket.create(newuser.bucketKey)
             #bucket = AWS::S3::Bucket.find(newuser.bucketKey)
-            s3 = AWS::S3.new(:access_key_id => "AKIAIW36YM46YELZCT3A",:secret_access_key => "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")
+            s3 = AWS::S3.new(:access_key_id => AMAZON_CONFIG["access_key_id"],:secret_access_key => AMAZON_CONFIG["secret_access_key"])
             bucket = s3.buckets.create(newuser.bucketKey)
             unless bucket.nil?
               newuser.save
@@ -62,6 +63,7 @@ class AuthenticationsController < ApplicationController
           redirecttohome
           return
         else
+          puts newuser.errors.full_messages
           newuser.errors.each do |attr,msg|
             @error = msg + "<br />"
           end

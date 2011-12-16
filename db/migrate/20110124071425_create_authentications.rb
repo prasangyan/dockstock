@@ -5,6 +5,7 @@ class CreateAuthentications < ActiveRecord::Migration
       t.string :password_salt
       t.string :crypted_password
       t.string :reset_code, :default => ""
+      t.string :persistence_token
       t.timestamps
     end
   end

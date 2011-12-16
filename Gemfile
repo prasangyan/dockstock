@@ -1,4 +1,5 @@
 source 'http://rubygems.org'
+gem "rake", '0.8.7'
 gem 'rails', '3.0.3'
 gem 'pg'
 gem "aws-sdk"
@@ -10,3 +11,4 @@ gem "rsolr"
 gem "pdf-reader"
 gem "newrelic_rpm"
 #gem "websolr-sunspot_rails"
+gem "authlogic"
