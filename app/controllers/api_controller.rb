@@ -62,6 +62,7 @@ class ApiController < ApplicationController
           s3object[:Status] = object_time.status
         else
           s3object[:LastModified] = DateTime.parse("2000-01-01")
+          s3object[:Status] = true
         end
         s3object[:Uid] = object.uid
         s3objects["S3Object"].push (s3object)
@@ -111,6 +112,7 @@ class ApiController < ApplicationController
       render :json => {:error => "Invalid key passed."}
     end
   end
+
   def delete_files
     unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?
       auth = Authentication.find_by_bucketKey(params[:bucket_key])
@@ -165,6 +167,7 @@ class ApiController < ApplicationController
   end
 
   private
+
   def get_machine(machine_key,authentication_id)
     machine = Machine.find_by_machine_key_and_authentication_id(machine_key,authentication_id)
     if machine.nil?
@@ -176,6 +179,7 @@ class ApiController < ApplicationController
     end
     return machine
   end
+
   def update_time_tracking(s3_object_id,machine_id)
     object_time_on_machine = ObjectTimeTracking.find_by_s3_object_id_and_machine_id(s3_object_id,machine_id)
     if object_time_on_machine.nil?
@@ -189,4 +193,5 @@ class ApiController < ApplicationController
     object_time_on_machine.last_modified = params[:last_modified]
     object_time_on_machine.save
   end
+
 end
