@@ -1,5 +1,11 @@
 class Synchronization
+
   attr_accessor :startsync
+  attr_accessor :sync_bucket
+  attr_accessor :saveobject
+  attr_accessor :sync_object_with_tree
+  attr_accessor :sync_objects_folder
+
   def startsync
     s3 = AWS::S3.new(:access_key_id => AMAZON_CONFIG["access_key_id"],:secret_access_key => AMAZON_CONFIG["secret_access_key"])
     Authentication.all.each do |authentication|
@@ -86,14 +92,18 @@ class Synchronization
       s3object.key = key
       parentfolder = s3object.key.split("/")
       parent_folder = ''
-      parentfolder.each_with_index do |fld,idx|
-        if object.content_length != "0" && idx == parentfolder.length - 1 && idx != 0
-        else
-            if parent_folder == ''
-              parent_folder = fld.to_s.rstrip
+      if parentfolder.length > 1
+        if parentfolder[1].strip != ""
+          parentfolder.each_with_index do |fld,idx|
+            if object.content_length != "0" && idx == parentfolder.length - 1 && idx != 0
             else
-              parent_folder = parent_folder + "/" + fld.to_s.rstrip
+              if parent_folder == ''
+                parent_folder = fld.to_s.rstrip
+              else
+                parent_folder = parent_folder + "/" + fld.to_s.rstrip
+              end
             end
+          end
         end
       end
       s3object.parent = parent_folder.to_s.rstrip
@@ -128,10 +138,10 @@ class Synchronization
       s3 = AWS::S3.new(:access_key_id => AMAZON_CONFIG["access_key_id"],:secret_access_key => AMAZON_CONFIG["secret_access_key"])
       bucket = s3.buckets[bucket_key]
       unless bucket.nil?
-        tree = bucket.as_tree(:prefix => key)
+        tree = bucket.as_tree(:prefix => key, :delimiter => "/")
         if tree.parent.nil?
           tree.collection.each do |object|
-            if key.to_s.downcase == object.key.to_s.downcase
+            if key.to_s.downcase == object.key.to_s.downcase or key.to_s.downcase + "/" == object.key.to_s.downcase
               saveobject(object,authentication_id)
             end
           end

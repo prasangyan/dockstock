@@ -44,7 +44,7 @@ module DashboardHelper
         when ".jpg",".jpeg",".png",".bmp",".gif",".jfif",".exif",".tiff" , ".raw" , ".ppm" , ".pgm" , ".pbm" , ".pnm" , ".cgm" , ".svg" , ".pns" , ".jps"
           return "imageFile"
         when ".pdf"
-          return "imageFile"
+          return "wordFile"
         when ""
           return "wordFile"
         else
