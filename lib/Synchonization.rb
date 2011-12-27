@@ -56,8 +56,12 @@ class Synchronization
       bucket = s3.buckets[authentication.bucketKey]
       unless bucket.nil?
         if key.nil?
-          bucket.objects.with_prefix('').each do |object|
-            saveobject(object,authentication.id)
+          begin
+            bucket.objects.with_prefix('').each do |object|
+              saveobject(object,authentication.id)
+            end
+          rescue => ex
+            puts ex.message
           end
         else
           bucket.objects.with_prefix(key).each do |object|

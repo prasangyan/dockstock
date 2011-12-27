@@ -146,7 +146,7 @@ class ApiController < ApplicationController
       unless auth.nil?
         s3object = S3Object.find_by_authentication_id_and_key(auth.id,params[:key])
         unless s3object.nil?
-          ObjectTimeTracking.find_all_by_s3_object_id_and_machine_id(s3_object.id,machine.id).each do |object_time_track|
+          ObjectTimeTracking.find_all_by_s3_object_id_and_machine_id(s3object.id,machine.id).each do |object_time_track|
             object_time_track.status = false
             object_time_track.save
           end
