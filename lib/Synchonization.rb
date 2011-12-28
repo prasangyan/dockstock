@@ -7,31 +7,45 @@ class Synchronization
   attr_accessor :sync_objects_folder
 
   def startsync
-    s3 = AWS::S3.new(:access_key_id => AMAZON_CONFIG["access_key_id"],:secret_access_key => AMAZON_CONFIG["secret_access_key"])
-    Authentication.all.each do |authentication|
-      # getting time to track the deleted objects in the database
-      current_Time = Time.parse((Time.now - 60).to_s).getutc
-      # lock the user from update his objects from api
-      sync_lock = SyncLock.find_by_bucket_key(authentication.bucketKey)
-      if sync_lock.nil?
-        # may be it is first time so create a record for it
-        sync_lock = SyncLock.new
-        sync_lock.bucket_key = authentication.bucketKey
-        sync_lock.lock=true
-        sync_lock.save
-      else
-        sync_lock.lock = true
+    begin
+      s3 = AWS::S3.new(:access_key_id => AMAZON_CONFIG["access_key_id"],:secret_access_key => AMAZON_CONFIG["secret_access_key"])
+      Authentication.all.each do |authentication|
+        # getting time to track the deleted objects in the database
+        current_Time = Time.parse((Time.now - 60).to_s).getutc
+        # lock the user from update his objects from api
+        sync_lock = SyncLock.find_by_bucket_key(authentication.bucketKey)
+        if sync_lock.nil?
+          # may be it is first time so create a record for it
+          sync_lock = SyncLock.new
+          sync_lock.bucket_key = authentication.bucketKey
+          sync_lock.lock=true
+          sync_lock.save
+        else
+          sync_lock.lock = true
+          sync_lock.save
+        end
+        # lets start the sync process
+        sync_bucket(s3,authentication,nil)
+        #   lets destroy the unavailable object record from database
+        S3Object.find(:all, :conditions => "sync_time < '#{current_Time}' ").each do |s3object|
+          s3object.destroy
+        end
+        # finally release the lock
+        sync_lock.lock= false
         sync_lock.save
       end
-      # lets start the sync process
-      sync_bucket(s3,authentication,nil)
-      # lets destroy the unavailable object record from database
-      S3Object.find(:all, :conditions => "sync_time < '#{current_Time}' ").each do |s3object|
-        s3object.destroy
+    rescue => ex
+      puts "Error at synchronization due to " + ex.message
+    end
+    ObjectTimeTracking.all.each do |object_time_tracking|
+      begin
+        s3_object = S3Object.find(object_time_tracking.s3_object_id)
+        if s3_object.nil?
+          object_time_tracking.destroy
+        end
+      rescue
+         object_time_tracking.destroy
       end
-      # finally release the lock
-      sync_lock.lock= false
-      sync_lock.save
     end
 =begin
     # finally check whether any queue process is pending

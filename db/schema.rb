@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(:version => 20111214114345) do
 
   create_table "object_time_trackings", :force => true do |t|
     t.integer  "s3_object_id"
-    t.datetime "last_modified"
+    t.string "last_modified"
     t.integer  "machine_id"
     t.boolean  "status"
     t.datetime "created_at"
@@ -83,19 +83,6 @@ ActiveRecord::Schema.define(:version => 20111214114345) do
     t.string "last_modified"
   end
 
-  create_table "user_sessions", :force => true do |t|
-    t.string   "session_id", :null => false
-    t.text     "data"
-    t.string   "username"
-    t.string   "password"
-    t.boolean  "remember_me"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  #add_index "user_sessions", ["session_id"], :name => "index_sessions_on_session_id"
-  #add_index "user_sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
-
   create_table "shared_s3_objects", :force => true do |t|
     t.integer  "s3_object_id"
     t.integer  "authentication_id"
@@ -106,6 +93,16 @@ ActiveRecord::Schema.define(:version => 20111214114345) do
   create_table "sync_locks", :force => true do |t|
     t.string  "bucket_key"
     t.boolean "lock"
+  end
+
+  create_table "user_sessions", :force => true do |t|
+    t.string   "session_id",  :null => false
+    t.text     "data"
+    t.string   "username"
+    t.string   "password"
+    t.boolean  "remember_me"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

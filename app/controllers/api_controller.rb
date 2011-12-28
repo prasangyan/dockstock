@@ -1,27 +1,22 @@
 class ApiController < ApplicationController
 
   def root_files
-
     unless params[:bucket_key].nil? and params[:machine_key].nil?
       get_s3_objects("0",params[:bucket_key],params[:machine_key])
     else
       render :json => { :error => "Invalid api key passed." }
     end
-
   end
 
   def child_files
-
     unless params[:bucket_key].nil? and params[:parent_uid].nil? and params[:machine_key].nil?
       get_s3_objects(params[:parent_uid],params[:bucket_key],params[:machine_key])
     else
       render :json => { :error => "Invalid api key passed." }
     end
-
   end
 
   def get_object_status
-
     unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?
       auth = Authentication.find_by_bucketKey(params[:bucket_key])
       unless auth.nil?
@@ -47,11 +42,9 @@ class ApiController < ApplicationController
         render :json =>  s3objects.to_json
       end
     end
-
   end
 
   def get_s3_objects(parent_uid,bucket_key,machine_key)
-
     auth = Authentication.find_by_bucketKey(bucket_key)
     unless auth.nil?
       machine = get_machine(machine_key,auth.id)
@@ -76,11 +69,9 @@ class ApiController < ApplicationController
       end
       render :json =>  s3objects.to_json
     end
-
   end
 
   def add_files
-
     unless params[:bucket_key].nil? and params[:key].nil? and params[:last_modified].nil? and params[:machine_key].nil?
       authentication = Authentication.find_by_bucketKey(params[:bucket_key])
       unless authentication.nil?
@@ -99,11 +90,9 @@ class ApiController < ApplicationController
     else
       render :json => {:error => "Invalid key passed."}
     end
-
   end
 
   def update_files
-
     unless params[:bucket_key].nil? and params[:key].nil? and params[:last_modified].nil? and params[:machine_key].nil?
       authentication = Authentication.find_by_bucketKey(params[:bucket_key])
       unless authentication.nil?
@@ -136,11 +125,9 @@ class ApiController < ApplicationController
     else
       render :json => {:error => "Invalid key passed."}
     end
-
   end
 
   def delete_files
-
     unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?
       auth = Authentication.find_by_bucketKey(params[:bucket_key])
       unless auth.nil?
@@ -164,12 +151,10 @@ class ApiController < ApplicationController
     else
       render :json => {:error => "Invalid key passed."}
     end
-
   end
 
   #methods for sync tool
   def get_amazon_bucket_id
-
     unless params[:username].nil? && params[:password].nil?
       result = Authentication.authenticate(params[:username].to_s,params[:password].to_s)
       unless result.nil?
@@ -193,7 +178,6 @@ class ApiController < ApplicationController
     else
       render :json => {:Error => "Invalid parameters password."}
     end
-
   end
 
   private
@@ -223,7 +207,6 @@ class ApiController < ApplicationController
   end
 
   def add_time_tracking(s3_object_id,machine_id,last_modified)
-
     object_time_on_machine = ObjectTimeTracking.find_by_s3_object_id_and_machine_id(s3_object_id,machine_id)
     if object_time_on_machine.nil?
       object_time_on_machine = ObjectTimeTracking.new
@@ -237,15 +220,12 @@ class ApiController < ApplicationController
     unless object_time_on_machine.save
       puts object_time_on_machine.errors.full_messages
     end
-
   end
 
   def update_amazon_object(authentication_id,bucket_key,key,last_modified,machine_id)
-
     require "Synchonization"
     sync = Synchronization.new
     sync.sync_object_with_tree(authentication_id,bucket_key,key)
-
     s3_object = S3Object.find_by_authentication_id_and_key(authentication_id,key)
     unless s3_object.nil?
       update_time_tracking(s3_object.id,machine_id,last_modified)
@@ -253,7 +233,6 @@ class ApiController < ApplicationController
     else
       render :text => "key not found"
     end
-
   end
 
 end
