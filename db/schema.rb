@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111214114345) do
+ActiveRecord::Schema.define(:version => 20111228080607) do
 
   create_table "authentications", :force => true do |t|
     t.string   "username"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(:version => 20111214114345) do
 
   create_table "object_time_trackings", :force => true do |t|
     t.integer  "s3_object_id"
-    t.string "last_modified"
+    t.string   "last_modified"
     t.integer  "machine_id"
     t.boolean  "status"
     t.datetime "created_at"

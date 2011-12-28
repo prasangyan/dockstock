@@ -131,6 +131,7 @@ class ApiController < ApplicationController
     unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?
       auth = Authentication.find_by_bucketKey(params[:bucket_key])
       unless auth.nil?
+        machine = get_machine(params[:machine_key],auth.id)
         s3object = S3Object.find_by_authentication_id_and_key(auth.id,params[:key])
         unless s3object.nil?
           ObjectTimeTracking.find_all_by_s3_object_id_and_machine_id(s3object.id,machine.id).each do |object_time_track|
