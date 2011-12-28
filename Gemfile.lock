@@ -95,7 +95,7 @@ DEPENDENCIES
   authlogic
   aws-sdk
   newrelic_rpm
-  pdf-reader
+  pdf-reader (= 1.0.0beta1)
   pg
   rails (= 3.0.3)
   rake (= 0.8.7)
