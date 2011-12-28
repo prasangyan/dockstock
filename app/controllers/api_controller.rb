@@ -217,7 +217,7 @@ class ApiController < ApplicationController
       object_time_on_machine.last_modified = Time.now.to_s
       object_time_on_machine.save
     end
-    object_time_on_machine.last_modified = last_modified
+    object_time_on_machine.last_modified = last_modified.to_s
     unless object_time_on_machine.save
       puts object_time_on_machine.errors.full_messages
     end
