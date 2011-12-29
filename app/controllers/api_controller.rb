@@ -214,7 +214,7 @@ class ApiController < ApplicationController
       object_time_on_machine.s3_object_id = s3_object_id
       object_time_on_machine.machine_id = machine_id
       object_time_on_machine.status=true
-      object_time_on_machine.last_modified = Time.now.to_s
+      object_time_on_machine.last_modified = last_modified.to_s
       object_time_on_machine.save
     end
     object_time_on_machine.last_modified = last_modified.to_s

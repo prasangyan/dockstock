@@ -27,7 +27,7 @@ class Synchronization
         # lets start the sync process
         sync_bucket(s3,authentication,nil)
         #   lets destroy the unavailable object record from database
-        S3Object.find(:all, :conditions => "sync_time < '#{current_Time}' ").each do |s3object|
+        S3Object.find(:all, :conditions => "sync_time < '#{current_Time}' and authentication_id = #{authentication.id} ").each do |s3object|
           s3object.destroy
         end
         # finally release the lock
