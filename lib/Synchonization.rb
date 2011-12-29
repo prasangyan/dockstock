@@ -44,7 +44,6 @@ class Synchronization
           object_time_tracking.destroy
         end
       rescue
-         object_time_tracking.destroy
       end
     end
 =begin
