@@ -36,7 +36,9 @@ class S3Object < ActiveRecord::Base
         elsif file_extention == ".txt" or file_extention == ".csv" or file_extention == ".html" or file_extention == ".htm" or file_extention == ".csv" or file_extention == ".xml" or file_extention == ".xml" or file_extention == ".xhtml" or file_extention == ".xps" or file_extention == ".tiff" or file_extention == ".php" or file_extention == ".aspx" or file_extention == ".asp" or file_extention == ".c" or file_extention == ".h" or file_extention == ".cpp" or file_extention == ".vb" or file_extention == ".bat"
           rsolr = RSolr.connect :url => ENV["WEBSOLR_URL"]
           io = open(self.url.to_s)
-          rsolr.add(:id => self.id, :pdf_texts => io.read )
+          content = io.read
+          puts content
+          rsolr.add(:id => self.id, :pdf_texts => content )
           rsolr.commit
         end
       rescue => ex

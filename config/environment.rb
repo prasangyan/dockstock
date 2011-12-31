@@ -14,5 +14,5 @@ ActionMailer::Base.smtp_settings = {
         :content_type => "text/html"
         }
 ActionMailer::Base.delivery_method = :smtp
-ENV["WEBSOLR_URL"] = "http://index.websolr.com/solr/b840ba32a68"
+ENV["WEBSOLR_URL"] = YAML.load_file("#{RAILS_ROOT}/config/web_solr.yml")[RAILS_ENV]["websolr_url"]
 AMAZON_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/amazon_s3.yml")[RAILS_ENV]

@@ -1,0 +1,6 @@
+development:
+  websolr_url: "http://index.websolr.com/solr/8cfc7443fe4"
+test:
+  websolr_url: "http://index.websolr.com/solr/8cfc7443fe4"
+production:
+  websolr_url: "http://index.websolr.com/solr/4a1933c92c4"
