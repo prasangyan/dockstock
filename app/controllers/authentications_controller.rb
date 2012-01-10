@@ -54,6 +54,7 @@ class AuthenticationsController < ApplicationController
             s3 = AWS::S3.new(:access_key_id => AMAZON_CONFIG["access_key_id"],:secret_access_key => AMAZON_CONFIG["secret_access_key"])
             bucket = s3.buckets.create(newuser.bucketKey)
             unless bucket.nil?
+               bucket.enable_versioning
               newuser.save
             end
           end

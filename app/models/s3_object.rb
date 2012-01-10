@@ -30,6 +30,7 @@ class S3Object < ActiveRecord::Base
                 pdf_content += page.text
               end
             end
+            puts pdf_content
             rsolr.add(:id => self.id, :pdf_texts => pdf_content )
             rsolr.commit
           end
@@ -37,7 +38,6 @@ class S3Object < ActiveRecord::Base
           rsolr = RSolr.connect :url => ENV["WEBSOLR_URL"]
           io = open(self.url.to_s)
           content = io.read
-          puts content
           rsolr.add(:id => self.id, :pdf_texts => content )
           rsolr.commit
         end

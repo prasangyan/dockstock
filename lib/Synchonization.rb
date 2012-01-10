@@ -73,21 +73,33 @@ class Synchronization
             bucket.objects.with_prefix('').each do |object|
               saveobject(object,authentication.id)
             end
+             bucket.enable_versioning
           rescue => ex
             puts ex.message
           end
         else
-          bucket.objects.with_prefix(key).each do |object|
-            saveobject(object,authentication.id)
+          begin
+            bucket.objects.with_prefix(key).each do |object|
+              saveobject(object,authentication.id)
+            end
+            bucket.enable_versioning
+          rescue => ex
+            puts ex.message
           end
         end
       else
         bucket = s3.buckets.create(authentication.bucketKey)
+        unless bucket.nil?
+           bucket.enable_versioning
+        end
       end
     else
       authentication.bucketKey =  "versavault-"  + Time.now.strftime("%y%m%d%H%M%S").to_s
       if authentication.save
         bucket = s3.buckets.create(authentication.bucketKey)
+        unless bucket.nil?
+           bucket.enable_versioning
+        end
       end
     end
   end
@@ -147,6 +159,26 @@ class Synchronization
     unless s3object.save
       puts s3object.errors.full_messages
     end
+    # setting public read for all the versions of an object in amazon
+    begin
+      setacl(object,nil)
+      #object.versions.each do |object_version|
+      #  setacl(object,object_version.version_id)
+      #end
+    rescue => ex
+      puts "error at setting acl to versions due to " + ex.message
+    end
+  end
+
+  def setacl(object,version_id)
+    acl = object.acl
+    grant = AWS::S3::AccessControlList::Grant.new
+    grant.grantee = {:group_uri => "http://acs.amazonaws.com/groups/global/AllUsers"}
+    grant.permission = :read
+    acl.grants << grant
+    unless version_id.nil?
+    end
+    object.acl = acl
   end
 
   def sync_object_with_tree(authentication_id,bucket_key,key)

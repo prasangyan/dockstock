@@ -1,2 +1,5 @@
 access_key_id: "AKIAIW36YM46YELZCT3A"
 secret_access_key: "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"
+s3_multipart_min_part_size: 1048576 # just 1 mb
+s3_multipart_max_parts: 10000
+

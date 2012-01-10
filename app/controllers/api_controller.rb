@@ -16,7 +16,7 @@ class ApiController < ApplicationController
     end
   end
 
-  def get_object_status
+   def get_object_status
     unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?
       auth = Authentication.find_by_bucketKey(params[:bucket_key])
       unless auth.nil?
@@ -168,6 +168,7 @@ class ApiController < ApplicationController
             s3 = AWS::S3.new(:access_key_id => AMAZON_CONFIG["access_key_id"],:secret_access_key => AMAZON_CONFIG["secret_access_key"])
             bucket = s3.buckets.create(result.bucketKey)
             unless bucket.nil?
+              bucket.enable_versioning
               result.save
             end
           end
