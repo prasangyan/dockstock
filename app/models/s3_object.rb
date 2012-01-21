@@ -1,4 +1,6 @@
 require "open-uri"
+require "rubygems"
+require "roo"
 class S3Object < ActiveRecord::Base
   belongs_to :authentication
   has_many :shared_s3_objectses
@@ -40,6 +42,57 @@ class S3Object < ActiveRecord::Base
           content = io.read
           rsolr.add(:id => self.id, :pdf_texts => content )
           rsolr.commit
+        elsif file_extention == ".xlsx"
+          io = open(self.url.to_s)
+          directory = File.join(Rails.root,"public")
+          path = File.join(directory,self.fileName)
+          File.open(path, "wb") { |f| f.write(io.readlines()) }
+          oo = Excelx.new(path)
+          oo.default_sheet = oo.sheets.first
+          content = ''
+          1.upto(oo.last_column).each do |line|
+            1.upto(oo.last_row).each do |row|
+              content += " " + oo.cell(line,row).to_s
+            end
+          end
+          puts content
+          rsolr.add(:id => self.id, :pdf_texts => content )
+          rsolr.commit
+          File.delete(path)
+        elsif file_extention == ".xls"
+          io = open(self.url.to_s)
+          directory = File.join(Rails.root,"public")
+          path = File.join(directory,self.fileName)
+          File.open(path, "wb") { |f| f.write(io.readlines()) }
+          oo = Excel.new(path)
+          oo.default_sheet = oo.sheets.first
+          content = ''
+          1.upto(oo.last_column).each do |line|
+            1.upto(oo.last_row).each do |row|
+              content += " " + oo.cell(line,row).to_s
+            end
+          end
+          puts content
+          rsolr.add(:id => self.id, :pdf_texts => content )
+          rsolr.commit
+          File.delete(path)
+        elsif file_extention == ".ods"    # open office files
+           io = open(self.url.to_s)
+          directory = File.join(Rails.root,"public")
+          path = File.join(directory,self.fileName)
+          File.open(path, "wb") { |f| f.write(io.readlines()) }
+          oo = Openoffice.new(path)
+          oo.default_sheet = oo.sheets.first
+          content = ''
+          1.upto(oo.last_column).each do |line|
+            1.upto(oo.last_row).each do |row|
+              content += " " + oo.cell(line,row).to_s
+            end
+          end
+          puts content
+          rsolr.add(:id => self.id, :pdf_texts => content )
+          rsolr.commit
+          File.delete(path)
         end
       rescue => ex
         puts ex.message

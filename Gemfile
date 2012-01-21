@@ -12,3 +12,5 @@ gem "pdf-reader", "1.0.0.rc1"
 gem "newrelic_rpm"
 #gem "websolr-sunspot_rails"
 gem "authlogic"
+
+gem "roo"
