@@ -127,6 +127,30 @@ class ApiController < ApplicationController
     end
   end
 
+  def get_object_id
+    unless params[:bucket_key].nil? and params[:key].nil?
+       auth = Authentication.find_by_bucketKey(params[:bucket_key])
+      unless auth.nil?
+        s3object = S3Object.find_by_authentication_id_and_key(auth.id,params[:key])
+        unless s3object.nil?
+          render :text => s3object.id.to_s
+          return
+        end
+      end
+    end
+    render :text => "0"
+  end
+
+  def update_content
+    unless params[:id].nil? and params[:content].nil?
+      rsolr = RSolr.connect :url => ENV["WEBSOLR_URL"]
+      rsolr.add(:id => params[:id], :pdf_texts => params[:content] )
+      rsolr.commit
+    end
+    render :text => "done"
+  end
+
+
   def delete_files
     unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?
       auth = Authentication.find_by_bucketKey(params[:bucket_key])
