@@ -10,13 +10,22 @@ class ApiController < ApplicationController
 
   def child_files
     unless params[:bucket_key].nil? and params[:parent_uid].nil? and params[:machine_key].nil?
-      get_s3_objects(params[:parent_uid],params[:bucket_key],params[:machine_key])
+      shared = false
+      unless params[:shared].nil?
+        shared = params[:shared].to_bool
+      end
+      unless shared
+        get_s3_objects(params[:parent_uid],params[:bucket_key],params[:machine_key])
+      else
+        get_shared_s3_objects(params[:parent_uid])
+      end
     else
       render :json => { :error => "Invalid api key passed." }
     end
   end
 
-   def get_object_status
+  def get_object_status
+
     unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?
       auth = Authentication.find_by_bucketKey(params[:bucket_key])
       unless auth.nil?
@@ -42,6 +51,7 @@ class ApiController < ApplicationController
         render :json =>  s3objects.to_json
       end
     end
+
   end
 
   def get_s3_objects(parent_uid,bucket_key,machine_key)
@@ -52,23 +62,80 @@ class ApiController < ApplicationController
       s3objects = {}
       s3objects["S3Object"] = []
       S3Object.find_all_by_parent_uid_and_authentication_id(parent_uid,auth.id).each do |object|
-        s3object = {}
-        s3object[:FileName] = object.fileName
-        s3object[:Folder] = object.folder
-        s3object[:Key] = object.key
-        object_time = ObjectTimeTracking.find_by_s3_object_id_and_machine_id(object.id,machine.id)
-        unless object_time.nil?
-          s3object[:LastModified] =  object_time.last_modified
-          s3object[:Status] = object_time.status
-        else
-          s3object[:LastModified] = DateTime.parse("2000-01-01")
-          s3object[:Status] = true
+        s3objects["S3Object"].push (add_object_properties(object,machine))
+      end
+      # adding shared objects
+      if parent_uid == "0"
+        # adding root shared objects
+        s3objects["S3Object_Shared"] = []
+        SharedS3Objects.find_all_by_authentication_id(auth.id).each do |shared_s3_object|
+          if shared_s3_object.root_folder
+            S3Object.find_all_by_authentication_id(shared_s3_object.authentication_id).each do |object|
+              s3objects["S3Object_Shared"].push (add_object_properties_as_shared(object))
+            end
+          else
+            S3Object.find_all_by_id(shared_s3_object.s3_object_id).each do |object|
+              s3objects["S3Object_Shared"].push (add_object_properties_as_shared(object))
+            end
+          end
         end
-        s3object[:Uid] = object.uid
-        s3objects["S3Object"].push (s3object)
+      else
+        # adding shared objects with parent
+        s3objects["S3Object_Shared"] = []
+        S3Object.find_all_by_parent_uid(parent_uid).each do |object|
+          s3objects["S3Object_Shared"].push (add_object_properties_as_shared(object))
+        end
       end
       render :json =>  s3objects.to_json
     end
+  end
+
+  def get_shared_s3_objects(parent_uid)
+    ActiveRecord::Base.include_root_in_json = true
+    s3objects = {}
+    s3objects["S3Object"] = []
+    # adding shared objects with parent
+    s3objects["S3Object_Shared"] = []
+    S3Object.find_all_by_parent_uid(parent_uid).each do |object|
+      s3objects["S3Object_Shared"].push (add_object_properties_as_shared(object))
+    end
+    render :json =>  s3objects.to_json
+  end
+
+  def add_object_properties(object,machine)
+    s3object = {}
+    s3object[:FileName] = object.fileName
+    s3object[:Folder] = object.folder
+    s3object[:Key] = object.key
+    object_time = ObjectTimeTracking.find_by_s3_object_id_and_machine_id(object.id,machine.id)
+    unless object_time.nil?
+      s3object[:LastModified] =  object_time.last_modified
+      s3object[:Status] = object_time.status
+    else
+      s3object[:LastModified] = DateTime.parse("2000-01-01")
+      s3object[:Status] = true
+    end
+    s3object[:Uid] = object.uid
+    return s3object
+  end
+
+  def add_object_properties_as_shared(object)
+    s3object = {}
+    s3object[:Shared] = true
+    s3object[:FileName] = object.fileName
+    s3object[:Folder] = object.folder
+    s3object[:Key] = object.key
+    objects = ObjectTimeTracking.maximum(:id, :conditions => ["s3_object_id = #{object.id}"])
+    object_time = ObjectTimeTracking.find(objects)
+    unless object_time.nil?
+      s3object[:LastModified] =  object_time.last_modified
+      s3object[:Status] = object_time.status
+    else
+      s3object[:LastModified] = DateTime.parse("2000-01-01")
+      s3object[:Status] = true
+    end
+    s3object[:Uid] = object.uid
+    return s3object
   end
 
   def add_files
@@ -149,7 +216,6 @@ class ApiController < ApplicationController
     end
     render :text => "done"
   end
-
 
   def delete_files
     unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?

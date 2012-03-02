@@ -18,13 +18,11 @@
 	    <div class="result">
 		    <h3>Folders</h3>
         	<ul>
-
             </ul>
         </div>
 		<div class="result">
 		    <h3>Documents</h3>
 			<ul>
-
             </ul>
         </div>
     </div>
@@ -111,13 +109,13 @@
                                         <p class="documentSummary"><span>Files:</span> <%= S3Object.find_all_by_parent_uid(s3object.uid).length %></p>
                                     <% else %>
                                         <% time_track = ObjectTimeTracking.find_all_by_s3_object_id(s3object.id).first
-                                           time = Date.today
+                                           time = Time.now.utc
                                            unless time_track.nil?
-                                            time = time_track.last_modified
+                                            time = time_track.updated_at
                                            end
                                         %>
                                         <a href="/dashboard/<%= s3object.uid %>"><%= s3object.fileName %></a>
-                                        <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.content_length.to_f / 1048576)) %> MB  | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Date.today,time)  %> ago <span>by</span> <a href="#"> <%= s3object.authentication.name %></a></p>
+                                        <p class="documentSummary"><span>File size: </span> <%= sprintf("%.2f",(s3object.content_length.to_f / 1048576)) %> MB  | <span>Last modified:</span> <%= distance_of_time_in_hours_and_minutes(Time.now.utc,time)  %> ago <span>by</span> <a href="#"> <%= s3object.authentication.name %></a></p>
                                     <% end %>
                                 </li>
                                 <% end %>
@@ -136,7 +134,6 @@
                                 </li>
                               <% end %>
                             <% end %>
-
                         <% end %>
                     </ul>
                 </div>
@@ -183,6 +180,12 @@
       <a href="#" class="addPersonalMessage">Add a personal message</a>
       <textarea name="personalMessageArea" id="personalMessage"></textarea>
       <a href="#" class="button blue activateModal" id="BtnSendInvitation" >Send invitations</a>
+      <input type="hidden" value="<%= @folder %>" name="folder" />
+      <input type="hidden" value="<%= @parent_uid %>" name="parent_uid" />
+      <% if @parent_uid == 0 %>
+      <% else %>
+          <input type="hidden" name="object_id" value="<%= @s3object.id %>" />
+      <% end %>
     </form>
 </div>
 <% if (Time.now - @current_user.created_at) < 10  %>

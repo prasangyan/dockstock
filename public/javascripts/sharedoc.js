@@ -8,12 +8,15 @@ $(function() {
     $('#emailInvite').bind('keypress', function(e){
         if(e.which == 13)
         {
-            $('#addedEmailIds').append("<li><span>" + $(this).val() + "</span><img src='/images/emailCloseIcon.png' class='emailCloseIcon' /></li>");
-            $(this).val('');
-			$('.formError').html('');
-            $('#fancybox-content div').eq(0).height($('.modalWindow').height() + 40);
-            $('#fancybox-content').eq(0).height($('.modalWindow').height() + 10 );
-            $('#emailInvite').focus();
+            if($(this).val() != "")
+            {
+                $('#addedEmailIds').append("<li><span>" + $(this).val() + "</span><img src='/images/emailCloseIcon.png' class='emailCloseIcon' /></li>");
+                $(this).val('');
+		    	$('.formError').html('');
+                $('#fancybox-content div').eq(0).height($('.modalWindow').height() + 40);
+                $('#fancybox-content').eq(0).height($('.modalWindow').height() + 10 );
+                $('#emailInvite').focus();
+            }
             return false;
         }
     });
@@ -65,6 +68,7 @@ $(function() {
                          $('#emailInvite').val('');
                          $('#personalMessage').val('');
                          setTimeout(closeFancyBox,1000);
+                         resetBinding();
                          return;
                     }
                     else
@@ -72,6 +76,7 @@ $(function() {
                         $('.formError').html("Unable to reach the server. Check your internet connection. Refresh the page to continue.").show();
                     }
                     This.html("Send invitations");
+                    resetBinding();
                 },
                 error: function(request, error) {
                     $('.formError').html("Unable to reach the server. Check your internet connection. Refresh the page to continue.").show();
@@ -79,6 +84,7 @@ $(function() {
                     $('#fancybox-content').eq(0).height($('.modalWindow').height() );
                     resetBinding();
                     This.html("Send invitations");
+                    resetBinding();
                 }});
 		}
 		else

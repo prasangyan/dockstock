@@ -3,6 +3,8 @@ class Authentication < ActiveRecord::Base
   acts_as_authentic
   has_many :s3_objects
   has_many :machines
+  has_many :shared_s3_objectses
+
   #validates_length_of :password, :within => 5..40 , :message => "Password length is too short!"
   validates_format_of :username, :with => %r{^(?:[_a-z0-9-]+)(\.[_a-z0-9-]+)*@([a-z0-9-]+)(\.[a-zA-Z0-9\-\.]>> +)*(\.[a-z]{2,4})|(\.[a-z]{2,4})$}i
   validates_uniqueness_of :username , :message => "This email-id already registered! Try forgot password."
@@ -11,9 +13,10 @@ class Authentication < ActiveRecord::Base
   validates_presence_of :password_salt
   attr_protected :id, :salt
   attr_accessor :password
+
   def authenticate(username, pass)
     u = Authentication.find(:first, :conditions=>["upper(username) = ?", username.to_s.upcase])
-    puts u.bucketKey
+    #puts u.bucketKey
     return nil if u.nil?
     return u if Authentication.encrypt(pass, u.password_salt)==u.crypted_password
     nil
@@ -33,7 +36,7 @@ class Authentication < ActiveRecord::Base
     reset_code = Authentication.random_string(10)
     self.reset_code = reset_code
     unless self.save
-      puts self.errors.full_messages
+      #puts self.errors.full_messages
     end
     self.save
     Notifications.forgot_password(self, reset_code).deliver

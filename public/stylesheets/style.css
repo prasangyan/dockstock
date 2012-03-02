@@ -914,6 +914,7 @@ Three column floating layout*/
 	width: 20.8%;
 	position: relative;
 	padding: 10px;
+    overflow: hidden;
 }
 /************************************************************************************************************************
 File Navigation styling

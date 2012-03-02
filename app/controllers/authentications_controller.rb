@@ -14,6 +14,7 @@ class AuthenticationsController < ApplicationController
     #  return
     #end
   end
+
   def logout
     session[:currentuser] = nil
     redirect_to login_url
@@ -33,9 +34,11 @@ class AuthenticationsController < ApplicationController
       @authentication.username = params[:username]
       render :new
   end
+
   def register
     @authentication = Authentication.new
   end
+
   def createuser
     @error = nil
     unless params[:name].nil? && params[:username] && params[:password].nil?
@@ -80,10 +83,12 @@ class AuthenticationsController < ApplicationController
     @authentication.name = params[:name]
     render :register
   end
+
   def redirecttohome
     redirect_to dashboard_url
     #redirect_to :controller => "dashboard", :action => "index"
   end
+
   def forgotpassword
     unless params[:username].nil?
       user = Authentication.find(:first, :conditions => "username = '#{params[:username]}'")
@@ -98,12 +103,14 @@ class AuthenticationsController < ApplicationController
       end
     end
   end
+
   def success
   end
+
   def resetpassword
     @user = nil
     unless params[:id].nil?
-      user = Authentication.find(:first, :conditions => "reset_code = '#{params[:id]}'")
+      user = Authentication.find(:first, :conditions => "lower(reset_code) = '#{params[:id].to_s.downcase}'")
       unless user.nil?
         @user = user
       else
@@ -115,6 +122,7 @@ class AuthenticationsController < ApplicationController
       render :success
     end
   end
+
   def setpassword
     unless params[:password].nil? and params[:confirm_password].nil? and params[:reset_code].nil?
       if params[:password] == params[:confirm_password]
