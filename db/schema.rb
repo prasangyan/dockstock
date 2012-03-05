@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(:version => 20120210110725) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "root_folder"
+    t.integer  "shared_user_auth_id"
   end
 
   create_table "sync_locks", :force => true do |t|

@@ -1,4 +1,5 @@
 class InvitationController < ApplicationController
+
   def send(search,emailInvite)
 
     unless params[:emailInvite].nil?
@@ -30,8 +31,10 @@ class InvitationController < ApplicationController
   private
 
   def define_shared_object(auth)
+
     folder = params[:folder]
     parent_uid = params[:parent_uid]
+    current_user = Authentication.find(session[:currentuser])
     if folder.to_s == "true"
       if parent_uid.to_s == "0"
         # he is sharing dashboard main page, so all the objects need to share
@@ -40,11 +43,13 @@ class InvitationController < ApplicationController
           new_shared_object = SharedS3Objects.new
           new_shared_object.root_folder = true
           new_shared_object.authentication_id = auth.id
+          new_shared_object.shared_user_auth_id = current_user.id
           new_shared_object.save
         end
       end
       return
     end
+
     s3_object = S3Object.find_by_id(params[:object_id])
     unless s3_object.nil?
       shared_object = SharedS3Objects.find_by_s3_object_id_and_authentication_id(s3_object.id,auth.id)
@@ -53,6 +58,7 @@ class InvitationController < ApplicationController
         new_shared_object.root_folder = false
         new_shared_object.authentication_id = auth.id
         new_shared_object.s3_object_id = s3_object.id
+        new_shared_object.shared_user_auth_id = current_user.id
         new_shared_object.save
       end
     end

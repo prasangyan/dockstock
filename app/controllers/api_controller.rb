@@ -52,6 +52,8 @@ class ApiController < ApplicationController
       end
     end
 
+
+
   end
 
   def get_s3_objects(parent_uid,bucket_key,machine_key)
@@ -67,23 +69,22 @@ class ApiController < ApplicationController
       # adding shared objects
       if parent_uid == "0"
         # adding root shared objects
-        s3objects["S3Object_Shared"] = []
         SharedS3Objects.find_all_by_authentication_id(auth.id).each do |shared_s3_object|
           if shared_s3_object.root_folder
-            S3Object.find_all_by_authentication_id(shared_s3_object.authentication_id).each do |object|
-              s3objects["S3Object_Shared"].push (add_object_properties_as_shared(object))
+            S3Object.find_all_by_parent_uid_and_authentication_id("0",shared_s3_object.shared_user_auth_id).each do |object|
+              s3objects["S3Object"].push (add_object_properties_as_shared(object))
             end
           else
             S3Object.find_all_by_id(shared_s3_object.s3_object_id).each do |object|
-              s3objects["S3Object_Shared"].push (add_object_properties_as_shared(object))
+              s3objects["S3Object"].push (add_object_properties_as_shared(object))
             end
           end
         end
       else
         # adding shared objects with parent
-        s3objects["S3Object_Shared"] = []
+        s3objects["S3Object"] = []
         S3Object.find_all_by_parent_uid(parent_uid).each do |object|
-          s3objects["S3Object_Shared"].push (add_object_properties_as_shared(object))
+          s3objects["S3Object"].push (add_object_properties_as_shared(object))
         end
       end
       render :json =>  s3objects.to_json
@@ -116,6 +117,7 @@ class ApiController < ApplicationController
       s3object[:Status] = true
     end
     s3object[:Uid] = object.uid
+    s3object[:Username] = ''
     return s3object
   end
 
@@ -135,12 +137,26 @@ class ApiController < ApplicationController
       s3object[:Status] = true
     end
     s3object[:Uid] = object.uid
+    s3object[:Username] = Authentication.find(object.authentication_id).username
     return s3object
   end
 
+
+
   def add_files
-    unless params[:bucket_key].nil? and params[:key].nil? and params[:last_modified].nil? and params[:machine_key].nil?
-      authentication = Authentication.find_by_bucketKey(params[:bucket_key])
+    unless params[:key].nil? and params[:last_modified].nil?
+      isItShared = false
+      unless params[:shared].nil?
+        isItShared = params[:shared].to_bool
+      end
+      puts isItShared
+      unless isItShared
+        unless params[:bucket_key].nil? and params[:machine_key].nil?
+          authentication = Authentication.find_by_bucketKey(params[:bucket_key])
+        end
+      else
+        authentication = Authentication.find_by_username(params[:username])
+      end
       unless authentication.nil?
         machine = get_machine(params[:machine_key],authentication.id)
         s3_object = S3Object.find_by_authentication_id_and_key(authentication.id,params[:key])
@@ -153,15 +169,29 @@ class ApiController < ApplicationController
           return
         end
       end
-      render :text => "invalid parameters passed."
-    else
-      render :json => {:error => "Invalid key passed."}
     end
+    render :text => "invalid parameters passed."
   end
 
+
+
   def update_files
-    unless params[:bucket_key].nil? and params[:key].nil? and params[:last_modified].nil? and params[:machine_key].nil?
-      authentication = Authentication.find_by_bucketKey(params[:bucket_key])
+    unless params[:key].nil? and params[:last_modified].nil?
+      isItShared = false
+      unless params[:shared].nil?
+        isItShared = params[:shared].to_bool
+      end
+      puts isItShared
+      unless isItShared
+        unless params[:bucket_key].nil? params[:machine_key].nil?
+          authentication = Authentication.find_by_bucketKey(params[:bucket_key])
+        else
+          render :json => {:error => "Invalid key passed."}
+          return
+        end
+      else
+        authentication = Authentication.find_by_username(params[:username])
+      end
       unless authentication.nil?
         machine = get_machine(params[:machine_key],authentication.id)
         s3_object = S3Object.find_by_authentication_id_and_key(authentication.id,params[:key])
@@ -187,16 +217,23 @@ class ApiController < ApplicationController
           return
         end
       end
-      render :text => "invalid parameters passed."
-      #render :json => {:status => "initiated the task"}
-    else
-      render :json => {:error => "Invalid key passed."}
     end
+    render :text => "invalid parameters passed."
+    #render :json => {:status => "initiated the task"}
   end
 
   def get_object_id
-    unless params[:bucket_key].nil? and params[:key].nil?
-       auth = Authentication.find_by_bucketKey(params[:bucket_key])
+    unless params[:key].nil?
+      isItShared = false
+      unless params[:shared].nil?
+        isItShared = params[:shared].to_bool
+      end
+      puts isItShared
+      unless isItShared
+        unless params[:bucket_key].nil?
+          auth = Authentication.find_by_bucketKey(params[:bucket_key])
+        end
+      end
       unless auth.nil?
         s3object = S3Object.find_by_authentication_id_and_key(auth.id,params[:key])
         unless s3object.nil?
@@ -326,5 +363,6 @@ class ApiController < ApplicationController
       render :text => "key not found"
     end
   end
+
 
 end
