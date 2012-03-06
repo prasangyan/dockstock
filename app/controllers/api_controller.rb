@@ -12,7 +12,11 @@ class ApiController < ApplicationController
     unless params[:bucket_key].nil? and params[:parent_uid].nil? and params[:machine_key].nil?
       shared = false
       unless params[:shared].nil?
-        shared = params[:shared].to_bool
+        if params[:shared].to_s.downcase == "true"
+          shared = true
+        else
+          shared = false
+        end
       end
       unless shared
         get_s3_objects(params[:parent_uid],params[:bucket_key],params[:machine_key])
@@ -26,33 +30,45 @@ class ApiController < ApplicationController
 
   def get_object_status
 
-    unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?
-      auth = Authentication.find_by_bucketKey(params[:bucket_key])
-      unless auth.nil?
-        machine = get_machine(params[:machine_key],auth.id)
-        ActiveRecord::Base.include_root_in_json = true
-        s3objects = {}
-        s3objects["S3Object"] = []
-        S3Object.find_all_by_key_and_authentication_id(params[:key],auth.id).each do |object|
-          s3object = {}
-          s3object[:FileName] = object.fileName
-          s3object[:Folder] = object.folder
-          s3object[:Key] = object.key
-          object_time = ObjectTimeTracking.find_by_s3_object_id_and_machine_id(object.id,machine.id)
-          unless object_time.nil?
-            s3object[:LastModified] =  object_time.last_modified
-            s3object[:Status] = object_time.status
-          else
-            s3object[:LastModified] = DateTime.parse("2000-01-01")
-          end
-          s3object[:Uid] = object.uid
-          s3objects["S3Object"].push (s3object)
-        end
-        render :json =>  s3objects.to_json
+    ActiveRecord::Base.include_root_in_json = true
+    shared = false
+    unless params[:shared].nil?
+      if params[:shared].to_s.downcase == "true"
+        shared = true
+      else
+        shared = false
       end
     end
 
+    unless shared
+      unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?
+        auth = Authentication.find_by_bucketKey(params[:bucket_key])
+      end
+    else
+      auth = Authentication.find_by_username(params[:username].to_s)
+    end
 
+    unless auth.nil?
+      machine = get_machine(params[:machine_key],auth.id)
+      s3objects = {}
+      s3objects["S3Object"] = []
+      S3Object.find_all_by_key_and_authentication_id(params[:key],auth.id).each do |object|
+        s3object = {}
+        s3object[:FileName] = object.fileName
+        s3object[:Folder] = object.folder
+        s3object[:Key] = object.key
+        object_time = ObjectTimeTracking.find_by_s3_object_id_and_machine_id(object.id,machine.id)
+        unless object_time.nil?
+          s3object[:LastModified] =  object_time.last_modified
+          s3object[:Status] = object_time.status
+        else
+          s3object[:LastModified] = DateTime.parse("2000-01-01")
+        end
+        s3object[:Uid] = object.uid
+        s3objects["S3Object"].push (s3object)
+      end
+      render :json =>  s3objects.to_json
+    end
 
   end
 
@@ -96,9 +112,8 @@ class ApiController < ApplicationController
     s3objects = {}
     s3objects["S3Object"] = []
     # adding shared objects with parent
-    s3objects["S3Object_Shared"] = []
     S3Object.find_all_by_parent_uid(parent_uid).each do |object|
-      s3objects["S3Object_Shared"].push (add_object_properties_as_shared(object))
+      s3objects["S3Object"].push (add_object_properties_as_shared(object))
     end
     render :json =>  s3objects.to_json
   end
@@ -138,6 +153,7 @@ class ApiController < ApplicationController
     end
     s3object[:Uid] = object.uid
     s3object[:Username] = Authentication.find(object.authentication_id).username
+    s3object[:BucketKey] = Authentication.find(object.authentication_id).bucketKey
     return s3object
   end
 
@@ -147,7 +163,11 @@ class ApiController < ApplicationController
     unless params[:key].nil? and params[:last_modified].nil?
       isItShared = false
       unless params[:shared].nil?
-        isItShared = params[:shared].to_bool
+        if params[:shared].to_s.downcase == "true"
+          isItShared = true
+        else
+          isItShared = false
+        end
       end
       puts isItShared
       unless isItShared
@@ -183,7 +203,7 @@ class ApiController < ApplicationController
       end
       puts isItShared
       unless isItShared
-        unless params[:bucket_key].nil? params[:machine_key].nil?
+        unless params[:bucket_key].nil? and params[:machine_key].nil?
           authentication = Authentication.find_by_bucketKey(params[:bucket_key])
         else
           render :json => {:error => "Invalid key passed."}
