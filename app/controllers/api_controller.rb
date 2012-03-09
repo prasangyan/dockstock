@@ -29,7 +29,6 @@ class ApiController < ApplicationController
   end
 
   def get_object_status
-
     ActiveRecord::Base.include_root_in_json = true
     shared = false
     unless params[:shared].nil?
@@ -39,7 +38,6 @@ class ApiController < ApplicationController
         shared = false
       end
     end
-
     unless shared
       unless params[:bucket_key].nil? and params[:key].nil? and params[:machine_key].nil?
         auth = Authentication.find_by_bucketKey(params[:bucket_key])
@@ -47,7 +45,6 @@ class ApiController < ApplicationController
     else
       auth = Authentication.find_by_username(params[:username].to_s)
     end
-
     unless auth.nil?
       machine = get_machine(params[:machine_key],auth.id)
       s3objects = {}
@@ -69,7 +66,6 @@ class ApiController < ApplicationController
       end
       render :json =>  s3objects.to_json
     end
-
   end
 
   def get_s3_objects(parent_uid,bucket_key,machine_key)
@@ -79,7 +75,10 @@ class ApiController < ApplicationController
       ActiveRecord::Base.include_root_in_json = true
       s3objects = {}
       s3objects["S3Object"] = []
+      puts parent_uid
+      puts auth.id
       S3Object.find_all_by_parent_uid_and_authentication_id(parent_uid,auth.id).each do |object|
+        puts object.id
         s3objects["S3Object"].push (add_object_properties(object,machine))
       end
       # adding shared objects
@@ -123,6 +122,9 @@ class ApiController < ApplicationController
     s3object[:FileName] = object.fileName
     s3object[:Folder] = object.folder
     s3object[:Key] = object.key
+    puts object.id
+    puts "machine"
+    puts machine.id
     object_time = ObjectTimeTracking.find_by_s3_object_id_and_machine_id(object.id,machine.id)
     unless object_time.nil?
       s3object[:LastModified] =  object_time.last_modified
@@ -156,8 +158,6 @@ class ApiController < ApplicationController
     s3object[:BucketKey] = Authentication.find(object.authentication_id).bucketKey
     return s3object
   end
-
-
 
   def add_files
     unless params[:key].nil? and params[:last_modified].nil?
@@ -194,14 +194,12 @@ class ApiController < ApplicationController
   end
 
 
-
   def update_files
     unless params[:key].nil? and params[:last_modified].nil?
       isItShared = false
       unless params[:shared].nil?
         isItShared = params[:shared].to_bool
       end
-      puts isItShared
       unless isItShared
         unless params[:bucket_key].nil? and params[:machine_key].nil?
           authentication = Authentication.find_by_bucketKey(params[:bucket_key])
@@ -383,6 +381,5 @@ class ApiController < ApplicationController
       render :text => "key not found"
     end
   end
-
 
 end
